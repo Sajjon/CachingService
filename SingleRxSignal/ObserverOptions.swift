@@ -24,6 +24,7 @@ struct ObserverOptions: OptionSet {
 
 extension ObserverOptions {
     static let preventLoadingFromCache = ObserverOptions()
+    static let preventSavingToCache = ObserverOptions()
     static let preventFetchFromBackend = ObserverOptions()
     static let preventFetchFromBackendOnlyIfCached = ObserverOptions()
     static let preventOnNextForFetched = ObserverOptions()
@@ -35,6 +36,7 @@ extension ObserverOptions {
 
 extension ObserverOptions {
     var preventLoadingFromCache: Bool { return contains(.preventLoadingFromCache) }
+    var preventSavingToCache: Bool { return contains(.preventSavingToCache) }
     var preventFetchFromBackend: Bool { return contains(.preventFetchFromBackend) }
     var preventOnNextForFetched: Bool { return contains(.preventOnNextForFetched) }
     var emitErrorsFromBackend: Bool { return contains(.emitErrorsFromBackend) }
@@ -51,6 +53,7 @@ extension ObserverOptions {
 
 extension ObserverOptions {
     var shouldLoadFromCache: Bool { return !preventLoadingFromCache }
+    var shouldSaveToCache: Bool { return !preventSavingToCache }
     var shouldFetchFromBackend: Bool { return !preventFetchFromBackend }
     var callOnNextForFetched: Bool { return !preventOnNextForFetched }
     var catchHTTPErrors: Bool {return !emitErrorsFromBackend }

@@ -30,6 +30,7 @@ private extension Service {
     func fetchFromBackendIfAbleCache<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         return fetchFromBackend(options: options).map { (modelFromAPI: C) in
             guard let persisting = self as? Persisting else { return modelFromAPI }
+            guard options.shouldSaveToCache else { print("Preventing saving to cache"); return modelFromAPI }
             do {
                 print("Persisting `\(modelFromAPI)`")
                 try persisting.cache.save(modelFromAPI)
