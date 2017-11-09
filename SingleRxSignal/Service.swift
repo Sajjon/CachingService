@@ -19,7 +19,16 @@ protocol Service {
 extension Service {
     func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         do { try options.validate() } catch { fatalError("Invalid options, error: \(error)") }
-        let httpSignal: Observable<C> = getFromHTTP(options: options).map { (modelFromAPI: C) in
+        let httpSignal: Observable<C> = fetchFromBackendIfAbleCache(options: options)
+        let cacheSignal: Observable<C> = loadFromCacheIfAble(options: options)
+        return Observable.merge([httpSignal, cacheSignal])
+    }
+}
+
+private extension Service {
+    
+    func fetchFromBackendIfAbleCache<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+        return fetchFromBackend(options: options).map { (modelFromAPI: C) in
             guard let persisting = self as? Persisting else { return modelFromAPI }
             do {
                 print("Persisting `\(modelFromAPI)`")
@@ -27,13 +36,9 @@ extension Service {
             } catch { print("Failed to persist model: `\(modelFromAPI)`, error - `\(error)`") }
             return modelFromAPI
         }
-        let cacheSignal: Observable<C> = fromCacheIfAvailable(options: options)
-        return Observable.merge([httpSignal, cacheSignal])
     }
-}
-
-private extension Service {
-    func getFromHTTP<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner  {
+    
+    func fetchFromBackend<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         guard options.shouldFetchFromBackend else { print("prevented fetch from backend"); return Observable.empty() }
         return httpClient.makeRequest().asObservable().do(onNext: { print("HTTP response `\($0)`") })
     }
@@ -41,7 +46,7 @@ private extension Service {
 
 extension Service {
 
-    func fromCacheIfAvailable<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+    func loadFromCacheIfAble<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         guard options.shouldLoadFromCache else { print("prevented load from cache"); return Observable.empty() }
         guard let persisting = self as? Persisting else { return Observable.empty() }
         
@@ -61,8 +66,8 @@ final class UserService: Service, Persisting {
     }
 }
 
-final class GroupService: Service, Persisting {
-    let cache: Cache = UserDefaults.standard
+final class GroupService: Service {
+//    let cache: Cache = UserDefaults.standard
     let httpClient = HTTPClient()
     func getGroup(options: ObserverOptions = .default) -> Observable<Group> {
         return get(options: options)
