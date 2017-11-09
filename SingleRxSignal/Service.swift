@@ -25,18 +25,23 @@ extension Service {
     }
 }
 
+public extension ObservableType {
+    func filter(if condition: Bool) -> RxSwift.Observable<Self.E> {
+        return self.filter { _ in return condition }
+    }
+}
+
 private extension Service {
     
     func fetchFromBackendIfAbleCache<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
-        return fetchFromBackend(options: options).map { (modelFromAPI: C) in
-            guard let persisting = self as? Persisting else { return modelFromAPI }
-            guard options.shouldSaveToCache else { print("Preventing saving to cache"); return modelFromAPI }
+        return fetchFromBackend(options: options).do(onNext: { fromBackend in
+            guard let persisting = self as? Persisting else { return }
+            guard options.shouldSaveToCache else { print("Preventing saving to cache"); return }
             do {
-                print("Persisting `\(modelFromAPI)`")
-                try persisting.cache.save(modelFromAPI)
-            } catch { print("Failed to persist model: `\(modelFromAPI)`, error - `\(error)`") }
-            return modelFromAPI
-        }
+                print("Persisting `\(fromBackend)`")
+                try persisting.cache.save(fromBackend)
+            } catch { print("Failed to persist model: `\(fromBackend)`, error - `\(error)`") }
+        }).filter(if: options.callOnNextForFetched)
     }
     
     func fetchFromBackend<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
@@ -68,7 +73,6 @@ final class UserService: Service, Persisting {
 }
 
 final class GroupService: Service {
-//    let cache: Cache = UserDefaults.standard
     let httpClient = HTTPClient()
     func getGroup(options: ObserverOptions = .default) -> Observable<Group> {
         return get(options: options)
