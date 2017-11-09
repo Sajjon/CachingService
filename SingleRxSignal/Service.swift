@@ -55,9 +55,10 @@ extension Service {
     func loadFromCacheIfAble<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         guard options.shouldLoadFromCache else { print("prevented load from cache"); return Observable.empty() }
         guard let persisting = self as? Persisting else { return Observable.empty() }
-        
+        print("Checking cache...")
         return persisting.load().catchError {
             guard options.catchErrorsFromCache else { return Observable.error($0) }
+            print("Cache was empty :(")
             return Observable.empty()
         }
     }

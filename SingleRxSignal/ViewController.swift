@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     
     func getUser() {
         print("Fetching user")
-        userService.getUser(options: [.preventOnNextForFetched]).subscribe(onNext: {
+        userService.getUser(options: []).subscribe(onNext: {
             print("subscriber: Got user: `\($0)`")
         }, onError: {
             print("subscriber: Error: `\($0)`")
