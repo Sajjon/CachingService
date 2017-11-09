@@ -7,7 +7,25 @@
 		<key>SingleRxSignal.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>7</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>48A759831FA4E5DE00160897</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>48A759971FA4E5DF00160897</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>48A759A21FA4E5DF00160897</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
