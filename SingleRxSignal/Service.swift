@@ -51,7 +51,7 @@ private extension Service {
 }
 
 extension Service {
-
+    
     func loadFromCacheIfAble<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         guard options.shouldLoadFromCache else { print("prevented load from cache"); return Observable.empty() }
         guard let persisting = self as? Persisting else { return Observable.empty() }
@@ -80,23 +80,3 @@ final class GroupService: Service {
     }
 }
 
-
-struct HTTPClient {
-    func makeRequest<C>() -> Maybe<C> where C: NameOwner {
-        return Maybe.create { maybe in
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                let any: Any = C.self
-                let model: C
-                switch any {
-                case is User.Type:
-                    model = User(name: randomName()) as! C
-                case is Group.Type:
-                    model = Group(name: randomName()) as! C
-                default: fatalError("non of the above")
-                }
-                maybe(.success(model))
-            }
-            return Disposables.create()
-        }
-    }
-}

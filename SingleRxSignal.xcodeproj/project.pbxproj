@@ -13,6 +13,7 @@
 		4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */; };
 		4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E91FB45CE1004A0261 /* MyError.swift */; };
 		4845F3EC1FB45CEE004A0261 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3EB1FB45CEE004A0261 /* Models.swift */; };
+		48699B621FB5B08F00D15F25 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48699B611FB5B08F00D15F25 /* HTTPClient.swift */; };
 		48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759871FA4E5DF00160897 /* AppDelegate.swift */; };
 		48A7598A1FA4E5DF00160897 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759891FA4E5DF00160897 /* ViewController.swift */; };
 		48A7598D1FA4E5DF00160897 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598B1FA4E5DF00160897 /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverOptions.swift; sourceTree = "<group>"; };
 		4845F3E91FB45CE1004A0261 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		4845F3EB1FB45CEE004A0261 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		48699B611FB5B08F00D15F25 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		48A759841FA4E5DE00160897 /* SingleRxSignal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleRxSignal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759871FA4E5DF00160897 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48A759891FA4E5DF00160897 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
 				4845F3E91FB45CE1004A0261 /* MyError.swift */,
 				4845F3EB1FB45CEE004A0261 /* Models.swift */,
+				48699B611FB5B08F00D15F25 /* HTTPClient.swift */,
 			);
 			path = SingleRxSignal;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				4845F3E41FB45CA6004A0261 /* Service.swift in Sources */,
 				4845F3EC1FB45CEE004A0261 /* Models.swift in Sources */,
 				4845F3E61FB45CC2004A0261 /* Random.swift in Sources */,
+				48699B621FB5B08F00D15F25 /* HTTPClient.swift in Sources */,
 				4845F3E21FB45C91004A0261 /* Cache.swift in Sources */,
 				4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */,
 				48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */,
