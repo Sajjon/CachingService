@@ -8,7 +8,6 @@
 
 import UIKit
 import RxSwift
-import RxSwiftExt
 
 class ViewController: UIViewController {
     let bag = DisposeBag()

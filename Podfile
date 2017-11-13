@@ -7,7 +7,6 @@ target 'SingleRxSignal' do
 
   # Pods for SingleRxSignal
   pod 'RxSwift'
-  pod 'RxSwiftExt'
   pod 'RxOptional'
 
   target 'SingleRxSignalTests' do
