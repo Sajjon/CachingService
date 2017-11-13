@@ -36,9 +36,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clearCachePressed(_ sender: UIButton) {
-        print("Clearing cache... before clearing, value existed: `\(userService.cache.hasValueForKey(key: cacheKeyName))`")
-        userService.cache.deleteValueFor(key: cacheKeyName)
-        print("Clearing cache... after clearing, value exists: `\(userService.cache.hasValueForKey(key: cacheKeyName))`")
+        userService.cache.asyncDeleteValue(for: cacheKeyName) { _ in
+            print("deleted")
+        }
     }
 }
 

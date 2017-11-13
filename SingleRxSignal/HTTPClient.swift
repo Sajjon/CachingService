@@ -33,7 +33,8 @@ extension HTTPClientProtocol {
 
 private extension HTTPClientProtocol {
     func makeRequestOnBackground<C>(done: @escaping (C?) -> Void) where C: NameOwner {
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            delay(.http)
             let any: Any = C.self
             let model: C
             switch any {

@@ -12,16 +12,21 @@ import RxSwiftExt
 import RxOptional
 
 protocol Service {
-    var httpClient: HTTPClient { get }
+    var httpClient: HTTPClientProtocol { get }
     func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner
+    func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner
 }
 
 extension Service {
     func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         do { try options.validate() } catch { fatalError("Invalid options, error: \(error)") }
-        let httpSignal: Observable<C> = fetchFromBackendIfAbleCache(options: options)
-        let cacheSignal: Observable<C> = loadFromCacheIfAble(options: options)
-        return Observable.merge([httpSignal, cacheSignal])
+        let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(options: options)
+        let cacheSignal: Observable<C> = loadFromCacheIfAbleTo(options: options)
+        return Observable.merge([httpSignal, cacheSignal]) // TODO compare: Observable.of(httpSignal, cacheSignal).merge()
+    }
+    
+    func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+        return fetchFromBackend(options: options)
     }
 }
 
@@ -33,48 +38,49 @@ public extension ObservableType {
 
 private extension Service {
     
-    func fetchFromBackendIfAbleCache<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
-        return fetchFromBackend(options: options).do(onNext: { fromBackend in
-            guard let persisting = self as? Persisting else { return }
-            guard options.shouldSaveToCache else { print("Preventing saving to cache"); return }
-            do {
-                print("Persisting `\(fromBackend)`")
-                try persisting.cache.save(fromBackend)
-            } catch { print("Failed to persist model: `\(fromBackend)`, error - `\(error)`") }
-        }).filter(if: options.callOnNextForFetched)
-    }
-    
     func fetchFromBackend<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         guard options.shouldFetchFromBackend else { print("prevented fetch from backend"); return Observable.empty() }
         return httpClient.makeRequest().asObservable().do(onNext: { print("HTTP response `\($0)`") })
     }
 }
 
+extension Service where Self: Persisting {
+    func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+        return fetchFromBackend(options: options)
+            .flatMap { (fromBackend: C) -> Observable<C> in
+                guard options.shouldSaveToCache else { print("Prevented save to cache"); return .just(fromBackend) }
+                return self.asyncSave(fromBackend)
+            }
+            .filter(if: options.callOnNextForFetched)
+    }
+}
+
 extension Service {
     
-    func loadFromCacheIfAble<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
-        guard options.shouldLoadFromCache else { print("prevented load from cache"); return Observable.empty() }
-        guard let persisting = self as? Persisting else { return Observable.empty() }
+    func loadFromCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+        guard options.shouldLoadFromCache else { print("prevented load from cache"); return .empty() }
+        guard let persisting = self as? Persisting else { return .empty() }
         print("Checking cache...")
-        return persisting.load().catchError {
-            guard options.catchErrorsFromCache else { return Observable.error($0) }
+        return persisting.asyncLoad().catchError {
+            guard options.catchErrorsFromCache else { return .error($0) }
             print("Cache was empty :(")
-            return Observable.empty()
+            return .empty()
         }
     }
     
 }
 
 final class UserService: Service, Persisting {
-    let cache: Cache = UserDefaults.standard
-    let httpClient = HTTPClient()
+    
+    let cache: AsyncCache = UserDefaults.standard
+    let httpClient: HTTPClientProtocol = HTTPClient()
     func getUser(options: ObserverOptions = .default) -> Observable<User> {
         return get(options: options)
     }
 }
 
 final class GroupService: Service {
-    let httpClient = HTTPClient()
+    let httpClient: HTTPClientProtocol = HTTPClient()
     func getGroup(options: ObserverOptions = .default) -> Observable<Group> {
         return get(options: options)
     }
