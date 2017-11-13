@@ -34,6 +34,7 @@ extension HTTPClientProtocol {
 private extension HTTPClientProtocol {
     func makeRequestOnBackground<C>(done: @escaping (C?) -> Void) where C: NameOwner {
         DispatchQueue.global(qos: .userInitiated).async {
+            print("Main thread: \(Thread.isMainThread) - \(Date.timeAsString): fetching from http...")
             delay(.http)
             let any: Any = C.self
             let model: C
@@ -45,6 +46,7 @@ private extension HTTPClientProtocol {
             default: fatalError("non of the above")
             }
             DispatchQueue.main.async {
+                print("Main thread: \(Thread.isMainThread) - \(Date.timeAsString): http request done...")
                 done(model)
             }
         }

@@ -10,10 +10,14 @@ import Foundation
 import RxSwift
 import RxOptional
 
+
+
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
     func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner
-    func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner
+    
+    @discardableResult
+    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: ObserverOptions) -> Observable<C> where C: NameOwner
 }
 
 extension Service {
@@ -26,6 +30,19 @@ extension Service {
     
     func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         return fetchFromBackend(options: options)
+            .flatMap { (fromBackend: C) -> Observable<C> in
+                if options.shouldWaitForCachingBeforeCallingOnNext {
+                    return self.saveToCacheIfNeeded(fromBackend, options: options)
+                } else {
+                    defer { self.saveToCacheIfNeeded(fromBackend, options: options).subscribe().dispose() }; return .of(fromBackend)
+                }
+            }
+            .filter(if: options.callOnNextForFetched)
+    }
+    
+    @discardableResult
+    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: ObserverOptions) -> Observable<C> where C: NameOwner {
+        return .of(fromBackend)
     }
 }
 
@@ -36,21 +53,17 @@ public extension ObservableType {
 }
 
 private extension Service {
-    
     func fetchFromBackend<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
-        guard options.shouldFetchFromBackend else { print("prevented fetch from backend"); return Observable.empty() }
+        guard options.shouldFetchFromBackend else { print("prevented fetch from backend"); return .empty() }
         return httpClient.makeRequest().asObservable().do(onNext: { print("HTTP response `\($0)`") })
     }
 }
 
 extension Service where Self: Persisting {
-    func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
-        return fetchFromBackend(options: options)
-            .flatMap { (fromBackend: C) -> Observable<C> in
-                guard options.shouldSaveToCache else { print("Prevented save to cache"); return .just(fromBackend) }
-                return self.asyncSave(fromBackend)
-            }
-            .filter(if: options.callOnNextForFetched)
+    @discardableResult
+    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: ObserverOptions) -> Observable<C> where C: NameOwner {
+        guard options.shouldSaveToCache else { print("Prevented save to cache"); return .of(fromBackend) }
+        return asyncSave(fromBackend)
     }
 }
 
