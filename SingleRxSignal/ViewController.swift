@@ -10,10 +10,10 @@ import UIKit
 import RxSwift
 
 extension Observable {
-    func flatMap(emitEventBeforeMap emitEvent: Bool, mapping: @escaping (E) -> Observable<E>) -> Observable<E> {
+    func flatMap(emitNextEventBeforeMap emitNextEvent: Bool, mapping: @escaping (E) -> Observable<E>) -> Observable<E> {
         return flatMap { (intermediate: E) -> Observable<E> in
             let mapped = mapping(intermediate)
-            guard emitEvent else { return mapped }
+            guard emitNextEvent else { return mapped }
             return .merge([.of(intermediate), mapped])
         }
     }
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     }
     
     func getUser() {
-        getDataFromCacheAndOrBackend(emitExtraEventBeforeCachingDone: true).subscribe { guard case let .next(model) = $0 else { return }; print("Subscriber: `\(model)`") }.disposed(by: bag)
+        getDataFromCacheAndOrBackend(emitExtraNextEventBeforeCachingDone: true).subscribe { guard case let .next(model) = $0 else { return }; print("Subscriber: `\(model)`") }.disposed(by: bag)
 //        print("Fetching user")
 //        userService.getUser(options: [.preventOnNextForFetched]).subscribe(onNext: {
 //            print("subscriber: Got user: `\($0)`")
@@ -51,8 +51,8 @@ class ViewController: UIViewController {
         }
     }
     
-    func getDataFromCacheAndOrBackend(emitExtraEventBeforeCachingDone emitExtra: Bool) -> Observable<Int> {
-        return getDataFromBackend().flatMap(emitEventBeforeMap: emitExtra) { self.asyncSaveToCache(dataFromBackend: $0) }
+    func getDataFromCacheAndOrBackend(emitExtraNextEventBeforeCachingDone emitNextEvent: Bool) -> Observable<Int> {
+        return getDataFromBackend().flatMap(emitNextEventBeforeMap: emitNextEvent) { self.asyncSaveToCache(dataFromBackend: $0) }
     }
 //    // using method `filterNil` from pod `RxOptional` below
 //    func getDataFromCacheAndOrBackend(emitExtraEventBeforeCachingDone: Bool) -> Observable<Int> {
