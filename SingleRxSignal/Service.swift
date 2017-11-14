@@ -10,8 +10,6 @@ import Foundation
 import RxSwift
 import RxOptional
 
-
-
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
     func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner
@@ -30,13 +28,7 @@ extension Service {
     
     func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
         return fetchFromBackend(options: options)
-            .flatMap { (fromBackend: C) -> Observable<C> in
-                if options.shouldWaitForCachingBeforeCallingOnNext {
-                    return self.saveToCacheIfNeeded(fromBackend, options: options)
-                } else {
-                    defer { self.saveToCacheIfNeeded(fromBackend, options: options).subscribe().dispose() }; return .of(fromBackend)
-                }
-            }
+            .flatMap { self.saveToCacheIfNeeded($0, options: options) }
             .filter(if: options.callOnNextForFetched)
     }
     
