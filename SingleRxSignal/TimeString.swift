@@ -12,8 +12,7 @@ extension Date {
     static var timeAsString: String { return Date().timeString }
     var timeString: String {
         let formatter = DateFormatter()
-        formatter.timeStyle = .medium
-        formatter.dateStyle = .none
+        formatter.dateFormat = "mm:ss"
         return formatter.string(from: self)
     }
 }

@@ -8,75 +8,23 @@
 
 import Foundation
 
-
-private var nextOptions = 0
-struct ObserverOptions: OptionSet {
-    let rawValue: Int
-    init(rawValue: Int) {
-        self.rawValue = rawValue
-    }
-    
-    init(line: Int = #line) { // adding a default args works around and issue where the empty init was called by the system sometimes and exhusted the available options.
-        rawValue = 1 << nextOptions
-        nextOptions += 1
-    }
-}
-
-extension ObserverOptions {
-    static let preventLoadingFromCache = ObserverOptions()
-    static let preventSavingToCache = ObserverOptions()
-    static let preventFetchFromBackend = ObserverOptions()
-    static let preventOnNextForFetched = ObserverOptions()
-    static let emitErrorsFromBackend = ObserverOptions()
-    static let emitErrorsFromCache = ObserverOptions()
-    
-    static let `default`: ObserverOptions = []
-}
-
-extension ObserverOptions {
-    var preventLoadingFromCache: Bool { return contains(.preventLoadingFromCache) }
-    var preventSavingToCache: Bool { return contains(.preventSavingToCache) }
-    var preventFetchFromBackend: Bool { return contains(.preventFetchFromBackend) }
-    var preventOnNextForFetched: Bool { return contains(.preventOnNextForFetched) }
-    var emitErrorsFromBackend: Bool { return contains(.emitErrorsFromBackend) }
-    var emitErrorsFromCache: Bool { return contains(.emitErrorsFromCache) }
-}
-
-extension ObserverOptions {
-    func validate() throws {
-        if preventLoadingFromCache && preventOnNextForFetched { print("WARNING: `onNext` will never be called, is this intentional?") }
-        guard shouldLoadFromCache || shouldFetchFromBackend else { throw MyError.invalidOptions }
-        return
-    }
-}
-
-extension ObserverOptions {
-    var shouldLoadFromCache: Bool { return !preventLoadingFromCache }
-    var shouldSaveToCache: Bool { return !preventSavingToCache }
-    var shouldFetchFromBackend: Bool { return !preventFetchFromBackend }
-    var callOnNextForFetched: Bool { return !preventOnNextForFetched }
-    var catchHTTPErrors: Bool {return !emitErrorsFromBackend }
-    var catchErrorsFromCache: Bool {return !emitErrorsFromCache }
-}
-
-
 extension OptionSet {
     func notContains(_ element: Element) -> Bool { return !contains(element) }
 }
 
+protocol Validatable {
+    func validate() -> Bool
+}
 
-/////////////////////////////////////
-protocol RequestPermissionConvertible: OptionSet {
+protocol RequestPermissionConvertible: OptionSet, Validatable {
     var rawValue: Int { get }
     static var load: Self { get }
     static var emitErrorEvents: Self { get }
-    static var emitNextEvents: Self { get }
 }
 
 extension RequestPermissionConvertible where RawValue == Int, Element == Self {
     var isPermittedToMakeRequest: Bool { return contains(.load) }
     var isPermittedToEmitErrorEvents: Bool { return contains(.emitErrorEvents) }
-    var isPermittedToEmitNextEvents: Bool { return contains(.emitNextEvents) }
 }
 
 
@@ -104,10 +52,16 @@ extension CachePermissions {
 extension CachePermissions: RequestPermissionConvertible {
     static let load = CachePermissions()
     static let emitErrorEvents = CachePermissions()
-    static let emitNextEvents = CachePermissions()
 }
 extension CachePermissions {
-    static var `default`: CachePermissions { return [.load, .emitNextEvents, .save] }
+    static let `default`: CachePermissions = [.load, .save]
+}
+
+//MARK: Validateable
+extension CachePermissions {
+    func validate() -> Bool {
+        return true
+    }
 }
 
 private var nextBackendPermission = 0
@@ -126,17 +80,69 @@ extension BackendPermissions: RequestPermissionConvertible {
     static let load = BackendPermissions()
     static let emitErrorEvents = BackendPermissions()
     static let emitNextEvents = BackendPermissions()
-}
-extension BackendPermissions {
-    static var `default`: BackendPermissions { return [.load, .emitNextEvents] }
+    static let emitNextEventDirectly = BackendPermissions()
 }
 
-struct RequestPermissions {
-    let cachePermissions: CachePermissions
-    let backendPermissions: BackendPermissions
-    init(cachePermissions: CachePermissions = .default, backendPermissions: BackendPermissions = .default) {
-        self.cachePermissions = cachePermissions
-        self.backendPermissions = backendPermissions
+extension BackendPermissions {
+    var isPermittedToEmitNextEvents: Bool { return contains(.emitNextEvents) }
+}
+
+//MARK: Validateable
+extension BackendPermissions {
+    func validate() -> Bool {
+        switch (contains(.emitNextEvents), contains(.emitNextEventDirectly)) { case (false, true): print("Emit next?"); return false; default: break }
+        return true
     }
 }
+
+extension BackendPermissions {
+    static let `default`: BackendPermissions = [.load, .emitNextEvents]
+}
+
+struct RequestPermissions: Validatable {
+    let cachePermissions: CachePermissions
+    let backendPermissions: BackendPermissions
+    init(cache: CachePermissions = .default, backend: BackendPermissions = .default) {
+        self.cachePermissions = cache
+        self.backendPermissions = backend
+    }
+}
+
+extension RequestPermissions {
+    static let `default` = RequestPermissions(cache: .default, backend: .default)
+}
+
+extension RequestPermissions {
+    func validate() -> Bool {
+        if !(cachePermissions.contains(.load) || backendPermissions.isPermittedToEmitNextEvents) { print("WARNING: `onNext` will never be called, is this intentional?") }
+        guard cachePermissions.isPermittedToMakeRequest || backendPermissions.isPermittedToMakeRequest else { return false }
+        return true
+    }
+}
+
+extension RequestPermissions {
+    var shouldFetchFromBackend: Bool { return backendPermissions.isPermittedToMakeRequest }
+    var shouldLoadFromCache: Bool { return cachePermissions.isPermittedToMakeRequest }
+    var shouldSaveToCache: Bool { return cachePermissions.isPermittedToSave }
+    var catchErrorsFromCache: Bool { return !cachePermissions.isPermittedToEmitErrorEvents }
+    var callOnNextForFetched: Bool { return backendPermissions.isPermittedToEmitNextEvents }
+    var intermediateOnNextCallForFetched: Bool { return backendPermissions.contains(.emitNextEventDirectly) }
+}
+
+enum PermissionWrapper {
+    case cache(CachePermissions)
+    case backend(BackendPermissions)
+}
+//
+//extension RequestPermissions: ExpressibleByArrayLiteral {
+//    typealias ArrayLiteralElement = PermissionWrapper
+//    init(arrayLiteral: PermissionWrapper...) {
+//        let cachePermissions: CachePermissions = arrayLiteral.flatMap { (element: PermissionWrapper) in
+//            return element
+////            guard case let .cache(permissions) = element else { return nil }
+////            return permissions as CachePermissions
+//        }
+//        self.init(cachePermissions: cachePermissions, backendPermissions: .default)
+//    }
+//}
 

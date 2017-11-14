@@ -8,20 +8,26 @@
 
 import Foundation
 
+protocol StaticKeyConvertible {
+    static var key: Key { get }
+}
 
-protocol NameOwner: Codable, CustomStringConvertible {
+protocol NameOwner: Codable, CustomStringConvertible, StaticKeyConvertible {
     var name: String { get set }
     init(name: String)
 }
+
 extension NameOwner {
     var description: String { return name }
 }
 
 struct User: NameOwner {
     var name: String
+    static var key: Key { return "user" }
 }
 
 struct Group: NameOwner {
     var name: String
+    static var key: Key { return "group" }
 }
 

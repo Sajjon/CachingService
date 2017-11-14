@@ -12,28 +12,29 @@ import RxOptional
 
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
-    func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner
+    func get<C>(options: RequestPermissions) -> Observable<C> where C: Codable
     
     @discardableResult
-    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: ObserverOptions) -> Observable<C> where C: NameOwner
+    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable
 }
 
 extension Service {
-    func get<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
-        do { try options.validate() } catch { fatalError("Invalid options, error: \(error)") }
+    func get<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
+        guard options.validate() else { fatalError("Invalid options)") }
         let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(options: options)
         let cacheSignal: Observable<C> = loadFromCacheIfAbleTo(options: options)
         return Observable.merge([httpSignal, cacheSignal]) // TODO compare: Observable.of(httpSignal, cacheSignal).merge()
     }
     
-    func fetchFromBackendAndCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+    func fetchFromBackendAndCacheIfAbleTo<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
         return fetchFromBackend(options: options)
-            .flatMap { self.saveToCacheIfNeeded($0, options: options) }
+            .flatMap(emitNextEventBeforeMap: options.intermediateOnNextCallForFetched) { self.saveToCacheIfNeeded($0, options: options) }
             .filter(if: options.callOnNextForFetched)
     }
     
     @discardableResult
-    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: ObserverOptions) -> Observable<C> where C: NameOwner {
+    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable {
+        guard !(self is Persisting) else { fatalError("Service is persisting but wrong `saveToCacheIfNeeded` got called") }
         return .of(fromBackend)
     }
 }
@@ -45,7 +46,7 @@ public extension ObservableType {
 }
 
 private extension Service {
-    func fetchFromBackend<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+    func fetchFromBackend<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
         guard options.shouldFetchFromBackend else { print("prevented fetch from backend"); return .empty() }
         return httpClient.makeRequest().asObservable().do(onNext: { print("HTTP response `\($0)`") })
     }
@@ -53,7 +54,7 @@ private extension Service {
 
 extension Service where Self: Persisting {
     @discardableResult
-    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: ObserverOptions) -> Observable<C> where C: NameOwner {
+    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable {
         guard options.shouldSaveToCache else { print("Prevented save to cache"); return .of(fromBackend) }
         return asyncSave(fromBackend)
     }
@@ -61,7 +62,7 @@ extension Service where Self: Persisting {
 
 extension Service {
     
-    func loadFromCacheIfAbleTo<C>(options: ObserverOptions) -> Observable<C> where C: NameOwner {
+    func loadFromCacheIfAbleTo<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
         guard options.shouldLoadFromCache else { print("prevented load from cache"); return .empty() }
         guard let persisting = self as? Persisting else { return .empty() }
         print("Checking cache...")
@@ -74,19 +75,26 @@ extension Service {
     
 }
 
-final class UserService: Service, Persisting {
+protocol UserServiceProtocol: Service, Persisting {
+    func getUser(options: RequestPermissions) -> Observable<User>
+}
+
+final class UserService: UserServiceProtocol {
     
     let cache: AsyncCache = UserDefaults.standard
     let httpClient: HTTPClientProtocol = HTTPClient()
-    func getUser(options: ObserverOptions = .default) -> Observable<User> {
+    func getUser(options: RequestPermissions = .default) -> Observable<User> {
         return get(options: options)
     }
 }
 
-final class GroupService: Service {
+protocol GroupServiceProtocol: Service {
+    func getGroup(options: RequestPermissions) -> Observable<Group>
+}
+
+final class GroupService: GroupServiceProtocol {
     let httpClient: HTTPClientProtocol = HTTPClient()
-    func getGroup(options: ObserverOptions = .default) -> Observable<Group> {
+    func getGroup(options: RequestPermissions = .default) -> Observable<Group> {
         return get(options: options)
     }
 }
-

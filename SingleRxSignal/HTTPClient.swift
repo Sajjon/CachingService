@@ -12,11 +12,11 @@ import RxSwift
 struct HTTPClient: HTTPClientProtocol {}
 
 protocol HTTPClientProtocol {
-    func makeRequest<C>() -> Maybe<C> where C: NameOwner
+    func makeRequest<C>() -> Maybe<C> where C: Codable
 }
 
 extension HTTPClientProtocol {
-    func makeRequest<C>() -> Maybe<C> where C: NameOwner {
+    func makeRequest<C>() -> Maybe<C> where C: Codable {
         return Maybe.create { maybe in
             self.makeRequestOnBackground { (model: C?) in
                 if let model = model {
@@ -32,23 +32,27 @@ extension HTTPClientProtocol {
 }
 
 private extension HTTPClientProtocol {
-    func makeRequestOnBackground<C>(done: @escaping (C?) -> Void) where C: NameOwner {
+    func makeRequestOnBackground<C>(done: @escaping (C?) -> Void) where C: Codable {
         DispatchQueue.global(qos: .userInitiated).async {
-            print("Main thread: \(Thread.isMainThread) - \(Date.timeAsString): fetching from http...")
-            delay(.http)
-            let any: Any = C.self
-            let model: C
-            switch any {
-            case is User.Type:
-                model = User(name: randomName()) as! C
-            case is Group.Type:
-                model = Group(name: randomName()) as! C
-            default: fatalError("non of the above")
-            }
-            DispatchQueue.main.async {
-                print("Main thread: \(Thread.isMainThread) - \(Date.timeAsString): http request done...")
-                done(model)
-            }
+            self.performRequest(done: done)
+        }
+    }
+    
+    func performRequest<C>(done: @escaping (C?) -> Void) where C: Codable {
+        delay(.http)
+        threadTimePrint("Fetching from Backend...")
+        let any: Any = C.self
+        let model: C
+        switch any {
+        case is User.Type:
+            model = User(name: randomName()) as! C
+        case is Group.Type:
+            model = Group(name: randomName()) as! C
+        default: fatalError("non of the above")
+        }
+        DispatchQueue.main.async {
+            done(model)
         }
     }
 }
+

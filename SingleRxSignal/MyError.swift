@@ -10,6 +10,7 @@ import Foundation
 enum MyError: Error {
     case invalidOptions
     case cacheEmpty
+    case cacheNoKey
     case cacheSaving
     case httpError
 }
