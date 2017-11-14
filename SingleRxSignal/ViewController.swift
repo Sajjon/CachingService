@@ -54,20 +54,6 @@ class ViewController: UIViewController {
     func getDataFromCacheAndOrBackend(emitExtraNextEventBeforeCachingDone emitNextEvent: Bool) -> Observable<Int> {
         return getDataFromBackend().flatMap(emitNextEventBeforeMap: emitNextEvent) { self.asyncSaveToCache(dataFromBackend: $0) }
     }
-//    // using method `filterNil` from pod `RxOptional` below
-//    func getDataFromCacheAndOrBackend(emitExtraEventBeforeCachingDone: Bool) -> Observable<Int> {
-//        return getDataFromBackend().flatMap { (dataFromBackend: Int) -> Observable<Int> in
-//            let maybeEmitExtraEvent: Observable<Int>? = emitExtraEventBeforeCachingDone ? .of(dataFromBackend) : nil
-//            return Observable.of(
-//                self.asyncSaveToCache(dataFromBackend: dataFromBackend),
-//                maybeEmitExtraEvent
-//            ).filterNil().merge()
-//        }
-//    }
-    
-    func getDataFromCacheAndOrBackend() -> Observable<Int> {
-        return getDataFromBackend().flatMap { self.asyncSaveToCache(dataFromBackend: $0) }
-    }
     
     func getDataFromBackend() -> Observable<Int> {
         return Observable.just(42).delay(2, scheduler: MainScheduler.instance)
