@@ -19,6 +19,7 @@ extension HTTPClientProtocol {
     func makeRequest<C>() -> Maybe<C> where C: Codable {
         return Maybe.create { maybe in
             self.makeRequestOnBackground { (model: C?) in
+                defer { maybe(.completed) }
                 if let model = model {
                     maybe(.success(model))
                 } else {

@@ -65,10 +65,10 @@ extension Service {
     func loadFromCacheIfAbleTo<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
         guard options.shouldLoadFromCache else { print("prevented load from cache"); return .empty() }
         guard let persisting = self as? Persisting else { return .empty() }
-        print("Checking cache...")
+        print("Service: checking cache...")
         return persisting.asyncLoad().catchError {
             guard options.catchErrorsFromCache else { return .error($0) }
-            print("Cache was empty :(")
+            print("Service: cache was empty :(")
             return .empty()
         }
     }

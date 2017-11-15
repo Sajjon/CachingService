@@ -102,9 +102,18 @@ extension BackendPermissions {
 struct RequestPermissions: Validatable {
     let cachePermissions: CachePermissions
     let backendPermissions: BackendPermissions
-    init(cache: CachePermissions = .default, backend: BackendPermissions = .default) {
+    
+    init(cache: CachePermissions, backend: BackendPermissions) {
         self.cachePermissions = cache
         self.backendPermissions = backend
+    }
+    
+    init(cache: CachePermissions) {
+        self.init(cache: cache, backend: .default)
+    }
+    
+    init(backend: BackendPermissions) {
+        self.init(cache: .default, backend: backend)
     }
 }
 
@@ -129,10 +138,10 @@ extension RequestPermissions {
     var intermediateOnNextCallForFetched: Bool { return backendPermissions.contains(.emitNextEventDirectly) }
 }
 
-enum PermissionWrapper {
-    case cache(CachePermissions)
-    case backend(BackendPermissions)
-}
+//enum PermissionWrapper {
+//    case cache(CachePermissions)
+//    case backend(BackendPermissions)
+//}
 //
 //extension RequestPermissions: ExpressibleByArrayLiteral {
 //    typealias ArrayLiteralElement = PermissionWrapper

@@ -1,20 +1,40 @@
 PODS:
+  - RxBlocking (4.0.0):
+    - RxSwift (~> 4.0)
   - RxCocoa (4.0.0):
     - RxSwift (~> 4.0)
   - RxOptional (3.3.0):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxSwift (4.0.0)
+  - RxTest (4.0.0):
+    - RxSwift (~> 4.0)
+  - SnapKit (4.0.0)
+  - Sourcery (0.9.0)
+  - TinyConstraints (3.0.1)
+  - ViewComposer (0.2.31):
+    - Sourcery (> 0.8)
 
 DEPENDENCIES:
+  - RxBlocking
   - RxOptional
   - RxSwift
+  - RxTest
+  - SnapKit
+  - TinyConstraints
+  - ViewComposer
 
 SPEC CHECKSUMS:
+  RxBlocking: 923c2c8106d80d7c2d6b276afd66ce3b10824836
   RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
+  RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  Sourcery: e3829460a1fa0bcd3b689e6087a89cc063cd2289
+  TinyConstraints: 77cb4735982941687268bb6f324badd0ae29ad46
+  ViewComposer: 13f3e3fdbeebc04ea66dccc32c899c90be038c2c
 
-PODFILE CHECKSUM: 758404d68dd41ceecb3838e0f0becc02163e1d49
+PODFILE CHECKSUM: 7e430d824c139f514350d78e3a23a24e7c65f4a8
 
 COCOAPODS: 1.3.1

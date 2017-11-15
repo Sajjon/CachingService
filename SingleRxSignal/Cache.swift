@@ -45,14 +45,14 @@ extension String: Key {
 //MARK: - Caching
 extension UserDefaults {
     func save<Value>(value: Value, for key: Key) throws where Value: Codable {
-        threadTimePrint("Saving to cache...")
+        threadTimePrint("Cache: saving...")
         simulateCacheDelay()
         let data = try JSONEncoder().encode([value])
         set(data, forKey: key.identifier)
     }
     
     func loadValue<Value>(for key: Key) -> Value? where Value: Codable {
-        threadTimePrint("Loading from cache...")
+        threadTimePrint("Cache: loading...")
         simulateCacheDelay()
         guard
             let loadedData = data(forKey: key.identifier),
@@ -63,13 +63,13 @@ extension UserDefaults {
     }
     
     func deleteValue(for key: Key) {
-        threadTimePrint("Deleting from cache...")
+        threadTimePrint("Cache: deleting...")
         simulateCacheDelay()
         setValue(nil, forKey: key.identifier)
     }
     
     func hasValue(for key: Key) -> Bool {
-        threadTimePrint("Checking cache...")
+        threadTimePrint("Cache: hasValue...")
         simulateCacheDelay()
         return value(forKey: key.identifier) != nil
     }
@@ -146,6 +146,7 @@ extension Persisting {
         guard let key = KeyCreator(type: C.self) else { return .error(MyError.cacheNoKey) }
         return Observable.create { observer in
             self.cache.asyncLoadValue(for: key) { (result: Result<C>) in
+                defer { observer.onCompleted() }
                 switch result {
                 case .success(let loadedFromCache):
                     observer.onNext(loadedFromCache)
@@ -161,6 +162,7 @@ extension Persisting {
         guard let key = KeyCreator(type: C.self) else { return .error(MyError.cacheNoKey) }
         return Observable.create { observer in
             self.cache.asyncSave(value: fromBackend, for: key) { savingResult in
+                defer { observer.onCompleted() }
                 switch savingResult {
                 case .success:
                     print("successfully async saved `\(fromBackend)` to cache")
