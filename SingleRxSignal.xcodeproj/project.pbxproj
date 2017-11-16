@@ -34,8 +34,8 @@
 		48679CFC1FBDA7A8004A9E20 /* Presentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFB1FBDA7A8004A9E20 /* Presentor.swift */; };
 		48679CFE1FBDA7B9004A9E20 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFD1FBDA7B9004A9E20 /* Presentable.swift */; };
 		48679D001FBDB14B004A9E20 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFF1FBDB14B004A9E20 /* MenuViewController.swift */; };
-		48679D021FBDD3A3004A9E20 /* AbstractViewController+Retaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679D011FBDD3A3004A9E20 /* AbstractViewController+Retaining.swift */; };
 		48679D041FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679D031FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift */; };
+		48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679D051FBDF2B9004A9E20 /* MenuView.swift */; };
 		48699B621FB5B08F00D15F25 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48699B611FB5B08F00D15F25 /* HTTPClient.swift */; };
 		48699B641FB5D89700D15F25 /* TimeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48699B631FB5D89700D15F25 /* TimeString.swift */; };
 		486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486E665E1FBC49B600D46E04 /* RxExtension.swift */; };
@@ -88,8 +88,8 @@
 		48679CFB1FBDA7A8004A9E20 /* Presentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentor.swift; sourceTree = "<group>"; };
 		48679CFD1FBDA7B9004A9E20 /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 		48679CFF1FBDB14B004A9E20 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		48679D011FBDD3A3004A9E20 /* AbstractViewController+Retaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AbstractViewController+Retaining.swift"; sourceTree = "<group>"; };
 		48679D031FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenendencyInjectionConfigurator.swift; sourceTree = "<group>"; };
+		48679D051FBDF2B9004A9E20 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		48699B611FB5B08F00D15F25 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		48699B631FB5D89700D15F25 /* TimeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeString.swift; sourceTree = "<group>"; };
 		486E665E1FBC49B600D46E04 /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
@@ -186,8 +186,8 @@
 				48679CF71FBDA769004A9E20 /* UserView.swift */,
 				48A759891FA4E5DF00160897 /* UserViewController.swift */,
 				48679CF51FBDA759004A9E20 /* ViewModel.swift */,
-				48679D011FBDD3A3004A9E20 /* AbstractViewController+Retaining.swift */,
 				48679D031FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift */,
+				48679D051FBDF2B9004A9E20 /* MenuView.swift */,
 			);
 			path = SingleRxSignal;
 			sourceTree = "<group>";
@@ -480,12 +480,12 @@
 				4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */,
 				4845F3E41FB45CA6004A0261 /* Service.swift in Sources */,
 				48679CF61FBDA759004A9E20 /* ViewModel.swift in Sources */,
+				48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */,
 				48679CF81FBDA769004A9E20 /* UserView.swift in Sources */,
 				4845F3EC1FB45CEE004A0261 /* Models.swift in Sources */,
 				4845F3E61FB45CC2004A0261 /* Random.swift in Sources */,
 				48679CFA1FBDA798004A9E20 /* AbstractViewController.swift in Sources */,
 				48699B621FB5B08F00D15F25 /* HTTPClient.swift in Sources */,
-				48679D021FBDD3A3004A9E20 /* AbstractViewController+Retaining.swift in Sources */,
 				48679D041FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift in Sources */,
 				4845F3E21FB45C91004A0261 /* Cache.swift in Sources */,
 				486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */,

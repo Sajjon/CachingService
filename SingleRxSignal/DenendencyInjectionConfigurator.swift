@@ -22,13 +22,6 @@ func bootStrapContainer() -> Container {
             )
             }.inObjectScope(.container)
         
-        c.register(MenuViewController.self) { (r, presentor: Presentor) in
-            MenuViewController(
-                userService: r.resolve(UserServiceProtocol.self)!,
-                presentor: presentor
-            )
-        }.inObjectScope(.container)
-        
         c.register(MenuViewController.self) { (r, presentor: UINavigationController) in
             MenuViewController(
                 userService: r.resolve(UserServiceProtocol.self)!,

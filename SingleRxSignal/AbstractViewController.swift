@@ -8,8 +8,7 @@
 
 import UIKit
 
-protocol AbstractViewController: Presentable {
-    var presentor: Presentor? { set get }
+protocol AbstractViewController: class, Presentable {
     var rootView: UIView { get }
     static var title: String { get }
     func materialize() -> UIViewController
@@ -23,14 +22,7 @@ extension AbstractViewController {
         let viewController = UIViewController()
         viewController.view = rootView
         viewController.title = Self.title
-//        viewController.abstract = self
         return viewController
     }
     
-}
-
-extension AbstractViewController {
-    func present(on presentor: Presentor, presentation: Presentation) {
-        presentor.present(self, presentation: presentation)
-    }
 }

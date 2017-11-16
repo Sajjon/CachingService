@@ -10,7 +10,6 @@ import UIKit
 
 final class UserViewController {
     let userView: UserView
-    var presentor: Presentor?
     init(userService: UserServiceProtocol) {
         userView = UserView(userService: userService)
     }
