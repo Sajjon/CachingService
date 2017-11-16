@@ -31,7 +31,7 @@
 		48679CF61FBDA759004A9E20 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF51FBDA759004A9E20 /* ViewModel.swift */; };
 		48679CF81FBDA769004A9E20 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF71FBDA769004A9E20 /* UserView.swift */; };
 		48679CFA1FBDA798004A9E20 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF91FBDA798004A9E20 /* AbstractViewController.swift */; };
-		48679CFC1FBDA7A8004A9E20 /* Presentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFB1FBDA7A8004A9E20 /* Presentor.swift */; };
+		48679CFC1FBDA7A8004A9E20 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFB1FBDA7A8004A9E20 /* Presenter.swift */; };
 		48679CFE1FBDA7B9004A9E20 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFD1FBDA7B9004A9E20 /* Presentable.swift */; };
 		48679D001FBDB14B004A9E20 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CFF1FBDB14B004A9E20 /* MenuViewController.swift */; };
 		48679D041FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679D031FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift */; };
@@ -85,7 +85,7 @@
 		48679CF51FBDA759004A9E20 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		48679CF71FBDA769004A9E20 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		48679CF91FBDA798004A9E20 /* AbstractViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractViewController.swift; sourceTree = "<group>"; };
-		48679CFB1FBDA7A8004A9E20 /* Presentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentor.swift; sourceTree = "<group>"; };
+		48679CFB1FBDA7A8004A9E20 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		48679CFD1FBDA7B9004A9E20 /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 		48679CFF1FBDB14B004A9E20 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		48679D031FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenendencyInjectionConfigurator.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				4845F3E91FB45CE1004A0261 /* MyError.swift */,
 				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
 				48679CFD1FBDA7B9004A9E20 /* Presentable.swift */,
-				48679CFB1FBDA7A8004A9E20 /* Presentor.swift */,
+				48679CFB1FBDA7A8004A9E20 /* Presenter.swift */,
 				4845F3E51FB45CC2004A0261 /* Random.swift */,
 				486E665E1FBC49B600D46E04 /* RxExtension.swift */,
 				4845F3E31FB45CA6004A0261 /* Service.swift */,
@@ -490,7 +490,7 @@
 				4845F3E21FB45C91004A0261 /* Cache.swift in Sources */,
 				486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */,
 				48679D001FBDB14B004A9E20 /* MenuViewController.swift in Sources */,
-				48679CFC1FBDA7A8004A9E20 /* Presentor.swift in Sources */,
+				48679CFC1FBDA7A8004A9E20 /* Presenter.swift in Sources */,
 				4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */,
 				48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */,
 				48679CFE1FBDA7B9004A9E20 /* Presentable.swift in Sources */,

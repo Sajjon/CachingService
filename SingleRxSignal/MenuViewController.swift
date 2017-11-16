@@ -10,8 +10,8 @@ import UIKit
 
 final class MenuViewController {
     let menuView: MenuView
-    init(userService: UserServiceProtocol, presentor: Presentor?) {
-       menuView = MenuView(userService: userService, presentor: presentor)
+    init(userService: UserServiceProtocol, presenter: Presenter?) {
+       menuView = MenuView(userService: userService, presenter: presenter)
     }
     
     deinit {

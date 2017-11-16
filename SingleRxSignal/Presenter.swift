@@ -1,5 +1,5 @@
 //
-//  Presentor.swift
+//  presenter.swift
 //  SingleRxSignal
 //
 //  Created by Alexander Cyon on 2017-11-16.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol Presentor {
+protocol Presenter {
     func present(_ presentable: Presentable , presentation: Presentation)
 }
 
-extension UINavigationController: Presentor {}
+extension UINavigationController: Presenter {}
 
-extension Presentor where Self: UINavigationController {
+extension Presenter where Self: UINavigationController {
     func present(_ presentable: Presentable , presentation: Presentation) {
         guard let abstractViewController = presentable as? AbstractViewController else { fatalError("Unsupported presentable") }
         let viewController = abstractViewController.materialize()

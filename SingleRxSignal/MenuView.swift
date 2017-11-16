@@ -18,12 +18,12 @@ final class MenuView: UIView {
         <- .registerCells([CellClass(UITableViewCell.self, cellId)])
     
     private let userService: UserServiceProtocol
-    var presentor: Presentor?
+    var presenter: Presenter?
     typealias Model = AbstractViewController
     private let models: [Model]
-    init(userService: UserServiceProtocol, presentor: Presentor?) {
+    init(userService: UserServiceProtocol, presenter: Presenter?) {
         self.userService = userService
-        self.presentor = presentor
+        self.presenter = presenter
         models = [UserViewController(userService: userService)].map { $0 as AbstractViewController }
         super.init(frame: .zero)
         setupViews()
@@ -57,7 +57,7 @@ extension MenuView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let model = model(at: indexPath) else { return }
-        presentor?.present(model, presentation: PushPresentation(animated:true))
+        presenter?.present(model, presentation: PushPresentation(animated:true))
     }
     
     func model(at indexPath: IndexPath) -> Model? {

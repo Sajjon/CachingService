@@ -10,12 +10,12 @@ import UIKit
 import RxSwift
 
 protocol Presentable {
-    func present(on presentor: Presentor, presentation: Presentation)
+    func present(on presenter: Presenter, presentation: Presentation)
 }
 
 extension Presentable {
-    func present(on presentor: Presentor, presentation: Presentation) {
-        presentor.present(self, presentation: presentation)
+    func present(on presenter: Presenter, presentation: Presentation) {
+        presenter.present(self, presentation: presentation)
     }
 }
 
