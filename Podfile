@@ -7,6 +7,7 @@ pod 'SnapKit'
 pod 'TinyConstraints'
 pod 'RxSwift'
 pod 'RxOptional'
+pod 'Swinject'
 
 target 'SingleRxSignal' do
 

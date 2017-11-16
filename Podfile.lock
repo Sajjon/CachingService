@@ -11,6 +11,7 @@ PODS:
     - RxSwift (~> 4.0)
   - SnapKit (4.0.0)
   - Sourcery (0.9.0)
+  - Swinject (2.1.1)
   - TinyConstraints (3.0.1)
   - ViewComposer (0.2.31):
     - Sourcery (> 0.8)
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - RxSwift
   - RxTest
   - SnapKit
+  - Swinject
   - TinyConstraints
   - ViewComposer
 
@@ -32,9 +34,10 @@ SPEC CHECKSUMS:
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Sourcery: e3829460a1fa0bcd3b689e6087a89cc063cd2289
+  Swinject: afea49fd95f392b41171669f165842879c48fad6
   TinyConstraints: 77cb4735982941687268bb6f324badd0ae29ad46
   ViewComposer: 13f3e3fdbeebc04ea66dccc32c899c90be038c2c
 
-PODFILE CHECKSUM: 7e430d824c139f514350d78e3a23a24e7c65f4a8
+PODFILE CHECKSUM: 90878650eb02018cf067f24d4a311e6d0eecf531
 
 COCOAPODS: 1.3.1

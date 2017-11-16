@@ -13,7 +13,7 @@ import RxOptional
 protocol Cache {
     func save<Value>(value: Value, for key: Key) throws where Value: Codable
     func loadValue<Value>(for key: Key) -> Value? where Value: Codable
-    func deleteValue(for key: Key)
+    func deleteValue<Value>(for key: Key) -> Value? where Value: Codable
     func hasValue(for key: Key) -> Bool
 }
 
@@ -27,7 +27,7 @@ var void: () { () }
 protocol AsyncCache: Cache {
     func asyncSave<Value>(value: Value, for key: Key, done: @escaping Done<Void>) where Value: Codable
     func asyncLoadValue<Value>(for key: Key, done: @escaping Done<Value>) where Value: Codable
-    func asyncDeleteValue(for key: Key, done: @escaping Done<Void>)
+    func asyncDeleteValue<Value>(for key: Key, done: @escaping Done<Value?>) where Value: Codable
     func asyncHasValue(for key: Key, done: @escaping Done<Bool>)
 }
 
@@ -62,10 +62,11 @@ extension UserDefaults {
         return value.first
     }
     
-    func deleteValue(for key: Key) {
+    func deleteValue<Value>(for key: Key) -> Value? where Value: Codable {
         threadTimePrint("Cache: deleting...")
-        simulateCacheDelay()
+        let valueInCache: Value? = loadValue(for: key) ?? nil
         setValue(nil, forKey: key.identifier)
+        return valueInCache
     }
     
     func hasValue(for key: Key) -> Bool {
@@ -76,7 +77,7 @@ extension UserDefaults {
 }
 
 extension AsyncCache {
-
+    
     func asyncSave<Value>(value: Value, for key: Key, done: @escaping Done<Void>) where Value: Codable {
         DispatchQueue.global(qos: .userInitiated).async {
             let result: Result<Void>
@@ -105,11 +106,11 @@ extension AsyncCache {
             }
         }
     }
-    func asyncDeleteValue(for key: Key, done: @escaping Done<Void>) {
+    func asyncDeleteValue<Value>(for key: Key, done: @escaping Done<Value?>) where Value: Codable {
         DispatchQueue.global(qos: .userInitiated).async {
-            let result: Result<Void>
-            self.deleteValue(for: key)
-            result = .success(void)
+            let result: Result<Value?>
+            let deletedValue: Value? = self.deleteValue(for: key)
+            result = .success(deletedValue)
             DispatchQueue.main.async {
                 done(result)
             }
@@ -175,35 +176,23 @@ extension Persisting {
             return Disposables.create()
         }
     }
-}
-
-
-func threadTimePrint(_ message: String) {
-    let threadString = Thread.isMainThread ? "MAIN THREAD" : "BACKGROUND THREAD"
-    print("\(threadString) - \(Date.timeAsString): \(message)")
-}
-
-
-enum SimulatedDelay {
-    case cache
-    case http
-}
-
-extension SimulatedDelay {
-    var time: TimeInterval {
-        switch self {
-        case .cache: return 2
-        case .http: return 5
+    
+    func asyncDeleteValue<C>(forType type: C.Type) -> Observable<C?> where C: Codable {
+        guard let key = KeyCreator(type: type) else { return .error(MyError.cacheNoKey) }
+        return Observable.create { observer in
+            self.cache.asyncDeleteValue(for: key) { (result: Result<C?>) in
+                defer { observer.onCompleted() }
+                switch result {
+                case .error(let error): observer.onError(error)
+                case .success(let deletedValue): observer.onNext(deletedValue)
+                }
+                
+            }
+            return Disposables.create()
         }
+        .do(onNext: { print("Deleted `\($0)` for key: `\(key.identifier)` from cache") })
     }
 }
-
-func delay(_ simulatedDelay: SimulatedDelay) {
-    let sleepTime: UInt32 = UInt32(simulatedDelay.time)
-    sleep(sleepTime)
-}
-
-let cacheKeyName = "name"
 
 private extension Cache {
     func assertBackgroundThread() {
@@ -213,21 +202,6 @@ private extension Cache {
     func simulateCacheDelay() {
         assertBackgroundThread()
         delay(.cache)
-    }
-}
-
-
-public extension JSONDecoder {
-    convenience init(dateDecodingStrategy strategy: JSONDecoder.DateDecodingStrategy) {
-        self.init()
-        dateDecodingStrategy = strategy
-    }
-}
-
-public extension JSONEncoder {
-    convenience init(dateEncodingStrategy strategy: JSONEncoder.DateEncodingStrategy) {
-        self.init()
-        dateEncodingStrategy = strategy
     }
 }
 

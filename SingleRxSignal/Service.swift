@@ -81,9 +81,16 @@ protocol UserServiceProtocol: Service, Persisting {
 
 final class UserService: UserServiceProtocol {
     
-    let cache: AsyncCache = UserDefaults.standard
-    let httpClient: HTTPClientProtocol = HTTPClient()
+    let httpClient: HTTPClientProtocol
+    let cache: AsyncCache
+    
+    init(httpClient: HTTPClientProtocol, cache: AsyncCache) {
+        self.httpClient = httpClient
+        self.cache = cache
+    }
+    
     func getUser(options: RequestPermissions = .default) -> Observable<User> {
+        print("GETTING USER")
         return get(options: options)
     }
 }
