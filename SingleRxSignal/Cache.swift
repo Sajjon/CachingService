@@ -26,7 +26,7 @@ typealias Done<C> = (Result<C>) -> Void
 var void: () { () }
 protocol AsyncCache: Cache {
     func asyncSave<Value>(value: Value, for key: Key, done: @escaping Done<Void>) where Value: Codable
-    func asyncLoadValue<Value>(for key: Key, done: @escaping Done<Value>) where Value: Codable
+    func asyncLoadValue<Value>(for key: Key, done: @escaping Done<Value?>) where Value: Codable
     func asyncDeleteValue<Value>(for key: Key, done: @escaping Done<Value?>) where Value: Codable
     func asyncHasValue(for key: Key, done: @escaping Done<Bool>)
 }
@@ -93,16 +93,11 @@ extension AsyncCache {
         }
     }
     
-    func asyncLoadValue<Value>(for key: Key, done: @escaping Done<Value>) where Value: Codable {
+    func asyncLoadValue<Value>(for key: Key, done: @escaping Done<Value?>) where Value: Codable {
         DispatchQueue.global(qos: .userInitiated).async {
-            let result: Result<Value>
-            if let loaded: Value = self.loadValue(for: key) {
-                result = .success(loaded)
-            } else {
-                result = .error(MyError.cacheEmpty)
-            }
+            let loaded: Value? = self.loadValue(for: key)
             DispatchQueue.main.async {
-                done(result)
+                done(.success(loaded))
             }
         }
     }
@@ -143,10 +138,10 @@ struct KeyCreator: Key {
 }
 
 extension Persisting {
-    func asyncLoad<C>() -> Observable<C> where C: Codable {
+    func asyncLoad<C>() -> Observable<C?> where C: Codable {
         guard let key = KeyCreator(type: C.self) else { return .error(MyError.cacheNoKey) }
         return Observable.create { observer in
-            self.cache.asyncLoadValue(for: key) { (result: Result<C>) in
+            self.cache.asyncLoadValue(for: key) { (result: Result<C?>) in
                 defer { observer.onCompleted() }
                 switch result {
                 case .success(let loadedFromCache):

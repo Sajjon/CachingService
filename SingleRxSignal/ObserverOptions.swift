@@ -54,7 +54,7 @@ extension CachePermissions: RequestPermissionConvertible {
     static let emitErrorEvents = CachePermissions()
 }
 extension CachePermissions {
-    static let `default`: CachePermissions = [.load, .save]
+    static let `default`: CachePermissions = [.emitErrorEvents, .load, .save]
 }
 
 //MARK: Validateable
@@ -96,7 +96,7 @@ extension BackendPermissions {
 }
 
 extension BackendPermissions {
-    static let `default`: BackendPermissions = [.load, .emitNextEvents]
+    static let `default`: BackendPermissions = [.emitErrorEvents, .load, .emitNextEvents]
 }
 
 struct RequestPermissions: Validatable {
@@ -133,6 +133,7 @@ extension RequestPermissions {
     var shouldFetchFromBackend: Bool { return backendPermissions.isPermittedToMakeRequest }
     var shouldLoadFromCache: Bool { return cachePermissions.isPermittedToMakeRequest }
     var shouldSaveToCache: Bool { return cachePermissions.isPermittedToSave }
+    var catchErrorsFromBackend: Bool { return !backendPermissions.isPermittedToEmitErrorEvents }
     var catchErrorsFromCache: Bool { return !cachePermissions.isPermittedToEmitErrorEvents }
     var callOnNextForFetched: Bool { return backendPermissions.isPermittedToEmitNextEvents }
     var intermediateOnNextCallForFetched: Bool { return backendPermissions.contains(.emitNextEventDirectly) }

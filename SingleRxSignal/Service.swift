@@ -28,6 +28,11 @@ extension Service {
     
     func fetchFromBackendAndCacheIfAbleTo<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
         return fetchFromBackend(options: options)
+            .catchError {
+                guard options.catchErrorsFromBackend else { return .error($0) }
+                print("HTTP failed with error: `\($0)`, suppressed by service")
+                return .empty()
+            }
             .flatMap(emitNextEventBeforeMap: options.intermediateOnNextCallForFetched) { self.saveToCacheIfNeeded($0, options: options) }
             .filter(if: options.callOnNextForFetched)
     }
@@ -66,7 +71,7 @@ extension Service {
         guard options.shouldLoadFromCache else { print("prevented load from cache"); return .empty() }
         guard let persisting = self as? Persisting else { return .empty() }
         print("Service: checking cache...")
-        return persisting.asyncLoad().catchError {
+        return persisting.asyncLoad().filterNil().catchError {
             guard options.catchErrorsFromCache else { return .error($0) }
             print("Service: cache was empty :(")
             return .empty()

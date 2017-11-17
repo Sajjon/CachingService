@@ -17,6 +17,10 @@ class BaseTest: XCTestCase {
     func helperIntegerService(mockedCacheValue c: Int?, mockedHTTPValue h: Int?, permissions: RequestPermissions, count: Int = 1) {
         _helperIntegerService(mockedCacheValue: c, mockedHTTPEvent: MockedEvent<Int>.value(h), permissions: permissions, count: count)
     }
+    
+    func helperIntegerService(mockedCacheValue c: Int?, mockedHTTPError e: MyError, permissions: RequestPermissions, count: Int = 1) {
+        _helperIntegerService(mockedCacheValue: c, mockedHTTPEvent: MockedEvent<Int>.error(e), permissions: permissions, count: count)
+    }
 }
 
 private extension BaseTest {
@@ -47,6 +51,7 @@ private extension BaseTest {
                 switch expected.httpEvent {
                 case .error(let expectedError):
                     guard let castedError = errorFromSignal as? MyError else { XCTFail("failed to cast error"); return }
+                   print("comparing errors")
                     XCTAssertEqual(castedError, expectedError)
                 case .value(let expectedValue):
                     XCTFail("Expected value: `\(expectedValue)`, but received error: `\(errorFromSignal)`")

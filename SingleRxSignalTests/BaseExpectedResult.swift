@@ -39,8 +39,9 @@ private extension BaseExpectedResult {
         
         switch (p.shouldFetchFromBackend, p.shouldSaveToCache, cacheValue, httpEvent) {
         case (true, true, _, .value(let httpValue)): next = httpValue ?? (cacheValue ?? nil); print("Case1")
-        case (true, true, .some(let cache), .error(_)): next = cache; print("Case2")
-        case (_, false, .some(let cache), _): next = cache; print("Case3")
+        case (true, true, nil, .error(_)): next = nil; print("Case2")
+        case (true, true, .some(let cache), .error(_)): next = cache; print("Case3")
+        case (_, false, .some(let cache), _): next = cache; print("Case4")
         default: print("Include this case: (shouldFetchFromBackend: \(p.shouldFetchFromBackend), shouldSaveToCache: \(p.shouldSaveToCache), cache: \(cacheValue), http: \(httpEvent)"); fatalError("killed")
         }
         return next

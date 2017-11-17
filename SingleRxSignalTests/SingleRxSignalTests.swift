@@ -69,4 +69,19 @@ final class SingleRxSignalTests: BaseTest {
         helperIntegerService(mockedCacheValue: nil, mockedHTTPValue: nil, permissions: .default)
     }
     
+    func testDefaultPermissionsValueInCacheThrowHTTPError() {
+        helperIntegerService(mockedCacheValue: 237, mockedHTTPError: MyError.httpError, permissions: .default)
+    }
+    
+    func testPermissions_prevent_emit_error_ValueInCacheThrowHTTPError() {
+        helperIntegerService(mockedCacheValue: 237, mockedHTTPError: MyError.httpError, permissions: RequestPermissions(backend: [.load, .emitNextEvents]))
+    }
+    
+    func testDefaultPermissionsCacheEmptyThrowHTTPError() {
+        helperIntegerService(mockedCacheValue: nil, mockedHTTPError: MyError.httpError, permissions: .default)
+    }
+    
+    func testPermissions_prevent_emit_error_CacheEmptyThrowHTTPError() {
+        helperIntegerService(mockedCacheValue: nil, mockedHTTPError: MyError.httpError, permissions: RequestPermissions(backend: [.load, .emitNextEvents]))
+    }
 }

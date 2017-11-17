@@ -10,6 +10,8 @@ import Foundation
 @testable import SingleRxSignal
 
 class BaseMockedCache<ValueType: Codable>: AsyncCache {
+
+    
     var cached: ValueType?
     
     init(cached: ValueType?) {
@@ -27,6 +29,10 @@ class BaseMockedCache<ValueType: Codable>: AsyncCache {
         return casted
     }
     func hasValue(for key: Key) -> Bool { return cached != nil }
-    func deleteValue(for key: Key) { cached = nil }
+    func deleteValue<Value>(for key: Key) -> Value? where Value: Codable {
+        defer { cached = nil }
+        let casted: Value = cached as! Value
+        return casted
+    }
     
 }
