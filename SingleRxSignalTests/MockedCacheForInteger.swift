@@ -8,8 +8,34 @@
 
 import Foundation
 
+enum ValueOrEmpty<Value: Equatable>: Equatable {
+    case value(Value)
+    case empty
+}
+
+extension ValueOrEmpty {
+    static func ==(lhs: ValueOrEmpty<Value>, rhs: ValueOrEmpty<Value>) -> Bool {
+        switch (lhs, rhs) {
+        case (.value(let lhsValue), .value(let rhsValue)): return lhsValue == rhsValue
+        case (.empty, .empty): print(".empty == .empty?? Defining as `false`"); return false
+        default: return false
+        }
+    }
+}
+
+extension ValueOrEmpty {
+    var value: Value? {
+        switch self {
+        case .value(let value):
+            return value
+        default:
+            return nil
+        }
+    }
+}
+
 final class MockedCacheForInteger: BaseMockedCache<Int> {
-    init(cachedInteger: Int? = nil) {
-        super.init(cached: cachedInteger)
+    init(mockedEvent: MockedEvent<Int>) {
+        super.init(event: mockedEvent)
     }
 }

@@ -9,47 +9,34 @@
 import Foundation
 @testable import SingleRxSignal
 
-class BaseExpectedResult<Value: Codable> {
-    let cacheValue: Value?
+class BaseExpectedResult<Value: Codable & Equatable> {
+    let cacheEvent: MockedEvent<Value>
     let httpEvent: MockedEvent<Value>
     
-    init(cacheValue: Value?, httpEvent: MockedEvent<Value>) {
-        self.cacheValue = cacheValue
+    init(cacheEvent: MockedEvent<Value>, httpEvent: MockedEvent<Value>) {
+        self.cacheEvent = cacheEvent
         self.httpEvent = httpEvent
     }
 }
 
 extension BaseExpectedResult {
-    convenience init(lastRun: BaseExpectedResult, permissions: RequestPermissions) {
-        self.init(
-            cacheValue: lastRun.cacheValueForNextRunFrom(permissions),
-            httpEvent: lastRun.httpEventForNextRunFrom(permissions)
-        )
+    convenience init(same: Value?) {
+        self.init(cacheEvent: MockedEvent(same), httpEvent: MockedEvent(same))
     }
-}
 
-private extension BaseExpectedResult {
-    func cacheValueForNextRunFrom(_ p: RequestPermissions) -> Value? {
-        var next: Value? = nil
-        guard p.shouldLoadFromCache else {
-            if p.shouldSaveToCache { next = httpEvent.value }
-            print("Case0")
-            return next
-        }
-        
-        switch (p.shouldFetchFromBackend, p.shouldSaveToCache, cacheValue, httpEvent) {
-        case (true, true, _, .value(let httpValue)): next = httpValue ?? (cacheValue ?? nil); print("Case1")
-        case (true, true, nil, .error(_)): next = nil; print("Case2")
-        case (true, true, .some(let cache), .error(_)): next = cache; print("Case3")
-        case (_, false, .some(let cache), _): next = cache; print("Case4")
-        default: print("Include this case: (shouldFetchFromBackend: \(p.shouldFetchFromBackend), shouldSaveToCache: \(p.shouldSaveToCache), cache: \(cacheValue), http: \(httpEvent)"); fatalError("killed")
-        }
-        return next
+    convenience init(cached: Value?, http: Value?) {
+        self.init(cacheEvent: MockedEvent(cached), httpEvent: MockedEvent(http))
     }
     
-    func httpEventForNextRunFrom(_ p: RequestPermissions) -> MockedEvent<Value> {
-        guard p.shouldFetchFromBackend else { return MockedEvent.value(nil) }
-        return httpEvent
+    convenience init(cacheError: MyError, http: Value?) {
+        self.init(cacheEvent: MockedEvent(cacheError), httpEvent: MockedEvent(http))
+    }
+    
+    convenience init(cacheError: MyError, httpError: MyError) {
+        self.init(cacheEvent: MockedEvent(cacheError), httpEvent: MockedEvent(httpError))
+    }
+    
+    convenience init(cached: Value?, httpError: MyError) {
+        self.init(cacheEvent: MockedEvent(cached), httpEvent: MockedEvent(httpError))
     }
 }
-

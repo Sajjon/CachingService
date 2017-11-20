@@ -11,7 +11,7 @@ import Foundation
 @testable import SingleRxSignal
 import RxSwift
 
-class BaseMockedHTTPClient<ValueType: Codable> {
+class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
     let mockedEvent: MockedEvent<ValueType>
     
     private let delay: RxTimeInterval
@@ -32,8 +32,8 @@ extension BaseMockedHTTPClient: HTTPClientProtocol {
         switch mockedEvent {
         case .error(let error):
             maybe = .error(error)
-        case .value(let maybeValue):
-            if let mockedValue = maybeValue {
+        case .valueOrEmpty(let maybeValue):
+            if let mockedValue = maybeValue.value {
                 let value: C = mockedValue as! C
                 maybe = .just(value)
             } else {

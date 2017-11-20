@@ -9,24 +9,26 @@
 import Foundation
 import Swinject
 
-func bootStrapContainer() -> Container {
-    return Container() { c in
-        c.register(AsyncCache.self) { _ in UserDefaults.standard }.inObjectScope(.container)
-        
-        c.register(HTTPClientProtocol.self) { _ in HTTPClient() }.inObjectScope(.container)
-        
-        c.register(UserServiceProtocol.self) { r in
-            UserService(
-                httpClient: r.resolve(HTTPClientProtocol.self)!,
-                cache: r.resolve(AsyncCache.self)!
-            )
-            }.inObjectScope(.container)
-        
-        c.register(MenuViewController.self) { (r, presenter: UINavigationController) in
-            MenuViewController(
-                userService: r.resolve(UserServiceProtocol.self)!,
-                presenter: presenter
-            )
-            }.inObjectScope(.container)
+struct DenendencyInjectionConfigurator {
+    static func registerDependencies() -> Container {
+        return Container() { c in
+            c.register(AsyncCache.self) { _ in UserDefaults.standard }.inObjectScope(.container)
+            
+            c.register(HTTPClientProtocol.self) { _ in HTTPClient() }.inObjectScope(.container)
+            
+            c.register(UserServiceProtocol.self) { r in
+                UserService(
+                    httpClient: r.resolve(HTTPClientProtocol.self)!,
+                    cache: r.resolve(AsyncCache.self)!
+                )
+                }.inObjectScope(.container)
+            
+            c.register(MenuViewController.self) { (r, presenter: UINavigationController) in
+                MenuViewController(
+                    userService: r.resolve(UserServiceProtocol.self)!,
+                    presenter: presenter
+                )
+                }.inObjectScope(.weak)
+        }
     }
 }

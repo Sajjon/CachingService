@@ -7,18 +7,33 @@
 //
 
 import UIKit
+import RxSwift
 
 final class MenuViewController {
     let menuView: MenuView
+    let bag = DisposeBag()
     init(userService: UserServiceProtocol, presenter: Presenter?) {
        menuView = MenuView(userService: userService, presenter: presenter)
     }
-    
-    deinit {
-        print("deinit of MenuViewController")
-    }
 }
 
-extension MenuViewController: AbstractViewController {
+extension MenuViewController: AbstractViewObservingController {
     var rootView: UIView { return menuView }
+    var viewDidLoad: Closure {
+        return {
+            print("viewDidLoad from abstract MenuViewController")
+        }
+    }
+    
+    var viewWillAppear: Closure {
+        return {
+            print("viewWillAppear from abstract MenuViewController")
+        }
+    }
+    
+    var viewDidAppear: Closure {
+        return {
+            print("viewDidAppear from abstract MenuViewController")
+        }
+    }
 }

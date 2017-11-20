@@ -14,7 +14,7 @@ import Swinject
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    let container: Container = bootStrapContainer()
+    let container: Container = DenendencyInjectionConfigurator.registerDependencies()
     func applicationDidFinishLaunching(_ application: UIApplication) {
         window = bootStrap()
     }

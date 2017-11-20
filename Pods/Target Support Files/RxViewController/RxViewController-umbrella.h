@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double SnapKitVersionNumber;
-FOUNDATION_EXPORT const unsigned char SnapKitVersionString[];
+FOUNDATION_EXPORT double RxViewControllerVersionNumber;
+FOUNDATION_EXPORT const unsigned char RxViewControllerVersionString[];
 

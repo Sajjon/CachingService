@@ -9,30 +9,46 @@
 import Foundation
 @testable import SingleRxSignal
 
-class BaseMockedCache<ValueType: Codable>: AsyncCache {
+class BaseMockedCache<Value: Codable & Equatable> {
+    var cachedEvent: MockedEvent<Value>
+    
+    init(event: MockedEvent<Value>) {
+        self.cachedEvent = event
+    }
+}
 
-    
-    var cached: ValueType?
-    
-    init(cached: ValueType?) {
-        self.cached = cached
+extension BaseMockedCache {
+    var mockedSavingError: MyError? {
+        guard case let .error(error) = cachedEvent else { return nil }
+        return error
     }
     
-    func save<Value>(value: Value, for key: Key) throws where Value: Codable {
+    var mockedValue: Value? {
+        return cachedEvent.value
+    }
+}
+
+//MARK: - AsyncCache Methods
+extension BaseMockedCache: AsyncCache {
+    func save<_Value>(value: _Value, for key: Key) throws where _Value: Codable {
         print("mocking saving")
-        cached = (value as! ValueType)
+        guard mockedSavingError == nil else { throw mockedSavingError! }
+        let cachedValue: Value = (value as! Value)
+        cachedEvent = MockedEvent(cachedValue)
     }
-    func loadValue<Value>(for key: Key) -> Value? where Value: Codable {
+    
+    func loadValue<_Value>(for key: Key) -> _Value? where _Value: Codable {
         print("mocking loading")
-        guard let saved = cached else { return nil }
-        let casted: Value = saved as! Value
-        return casted
-    }
-    func hasValue(for key: Key) -> Bool { return cached != nil }
-    func deleteValue<Value>(for key: Key) -> Value? where Value: Codable {
-        defer { cached = nil }
-        let casted: Value = cached as! Value
+        guard let cachedValue = mockedValue else { return nil }
+        let casted: _Value = cachedValue as! _Value
         return casted
     }
     
+    func hasValue(for key: Key) -> Bool { return mockedValue != nil }
+    
+    func deleteValue<_Value>(for key: Key) -> _Value? where _Value: Codable {
+        defer { cachedEvent = .empty }
+        let casted: _Value = mockedValue as! _Value
+        return casted
+    }
 }

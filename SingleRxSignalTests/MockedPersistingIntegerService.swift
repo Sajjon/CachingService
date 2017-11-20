@@ -28,3 +28,13 @@ extension MockedPersistingIntegerService: Persisting {
     var cache: AsyncCache { return mockedIntegerCache }
     var httpClient: HTTPClientProtocol { return mockedIntegerHTTPClient }
 }
+
+
+extension MockedPersistingIntegerService {
+    convenience init(mocked: ExpectedIntegerResult) {
+        self.init(
+            httpClient: MockedIntegerHTTPClient(mockedEvent: mocked.httpEvent),
+            cache: MockedCacheForInteger(mockedEvent: mocked.cacheEvent)
+        )
+    }
+}

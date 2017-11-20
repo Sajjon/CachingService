@@ -7,7 +7,7 @@
 //
 
 import Foundation
-enum MyError: Error {
+enum MyError: Error, Equatable {
     case invalidOptions
     case cacheEmpty
     case cacheNoKey

@@ -61,7 +61,11 @@ extension Service where Self: Persisting {
     @discardableResult
     func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable {
         guard options.shouldSaveToCache else { print("Prevented save to cache"); return .of(fromBackend) }
-        return asyncSave(fromBackend)
+        return asyncSave(fromBackend).catchError {
+            guard options.catchErrorsFromBackend else { return .error($0) }
+            print("Service: caught error saving to cache")
+            return .just(fromBackend)
+        }
     }
 }
 

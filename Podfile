@@ -3,11 +3,11 @@ platform :ios, '11.1'
 use_frameworks!
 
 pod 'ViewComposer'
-pod 'SnapKit'
 pod 'TinyConstraints'
 pod 'RxSwift'
 pod 'RxOptional'
 pod 'Swinject'
+pod 'RxViewController'
 
 target 'SingleRxSignal' do
 
