@@ -164,31 +164,20 @@
 		48A759861FA4E5DE00160897 /* SingleRxSignal */ = {
 			isa = PBXGroup;
 			children = (
-				488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */,
-				48679CF91FBDA798004A9E20 /* AbstractViewController.swift */,
+				FA15C6E71FC4235600752F09 /* ViewModels */,
+				FA15C6E61FC4233D00752F09 /* Views */,
+				FA15C6E21FC422D800752F09 /* ViewControllers */,
+				FA15C6E51FC4231400752F09 /* Protocols */,
+				FA15C6E41FC4230000752F09 /* Models */,
+				FA15C6E31FC422E200752F09 /* Extensions */,
+				FA15C6E11FC422C700752F09 /* Services */,
 				48A759871FA4E5DF00160897 /* AppDelegate.swift */,
 				48A7598E1FA4E5DF00160897 /* Assets.xcassets */,
-				4845F3E11FB45C91004A0261 /* Cache.swift */,
-				48679CF31FBDA724004A9E20 /* Codable_Extension.swift */,
-				48699B611FB5B08F00D15F25 /* HTTPClient.swift */,
 				48A759931FA4E5DF00160897 /* Info.plist */,
 				48A759901FA4E5DF00160897 /* LaunchScreen.storyboard */,
-				48679CFF1FBDB14B004A9E20 /* MenuViewController.swift */,
-				4845F3EB1FB45CEE004A0261 /* Models.swift */,
-				4845F3E91FB45CE1004A0261 /* MyError.swift */,
-				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
-				48679CFD1FBDA7B9004A9E20 /* Presentable.swift */,
-				48679CFB1FBDA7A8004A9E20 /* Presenter.swift */,
-				4845F3E51FB45CC2004A0261 /* Random.swift */,
-				486E665E1FBC49B600D46E04 /* RxExtension.swift */,
-				4845F3E31FB45CA6004A0261 /* Service.swift */,
 				48679CF11FBDA710004A9E20 /* SimulatedDelay.swift */,
 				48699B631FB5D89700D15F25 /* TimeString.swift */,
-				48679CF71FBDA769004A9E20 /* UserView.swift */,
-				48A759891FA4E5DF00160897 /* UserViewController.swift */,
-				48679CF51FBDA759004A9E20 /* ViewModel.swift */,
 				48679D031FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift */,
-				48679D051FBDF2B9004A9E20 /* MenuView.swift */,
 			);
 			path = SingleRxSignal;
 			sourceTree = "<group>";
@@ -222,6 +211,73 @@
 				A4CB73A063232C712A6AE4C5 /* Pods-SingleRxSignalTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		FA15C6E11FC422C700752F09 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4845F3E31FB45CA6004A0261 /* Service.swift */,
+				48699B611FB5B08F00D15F25 /* HTTPClient.swift */,
+				4845F3E11FB45C91004A0261 /* Cache.swift */,
+				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FA15C6E21FC422D800752F09 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				48A759891FA4E5DF00160897 /* UserViewController.swift */,
+				48679CFF1FBDB14B004A9E20 /* MenuViewController.swift */,
+				48679CF91FBDA798004A9E20 /* AbstractViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FA15C6E31FC422E200752F09 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				486E665E1FBC49B600D46E04 /* RxExtension.swift */,
+				4845F3E51FB45CC2004A0261 /* Random.swift */,
+				488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */,
+				48679CF31FBDA724004A9E20 /* Codable_Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FA15C6E41FC4230000752F09 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4845F3EB1FB45CEE004A0261 /* Models.swift */,
+				4845F3E91FB45CE1004A0261 /* MyError.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FA15C6E51FC4231400752F09 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				48679CFD1FBDA7B9004A9E20 /* Presentable.swift */,
+				48679CFB1FBDA7A8004A9E20 /* Presenter.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		FA15C6E61FC4233D00752F09 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				48679CF71FBDA769004A9E20 /* UserView.swift */,
+				48679D051FBDF2B9004A9E20 /* MenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FA15C6E71FC4235600752F09 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				48679CF51FBDA759004A9E20 /* ViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
