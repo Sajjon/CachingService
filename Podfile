@@ -8,6 +8,7 @@ pod 'RxSwift'
 pod 'RxOptional'
 pod 'Swinject'
 pod 'RxViewController'
+pod 'SwiftyBeaver'
 
 target 'SingleRxSignal' do
 
