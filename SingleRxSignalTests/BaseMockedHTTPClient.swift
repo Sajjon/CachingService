@@ -10,9 +10,10 @@ import Foundation
 
 @testable import SingleRxSignal
 import RxSwift
+import SwiftyBeaver
 
 class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
-    let mockedEvent: MockedEvent<ValueType>
+    var mockedEvent: MockedEvent<ValueType>
     
     private let delay: RxTimeInterval
     
@@ -26,21 +27,26 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
 }
 
 extension BaseMockedHTTPClient: HTTPClientProtocol {
-    func makeRequest<C>() -> Maybe<C> where C: Codable {
-        let maybe: Maybe<C>
-        
-        switch mockedEvent {
-        case .error(let error):
-            maybe = .error(error)
-        case .valueOrEmpty(let maybeValue):
-            if let mockedValue = maybeValue.value {
-                let value: C = mockedValue as! C
-                maybe = .just(value)
-            } else {
-                maybe = .empty()
+    func makeRequest<C>() -> Observable<C?> where C: Codable {
+        log.verbose("Start")
+        return Observable.create { observer in
+            switch self.mockedEvent {
+            case .error(let error):
+                observer.onError(error)
+            case .valueOrEmpty(let valueOrEmpty):
+                switch valueOrEmpty {
+                case .empty: observer.onNext(nil)
+                case .value(let value): observer.onNext(value as! C)
+                }
+                observer.onCompleted()
             }
-        }
-        
-        return maybe.delay(delay, scheduler: MainScheduler.instance)
+            return Disposables.create()
+        }.delay(delay, scheduler: MainScheduler.instance)
+    }
+}
+
+extension BaseMockedHTTPClient {
+    var mockedValue: ValueType? {
+        return mockedEvent.value
     }
 }

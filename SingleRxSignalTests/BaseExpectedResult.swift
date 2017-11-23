@@ -10,8 +10,8 @@ import Foundation
 @testable import SingleRxSignal
 
 class BaseExpectedResult<Value: Codable & Equatable> {
-    let cacheEvent: MockedEvent<Value>
-    let httpEvent: MockedEvent<Value>
+    var cacheEvent: MockedEvent<Value>
+    var httpEvent: MockedEvent<Value>
     
     init(cacheEvent: MockedEvent<Value>, httpEvent: MockedEvent<Value>) {
         self.cacheEvent = cacheEvent

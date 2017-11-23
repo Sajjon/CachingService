@@ -19,8 +19,8 @@ final class MockedPersistingIntegerService: IntegerServiceProtocol {
         self.mockedIntegerCache = cache
     }
     
-    func getInteger(options: RequestPermissions) -> Observable<Int> {
-        return get(options: options)
+    func getInteger(fetchFrom: FetchFrom) -> Observable<Int> {
+        return get(fetchFrom: fetchFrom)
     }
 }
 

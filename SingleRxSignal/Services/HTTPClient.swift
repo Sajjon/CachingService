@@ -12,39 +12,37 @@ import RxSwift
 struct HTTPClient: HTTPClientProtocol {}
 
 protocol HTTPClientProtocol {
-    func makeRequest<C>() -> Maybe<C> where C: Codable
+    func makeRequest<C>() -> Observable<C?> where C: Codable
 }
 
 extension HTTPClientProtocol {
-    func makeRequest<C>() -> Maybe<C> where C: Codable {
-        return Maybe.create { maybe in
-            self.makeRequestOnBackground { (model: C?) in
-                defer { maybe(.completed) }
-                if let model = model {
-                    maybe(.success(model))
+    func makeRequest<C>() -> Observable<C?> where C: Codable {
+        return Observable.create { observer in
+            self.makeRequestOnBackground { (model: C?, error: MyError?) in
+                defer { observer.onCompleted() }
+                if let error = error {
+                    observer.onError(error)
                 } else {
-                    maybe(.error(MyError.httpError))
+                    observer.onNext(model)
                 }
             }
-            
             return Disposables.create()
         }
     }
 }
 
 private extension HTTPClientProtocol {
-    func makeRequestOnBackground<C>(done: @escaping (C?) -> Void) where C: Codable {
+    func makeRequestOnBackground<C>(done: @escaping (C?, MyError?) -> Void) where C: Codable {
         DispatchQueue.global(qos: .userInitiated).async {
             self.performRequest(done: done)
         }
     }
     
-    func performRequest<C>(done: @escaping (C?) -> Void) where C: Codable {
+    func performRequest<C>(done: @escaping (C?, MyError?) -> Void) where C: Codable {
         delay(.http)
-        threadTimePrint("Fetching from Backend...")
-        let any: Any = C.self
+        threadTimePrint("Fetching from Backend...type: `\(C.self)`")
         let model: C
-        switch any {
+        switch FourLevelTypeUnwrapper<C>.fourLevelUnwrappedType {
         case is User.Type:
             model = User(name: randomName()) as! C
         case is Group.Type:
@@ -52,7 +50,7 @@ private extension HTTPClientProtocol {
         default: fatalError("non of the above")
         }
         DispatchQueue.main.async {
-            done(model)
+            done(model, nil)
         }
     }
 }

@@ -21,19 +21,19 @@ extension MenuViewController: AbstractViewObservingController {
     var rootView: UIView { return menuView }
     var viewDidLoad: Closure {
         return {
-            print("viewDidLoad from abstract MenuViewController")
+            log.verbose("viewDidLoad from abstract MenuViewController")
         }
     }
     
     var viewWillAppear: Closure {
         return {
-            print("viewWillAppear from abstract MenuViewController")
+            log.verbose("viewWillAppear from abstract MenuViewController")
         }
     }
     
     var viewDidAppear: Closure {
         return {
-            print("viewDidAppear from abstract MenuViewController")
+            log.verbose("viewDidAppear from abstract MenuViewController")
         }
     }
 }

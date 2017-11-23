@@ -12,5 +12,5 @@ import Foundation
 import RxSwift
 
 protocol IntegerServiceProtocol: Service {
-    func getInteger(options: RequestPermissions) -> Observable<Int>
+    func getInteger(fetchFrom: FetchFrom) -> Observable<Int>
 }

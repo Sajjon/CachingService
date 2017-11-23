@@ -12,80 +12,79 @@ import RxOptional
 
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
-    func get<C>(options: RequestPermissions) -> Observable<C> where C: Codable
     
-    @discardableResult
-    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable
+    func get<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable
+    
+    func saveToOrDeleteInCacheIfAbleTo<C>(_ fromBackend: C?, fetchFrom: FetchFrom) -> Observable<C?> where C: Codable
+    func loadFromCacheIfAbleTo<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable
 }
 
 extension Service {
-    func get<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
-        guard options.validate() else { fatalError("Invalid options)") }
-        let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(options: options)
-        let cacheSignal: Observable<C> = loadFromCacheIfAbleTo(options: options)
-        return Observable.merge([httpSignal, cacheSignal]) // TODO compare: Observable.of(httpSignal, cacheSignal).merge()
+    func get<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+        log.verbose("Start")
+        let cacheSignal: Observable<C> = loadFromCacheIfAbleTo(fetchFrom: fetchFrom)
+        let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(fetchFrom: fetchFrom)
+        return cacheSignal.concat(httpSignal)
     }
     
-    func fetchFromBackendAndCacheIfAbleTo<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
-        return fetchFromBackend(options: options)
-            .catchError {
-                guard options.catchErrorsFromBackend else { return .error($0) }
-                print("HTTP failed with error: `\($0)`, suppressed by service")
-                return .empty()
-            }
-            .flatMap(emitNextEventBeforeMap: options.intermediateOnNextCallForFetched) { self.saveToCacheIfNeeded($0, options: options) }
-            .filter(if: options.callOnNextForFetched)
+    func fetchFromBackendAndCacheIfAbleTo<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+        log.error("Start")
+        return fetchFromBackend(fetchFrom: fetchFrom)
+            .catchError { self.handleError($0, fetchFrom: fetchFrom) }
+            .flatMap { self.saveToOrDeleteInCacheIfAbleTo($0, fetchFrom: fetchFrom) }
+            .filterNil()
+            .filter(include: fetchFrom.emitEventForValueFromBackend)
+            .do(onNext: { log.verbose("Got: \($0)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.info("onCompleted") })
     }
     
-    @discardableResult
-    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable {
-        guard !(self is Persisting) else { fatalError("Service is persisting but wrong `saveToCacheIfNeeded` got called") }
-        return .of(fromBackend)
+    func handleError<C>(_ error: Error, fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+        guard fetchFrom.catchErrorsFromBackend else { log.error("Emitting error: `\(error)`"); return .error(error) }
+        log.verbose("HTTP failed with error: `\(error)`, suppressed by service")
+        return .empty()
+    }
+
+    func saveToOrDeleteInCacheIfAbleTo<C>(_ fromBackend: C?, fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
+        guard !(self is Persisting) else { fatalError("Service is persisting but wrong `saveToOrDeleteInCacheIfAbleTo` got called") }
+        return Observable.just(fromBackend)
+    }
+
+    func loadFromCacheIfAbleTo<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+        guard !(self is Persisting) else { fatalError("Service is persisting but wrong `loadFromCacheIfAbleTo` got called") }
+        return .empty()
     }
 }
 
 public extension ObservableType {
-    func filter(if condition: Bool) -> RxSwift.Observable<Self.E> {
+    func filter(include condition: Bool) -> RxSwift.Observable<Self.E> {
         return self.filter { _ in return condition }
     }
 }
 
 private extension Service {
-    func fetchFromBackend<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
-        guard options.shouldFetchFromBackend else { print("prevented fetch from backend"); return .empty() }
-        return httpClient.makeRequest().asObservable().do(onNext: { print("HTTP response `\($0)`") })
+    func fetchFromBackend<C>(fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
+        log.error("Start")
+        guard fetchFrom.shouldFetchFromBackend else { log.info("Prevented fetch from backend"); return .empty() }
+        return httpClient.makeRequest()
+            .do(onNext: { var s = "empty"; if let d = $0 { s = "\(d)" }; log.verbose("HTTP response: \(s)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.info("onCompleted") })
     }
 }
 
 extension Service where Self: Persisting {
-    @discardableResult
-    func saveToCacheIfNeeded<C>(_ fromBackend: C, options: RequestPermissions) -> Observable<C> where C: Codable {
-        guard options.shouldSaveToCache else { print("Prevented save to cache"); return .of(fromBackend) }
-        return asyncSave(fromBackend).catchError {
-            guard options.catchErrorsFromBackend else { return .error($0) }
-            print("Service: caught error saving to cache")
-            return .just(fromBackend)
-        }
-    }
-}
-
-extension Service {
     
-    func loadFromCacheIfAbleTo<C>(options: RequestPermissions) -> Observable<C> where C: Codable {
-        guard options.shouldLoadFromCache else { print("prevented load from cache"); return .empty() }
-        guard let persisting = self as? Persisting else { return .empty() }
-        print("Service: checking cache...")
-        return persisting.asyncLoad().filterNil().catchError {
-            guard options.catchErrorsFromCache else { return .error($0) }
-            print("Service: cache was empty :(")
-            return .empty()
-        }
+    func saveToOrDeleteInCacheIfAbleTo<C>(_ fromBackend: C?, fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
+        guard !(fromBackend != nil && !fetchFrom.shouldSaveToCache) else { log.info("Prevented save to cache"); return .of(fromBackend!) }
+        return asyncSaveOrDelete(fromBackend, key: KeyCreator<C>.key)
     }
     
+    func loadFromCacheIfAbleTo<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+        log.info("Start")
+        guard fetchFrom.shouldLoadFromCache else { log.info("Prevented load from cache"); return .empty() }
+        return asyncLoad().filterNil()
+    }
 }
 
 protocol UserServiceProtocol: Service, Persisting {
-    func getUser(options: RequestPermissions) -> Observable<User>
+    func getUser(fetchFrom: FetchFrom) -> Observable<User>
 }
 
 final class UserService: UserServiceProtocol {
@@ -98,19 +97,19 @@ final class UserService: UserServiceProtocol {
         self.cache = cache
     }
     
-    func getUser(options: RequestPermissions = .default) -> Observable<User> {
+    func getUser(fetchFrom: FetchFrom = .default) -> Observable<User> {
         print("GETTING USER")
-        return get(options: options)
+        return get(fetchFrom: fetchFrom)
     }
 }
 
 protocol GroupServiceProtocol: Service {
-    func getGroup(options: RequestPermissions) -> Observable<Group>
+    func getGroup(fetchFrom: FetchFrom) -> Observable<Group>
 }
 
 final class GroupService: GroupServiceProtocol {
     let httpClient: HTTPClientProtocol = HTTPClient()
-    func getGroup(options: RequestPermissions = .default) -> Observable<Group> {
-        return get(options: options)
+    func getGroup(fetchFrom: FetchFrom = .default) -> Observable<Group> {
+        return get(fetchFrom: fetchFrom)
     }
 }

@@ -23,7 +23,7 @@ final class UserViewModel: ViewModel {
     private let getButtonTapped: Observable<Void>
     private let clearButtonTapped: Observable<Void>
     lazy var userResponse: Observable<User> = self.getButtonTapped.flatMapLatest({ _ in
-        return self.userService.getUser(options: .default).trackActivity(self.activityIndicator)
+        return self.userService.getUser(fetchFrom: .default).trackActivity(self.activityIndicator)
     })
     
     init(
@@ -40,8 +40,9 @@ final class UserViewModel: ViewModel {
         //        userResponse = Observable.of(getButton, clearButton).merge().map { _ in
         //            return self.getUser()
         //        }
-        clearButtonTapped.flatMapLatest {
+        clearButtonTapped.flatMapLatest { _ in
             self.userService.asyncDeleteValue(forType: User.self)
-            }.subscribe(onError: { print("Error deleting from cache: \($0)") }, onCompleted: { print("Finished deleting from cache") }).disposed(by: bag)
+        }
+        .subscribe(onError: { print("Error deleting from cache: \($0)") }, onCompleted: { print("Finished deleting from cache") }).disposed(by: bag)
     }
 }

@@ -8,9 +8,10 @@
 
 import Foundation
 enum MyError: Error, Equatable {
-    case invalidOptions
     case cacheEmpty
     case cacheNoKey
     case cacheSaving
     case httpError
+    
+    case test
 }

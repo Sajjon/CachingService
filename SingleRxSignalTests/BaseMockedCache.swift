@@ -8,6 +8,7 @@
 
 import Foundation
 @testable import SingleRxSignal
+import SwiftyBeaver
 
 class BaseMockedCache<Value: Codable & Equatable> {
     var cachedEvent: MockedEvent<Value>
@@ -30,25 +31,28 @@ extension BaseMockedCache {
 
 //MARK: - AsyncCache Methods
 extension BaseMockedCache: AsyncCache {
-    func save<_Value>(value: _Value, for key: Key) throws where _Value: Codable {
-        print("mocking saving")
+    func saveOrDelete<_Value>(optional: _Value?, for key: Key) throws where _Value: Codable {
+        log.error("Start")
         guard mockedSavingError == nil else { throw mockedSavingError! }
-        let cachedValue: Value = (value as! Value)
-        cachedEvent = MockedEvent(cachedValue)
+        if let value = optional {
+            let cachedValue: Value = (value as! Value)
+            cachedEvent = MockedEvent(cachedValue)
+        } else {
+            cachedEvent = .empty
+        }
     }
     
     func loadValue<_Value>(for key: Key) -> _Value? where _Value: Codable {
-        print("mocking loading")
+        log.error("Start")
         guard let cachedValue = mockedValue else { return nil }
         let casted: _Value = cachedValue as! _Value
         return casted
     }
     
     func hasValue(for key: Key) -> Bool { return mockedValue != nil }
-    
-    func deleteValue<_Value>(for key: Key) -> _Value? where _Value: Codable {
-        defer { cachedEvent = .empty }
-        let casted: _Value = mockedValue as! _Value
-        return casted
+
+    func deleteValue(for key: Key) {
+        log.error("Start")
+        cachedEvent = .empty
     }
 }
