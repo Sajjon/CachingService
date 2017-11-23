@@ -31,15 +31,11 @@ extension BaseMockedCache {
 
 //MARK: - AsyncCache Methods
 extension BaseMockedCache: AsyncCache {
-    func saveOrDelete<_Value>(optional: _Value?, for key: Key) throws where _Value: Codable {
+    func save<_Value>(value: _Value, for key: Key) throws where _Value: Codable {
         log.error("Start")
         guard mockedSavingError == nil else { throw mockedSavingError! }
-        if let value = optional {
-            let cachedValue: Value = (value as! Value)
-            cachedEvent = MockedEvent(cachedValue)
-        } else {
-            cachedEvent = .empty
-        }
+        let cachedValue: Value = (value as! Value)
+        cachedEvent = MockedEvent(cachedValue)
     }
     
     func loadValue<_Value>(for key: Key) -> _Value? where _Value: Codable {

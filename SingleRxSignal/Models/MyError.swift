@@ -7,11 +7,12 @@
 //
 
 import Foundation
+
 enum MyError: Error, Equatable {
     case cacheEmpty
     case cacheNoKey
     case cacheSaving
     case httpError
-    
+    case badUrl
     case test
 }

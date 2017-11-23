@@ -11,16 +11,39 @@ import RxSwift
 import RxOptional
 
 protocol Cache {
-    func saveOrDelete<Value>(optional: Value?, for key: Key) throws where Value: Codable
+    func save<Value>(value: Value, for key: Key) throws where Value: Codable
     func deleteValue(for key: Key)
+
     func loadValue<Value>(for key: Key) -> Value? where Value: Codable
     func hasValue(for key: Key) -> Bool
 }
 
+extension Cache {
+    func saveOrDelete<Value>(optional: Value?, for key: Key) throws where Value: Codable {
+        if let value = optional {
+           try save(value: value, for: key)
+        } else {
+            deleteValue(for: key)
+        }
+    }
+}
+
 protocol AsyncCache: Cache {
-    func asyncSaveOrDelete<Value>(optional: Value?, for key: Key, done: Done<Void>?) where Value: Codable
+    func asyncSave<Value>(value: Value, for key: Key, done: Done<Void>?) where Value: Codable
+    func asyncDelete(for key: Key, done: Done<Void>?)
+
     func asyncLoadValue<Value>(for key: Key, done: Done<Value?>?) where Value: Codable
     func asyncHasValue(for key: Key, done: Done<Bool>?)
+}
+
+extension AsyncCache {
+    func asyncSaveOrDelete<Value>(optional: Value?, for key: Key, done: Done<Void>?) where Value: Codable {
+        if let value = optional {
+            asyncSave(value: value, for: key, done: done)
+        } else {
+            asyncDelete(for: key, done: done)
+        }
+    }
 }
 
 extension UserDefaults: AsyncCache {}
@@ -36,15 +59,11 @@ extension String: Key {
 
 //MARK: - Caching
 extension UserDefaults {
-    func saveOrDelete<Value>(optional: Value?, for key: Key) throws where Value: Codable {
+    func save<Value>(value: Value, for key: Key) throws where Value: Codable {
         threadTimePrint("Cache: saving...")
         simulateCacheDelay()
-        if let value = optional {
-            let data = try JSONEncoder().encode([value])
-            set(data, forKey: key.identifier)
-        } else {
-            setValue(nil, forKey: key.identifier)
-        }
+        let data = try JSONEncoder().encode([value])
+        set(data, forKey: key.identifier)
     }
     
     func loadValue<Value>(for key: Key) -> Value? where Value: Codable {
@@ -72,17 +91,26 @@ extension UserDefaults {
 
 extension AsyncCache {
     
-    func asyncSaveOrDelete<Value>(optional: Value?, for key: Key, done: Done<Void>?) where Value: Codable {
+    func asyncSave<Value>(value: Value, for key: Key, done: Done<Void>?) where Value: Codable {
         DispatchQueue.global(qos: .userInitiated).async {
             let result: Result<Void>
             do {
-                try self.saveOrDelete(optional: optional, for: key)
+                try self.save(value: value, for: key)
                 result = .success(void)
             } catch {
                 result = .error(MyError.cacheSaving)
             }
             DispatchQueue.main.async {
                 done?(result)
+            }
+        }
+    }
+    
+    func asyncDelete(for key: Key, done: Done<Void>?) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.deleteValue(for: key)
+            DispatchQueue.main.async {
+                done?(Result.success(void))
             }
         }
     }

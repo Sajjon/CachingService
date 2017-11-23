@@ -1,5 +1,5 @@
 //
-//  SingleRxSignalTests.swift
+//  CachingServiceTests.swift
 //  SingleRxSignalTests
 //
 //  Created by Alexander Cyon on 2017-10-28.
@@ -44,7 +44,7 @@ extension MockedPersistingIntegerService {
     }
 }
 
-final class SingleRxSignalTests: XCTestCase {
+final class CachingServiceTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

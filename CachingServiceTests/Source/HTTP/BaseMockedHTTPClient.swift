@@ -25,10 +25,9 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
         self.delay = delay
     }
 }
-
 extension BaseMockedHTTPClient: HTTPClientProtocol {
-    func makeRequest<C>() -> Observable<C?> where C: Codable {
-        log.verbose("Start")
+    func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable {
+        log.verbose("Start, mocked request against path: `\(router.path)`")
         return Observable.create { observer in
             switch self.mockedEvent {
             case .error(let error):
@@ -41,7 +40,7 @@ extension BaseMockedHTTPClient: HTTPClientProtocol {
                 observer.onCompleted()
             }
             return Disposables.create()
-        }.delay(delay, scheduler: MainScheduler.instance)
+            }.delay(delay, scheduler: MainScheduler.instance)
     }
 }
 

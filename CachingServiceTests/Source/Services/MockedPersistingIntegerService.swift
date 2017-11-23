@@ -10,7 +10,7 @@ import Foundation
 @testable import SingleRxSignal
 import RxSwift
 
-final class MockedPersistingIntegerService: IntegerServiceProtocol {
+final class MockedPersistingIntegerService {
     let mockedIntegerCache: MockedCacheForInteger
     let mockedIntegerHTTPClient: MockedIntegerHTTPClient
     
@@ -18,17 +18,19 @@ final class MockedPersistingIntegerService: IntegerServiceProtocol {
         self.mockedIntegerHTTPClient = httpClient
         self.mockedIntegerCache = cache
     }
+}
+
+extension MockedPersistingIntegerService: IntegerServiceProtocol {
+    var httpClient: HTTPClientProtocol { return mockedIntegerHTTPClient }
     
     func getInteger(fetchFrom: FetchFrom) -> Observable<Int> {
-        return get(fetchFrom: fetchFrom)
+        return get(router: TestRouter.integer, fetchFrom: fetchFrom)
     }
 }
 
 extension MockedPersistingIntegerService: Persisting {
     var cache: AsyncCache { return mockedIntegerCache }
-    var httpClient: HTTPClientProtocol { return mockedIntegerHTTPClient }
 }
-
 
 extension MockedPersistingIntegerService {
     convenience init(mocked: ExpectedIntegerResult) {

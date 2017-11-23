@@ -12,11 +12,12 @@ import RxSwift
 struct HTTPClient: HTTPClientProtocol {}
 
 protocol HTTPClientProtocol {
-    func makeRequest<C>() -> Observable<C?> where C: Codable
+    func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable
 }
 
 extension HTTPClientProtocol {
-    func makeRequest<C>() -> Observable<C?> where C: Codable {
+    func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable {
+        log.warning("Should do request towards: `\(router.path)`, but mocked response instead")
         return Observable.create { observer in
             self.makeRequestOnBackground { (model: C?, error: MyError?) in
                 defer { observer.onCompleted() }

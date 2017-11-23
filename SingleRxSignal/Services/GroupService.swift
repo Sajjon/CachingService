@@ -14,9 +14,17 @@ protocol GroupServiceProtocol: Service {
 }
 
 final class GroupService: GroupServiceProtocol {
-    let httpClient: HTTPClientProtocol = HTTPClient()
+    typealias Router = GroupRouter
+    
+    let httpClient: HTTPClientProtocol
+    
+    init(httpClient: HTTPClientProtocol) {
+        self.httpClient = httpClient
+    }
+    
     func getGroup(fetchFrom: FetchFrom = .default) -> Observable<Group> {
-        return get(fetchFrom: fetchFrom)
+        log.info("GETTING GROUP")
+        return get(router: Router.group, fetchFrom: fetchFrom)
     }
 }
 

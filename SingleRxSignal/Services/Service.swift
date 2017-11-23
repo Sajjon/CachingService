@@ -12,15 +12,14 @@ import RxOptional
 
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
-    
-    func get<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable
+    func get<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C> where C: Codable
 }
 
 extension Service {
-    func get<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+    func get<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
         log.verbose("Start")
         let cacheSignal: Observable<C> = loadFromCacheIfAbleTo(fetchFrom: fetchFrom)
-        let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(fetchFrom: fetchFrom)
+        let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(router: router, fetchFrom: fetchFrom)
         return cacheSignal.concat(httpSignal)
     }
 }
@@ -28,9 +27,9 @@ extension Service {
 //MARK: - Private Methods
 private extension Service {
     
-    func fetchFromBackendAndCacheIfAbleTo<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+    func fetchFromBackendAndCacheIfAbleTo<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
         log.error("Start")
-        return fetchFromBackend(fetchFrom: fetchFrom)
+        return fetchFromBackend(router: router, fetchFrom: fetchFrom)
             .catchError { self.handleError($0, fetchFrom: fetchFrom) }
             .flatMap { self.saveToOrDeleteInCacheIfAbleTo($0, fetchFrom: fetchFrom) }
             .filterNil()
@@ -38,10 +37,10 @@ private extension Service {
             .do(onNext: { log.verbose("Got: \($0)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.info("onCompleted") })
     }
     
-    func fetchFromBackend<C>(fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
+    func fetchFromBackend<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
         log.error("Start")
         guard fetchFrom.shouldFetchFromBackend else { log.info("Prevented fetch from backend"); return .empty() }
-        return httpClient.makeRequest()
+        return httpClient.makeRequest(router: router)
             .do(onNext: { var s = "empty"; if let d = $0 { s = "\(d)" }; log.verbose("HTTP response: \(s)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.info("onCompleted") })
     }
     

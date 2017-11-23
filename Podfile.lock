@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.5.1)
   - RxBlocking (4.0.0):
     - RxSwift (~> 4.0)
   - RxCocoa (4.0.0):
@@ -20,6 +21,7 @@ PODS:
     - Sourcery (> 0.8)
 
 DEPENDENCIES:
+  - Alamofire
   - RxBlocking
   - RxOptional
   - RxSwift
@@ -31,6 +33,7 @@ DEPENDENCIES:
   - ViewComposer
 
 SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   RxBlocking: 923c2c8106d80d7c2d6b276afd66ce3b10824836
   RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
@@ -43,6 +46,6 @@ SPEC CHECKSUMS:
   TinyConstraints: 77cb4735982941687268bb6f324badd0ae29ad46
   ViewComposer: 13f3e3fdbeebc04ea66dccc32c899c90be038c2c
 
-PODFILE CHECKSUM: f2a6b54a1f08af7158c89de480e0b6ea3f89dcb2
+PODFILE CHECKSUM: be463054a596f147c48fff029a645fdc0e620e41
 
 COCOAPODS: 1.3.1

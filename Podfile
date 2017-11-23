@@ -9,6 +9,7 @@ pod 'RxOptional'
 pod 'Swinject'
 pod 'RxViewController'
 pod 'SwiftyBeaver'
+pod 'Alamofire'
 
 target 'SingleRxSignal' do
 

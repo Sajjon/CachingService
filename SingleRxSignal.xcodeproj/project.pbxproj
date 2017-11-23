@@ -7,24 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		480267E11FBC617400EFEEF5 /* SingleRxSignalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A7599C1FA4E5DF00160897 /* SingleRxSignalTests.swift */; };
 		4845F3E21FB45C91004A0261 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E11FB45C91004A0261 /* Cache.swift */; };
 		4845F3E41FB45CA6004A0261 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E31FB45CA6004A0261 /* Service.swift */; };
 		4845F3E61FB45CC2004A0261 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E51FB45CC2004A0261 /* Random.swift */; };
 		4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */; };
 		4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E91FB45CE1004A0261 /* MyError.swift */; };
 		4845F3EC1FB45CEE004A0261 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3EB1FB45CEE004A0261 /* Models.swift */; };
-		48679CDC1FBC8036004A9E20 /* Int+StaticKeyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CDB1FBC8036004A9E20 /* Int+StaticKeyConvertible.swift */; };
-		48679CDE1FBC8047004A9E20 /* BaseMockedHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CDD1FBC8047004A9E20 /* BaseMockedHTTPClient.swift */; };
-		48679CE01FBC8054004A9E20 /* MockedIntegerHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CDF1FBC8054004A9E20 /* MockedIntegerHTTPClient.swift */; };
-		48679CE21FBC806A004A9E20 /* IntegerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CE11FBC806A004A9E20 /* IntegerServiceProtocol.swift */; };
-		48679CE41FBC8076004A9E20 /* MockedPersistingIntegerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CE31FBC8076004A9E20 /* MockedPersistingIntegerService.swift */; };
-		48679CE61FBC8084004A9E20 /* BaseMockedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CE51FBC8084004A9E20 /* BaseMockedCache.swift */; };
-		48679CE81FBC8090004A9E20 /* MockedCacheForInteger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CE71FBC8090004A9E20 /* MockedCacheForInteger.swift */; };
-		48679CEA1FBC809C004A9E20 /* BaseExpectedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CE91FBC809C004A9E20 /* BaseExpectedResult.swift */; };
-		48679CEC1FBC80AB004A9E20 /* ExpectedIntegerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CEB1FBC80AB004A9E20 /* ExpectedIntegerResult.swift */; };
-		48679CEE1FBC837D004A9E20 /* Int+Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CED1FBC837D004A9E20 /* Int+Times.swift */; };
-		48679CF01FBCC6E0004A9E20 /* MockedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CEF1FBCC6E0004A9E20 /* MockedEvent.swift */; };
 		48679CF21FBDA710004A9E20 /* SimulatedDelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF11FBDA710004A9E20 /* SimulatedDelay.swift */; };
 		48679CF41FBDA724004A9E20 /* Codable_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF31FBDA724004A9E20 /* Codable_Extension.swift */; };
 		48679CF61FBDA759004A9E20 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF51FBDA759004A9E20 /* ViewModel.swift */; };
@@ -45,6 +33,25 @@
 		48A759921FA4E5DF00160897 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48A759901FA4E5DF00160897 /* LaunchScreen.storyboard */; };
 		48F33F6B1FC71371001AF2BB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F6A1FC71371001AF2BB /* UserService.swift */; };
 		48F33F6D1FC7139D001AF2BB /* GroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F6C1FC7139D001AF2BB /* GroupService.swift */; };
+		48F33F731FC724C8001AF2BB /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F721FC724C8001AF2BB /* Router.swift */; };
+		48F33F751FC73056001AF2BB /* GroupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F741FC73056001AF2BB /* GroupRouter.swift */; };
+		48F33F771FC730B9001AF2BB /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F761FC730B9001AF2BB /* UserRouter.swift */; };
+		48F33FBE1FC7338C001AF2BB /* MockedCacheForInteger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FA71FC7338C001AF2BB /* MockedCacheForInteger.swift */; };
+		48F33FBF1FC7338C001AF2BB /* BaseMockedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FA81FC7338C001AF2BB /* BaseMockedCache.swift */; };
+		48F33FC01FC7338C001AF2BB /* BaseExpectedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FAA1FC7338C001AF2BB /* BaseExpectedResult.swift */; };
+		48F33FC11FC7338C001AF2BB /* MockedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FAB1FC7338C001AF2BB /* MockedEvent.swift */; };
+		48F33FC21FC7338C001AF2BB /* ExpectedIntegerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FAC1FC7338C001AF2BB /* ExpectedIntegerResult.swift */; };
+		48F33FC31FC7338C001AF2BB /* Int+StaticKeyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FAE1FC7338C001AF2BB /* Int+StaticKeyConvertible.swift */; };
+		48F33FC41FC7338C001AF2BB /* Int+Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FAF1FC7338C001AF2BB /* Int+Times.swift */; };
+		48F33FC51FC7338C001AF2BB /* BaseMockedHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FB11FC7338C001AF2BB /* BaseMockedHTTPClient.swift */; };
+		48F33FC61FC7338C001AF2BB /* MockedIntegerHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FB21FC7338C001AF2BB /* MockedIntegerHTTPClient.swift */; };
+		48F33FC71FC7338C001AF2BB /* CachingServiceTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48F33FB41FC7338C001AF2BB /* CachingServiceTests-Info.plist */; };
+		48F33FC81FC7338C001AF2BB /* MockedPersistingIntegerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FB61FC7338C001AF2BB /* MockedPersistingIntegerService.swift */; };
+		48F33FC91FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FB71FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift */; };
+		48F33FCA1FC7338C001AF2BB /* IntegerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FB81FC7338C001AF2BB /* IntegerServiceProtocol.swift */; };
+		48F33FCB1FC7338C001AF2BB /* TestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FBA1FC7338C001AF2BB /* TestRouter.swift */; };
+		48F33FCC1FC7338C001AF2BB /* NonCachingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FBC1FC7338C001AF2BB /* NonCachingServiceTests.swift */; };
+		48F33FCD1FC7338C001AF2BB /* CachingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33FBD1FC7338C001AF2BB /* CachingServiceTests.swift */; };
 		99CAAF42EAAB24F3776B82E9 /* Pods_SingleRxSignalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88FE2DC10A7B2A0396F29481 /* Pods_SingleRxSignalTests.framework */; };
 		9BBC1651892FF2DD09FA0CBE /* Pods_SingleRxSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEDF2A194575619E303788F /* Pods_SingleRxSignal.framework */; };
 /* End PBXBuildFile section */
@@ -70,17 +77,6 @@
 		4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverOptions.swift; sourceTree = "<group>"; };
 		4845F3E91FB45CE1004A0261 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		4845F3EB1FB45CEE004A0261 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		48679CDB1FBC8036004A9E20 /* Int+StaticKeyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+StaticKeyConvertible.swift"; sourceTree = "<group>"; };
-		48679CDD1FBC8047004A9E20 /* BaseMockedHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMockedHTTPClient.swift; sourceTree = "<group>"; };
-		48679CDF1FBC8054004A9E20 /* MockedIntegerHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedIntegerHTTPClient.swift; sourceTree = "<group>"; };
-		48679CE11FBC806A004A9E20 /* IntegerServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegerServiceProtocol.swift; sourceTree = "<group>"; };
-		48679CE31FBC8076004A9E20 /* MockedPersistingIntegerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedPersistingIntegerService.swift; sourceTree = "<group>"; };
-		48679CE51FBC8084004A9E20 /* BaseMockedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseMockedCache.swift; sourceTree = "<group>"; };
-		48679CE71FBC8090004A9E20 /* MockedCacheForInteger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedCacheForInteger.swift; sourceTree = "<group>"; };
-		48679CE91FBC809C004A9E20 /* BaseExpectedResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseExpectedResult.swift; sourceTree = "<group>"; };
-		48679CEB1FBC80AB004A9E20 /* ExpectedIntegerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpectedIntegerResult.swift; sourceTree = "<group>"; };
-		48679CED1FBC837D004A9E20 /* Int+Times.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Times.swift"; sourceTree = "<group>"; };
-		48679CEF1FBCC6E0004A9E20 /* MockedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedEvent.swift; sourceTree = "<group>"; };
 		48679CF11FBDA710004A9E20 /* SimulatedDelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatedDelay.swift; sourceTree = "<group>"; };
 		48679CF31FBDA724004A9E20 /* Codable_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codable_Extension.swift; sourceTree = "<group>"; };
 		48679CF51FBDA759004A9E20 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -95,8 +91,6 @@
 		48699B631FB5D89700D15F25 /* TimeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeString.swift; sourceTree = "<group>"; };
 		486E665E1FBC49B600D46E04 /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
 		488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AbstractViewController+Retaining.swift"; sourceTree = "<group>"; };
-		48A2EDC71FBC666100647963 /* SingleRxSignalUITests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SingleRxSignalUITests copy-Info.plist"; path = "/Users/sajjon/Developer/Swift/iOS/Experimenting/SingleRxSignal/SingleRxSignalUITests copy-Info.plist"; sourceTree = "<absolute>"; };
-		48A2EDD31FBC666900647963 /* SingleRxSignalUITests copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SingleRxSignalUITests copy2-Info.plist"; path = "/Users/sajjon/Developer/Swift/iOS/Experimenting/SingleRxSignal/SingleRxSignalUITests copy2-Info.plist"; sourceTree = "<absolute>"; };
 		48A6EE921FBC607600DA4672 /* SingleRxSignalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleRxSignalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759841FA4E5DE00160897 /* SingleRxSignal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleRxSignal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759871FA4E5DF00160897 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,10 +98,27 @@
 		48A7598E1FA4E5DF00160897 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48A759911FA4E5DF00160897 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48A759931FA4E5DF00160897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		48A7599C1FA4E5DF00160897 /* SingleRxSignalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRxSignalTests.swift; sourceTree = "<group>"; };
-		48A7599E1FA4E5DF00160897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48F33F6A1FC71371001AF2BB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		48F33F6C1FC7139D001AF2BB /* GroupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupService.swift; sourceTree = "<group>"; };
+		48F33F721FC724C8001AF2BB /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		48F33F741FC73056001AF2BB /* GroupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRouter.swift; sourceTree = "<group>"; };
+		48F33F761FC730B9001AF2BB /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
+		48F33FA71FC7338C001AF2BB /* MockedCacheForInteger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockedCacheForInteger.swift; sourceTree = "<group>"; };
+		48F33FA81FC7338C001AF2BB /* BaseMockedCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMockedCache.swift; sourceTree = "<group>"; };
+		48F33FAA1FC7338C001AF2BB /* BaseExpectedResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseExpectedResult.swift; sourceTree = "<group>"; };
+		48F33FAB1FC7338C001AF2BB /* MockedEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockedEvent.swift; sourceTree = "<group>"; };
+		48F33FAC1FC7338C001AF2BB /* ExpectedIntegerResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpectedIntegerResult.swift; sourceTree = "<group>"; };
+		48F33FAE1FC7338C001AF2BB /* Int+StaticKeyConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+StaticKeyConvertible.swift"; sourceTree = "<group>"; };
+		48F33FAF1FC7338C001AF2BB /* Int+Times.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Times.swift"; sourceTree = "<group>"; };
+		48F33FB11FC7338C001AF2BB /* BaseMockedHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMockedHTTPClient.swift; sourceTree = "<group>"; };
+		48F33FB21FC7338C001AF2BB /* MockedIntegerHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockedIntegerHTTPClient.swift; sourceTree = "<group>"; };
+		48F33FB41FC7338C001AF2BB /* CachingServiceTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CachingServiceTests-Info.plist"; sourceTree = "<group>"; };
+		48F33FB61FC7338C001AF2BB /* MockedPersistingIntegerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockedPersistingIntegerService.swift; sourceTree = "<group>"; };
+		48F33FB71FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockedNonPersistingIntegerService.swift; sourceTree = "<group>"; };
+		48F33FB81FC7338C001AF2BB /* IntegerServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerServiceProtocol.swift; sourceTree = "<group>"; };
+		48F33FBA1FC7338C001AF2BB /* TestRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestRouter.swift; sourceTree = "<group>"; };
+		48F33FBC1FC7338C001AF2BB /* NonCachingServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonCachingServiceTests.swift; sourceTree = "<group>"; };
+		48F33FBD1FC7338C001AF2BB /* CachingServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingServiceTests.swift; sourceTree = "<group>"; };
 		88FE2DC10A7B2A0396F29481 /* Pods_SingleRxSignalTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SingleRxSignalTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CB73A063232C712A6AE4C5 /* Pods-SingleRxSignalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SingleRxSignalTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SingleRxSignalTests/Pods-SingleRxSignalTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACEDF2A194575619E303788F /* Pods_SingleRxSignal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SingleRxSignal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,13 +157,11 @@
 		48A7597B1FA4E5DE00160897 = {
 			isa = PBXGroup;
 			children = (
+				48F33FA41FC7338C001AF2BB /* CachingServiceTests */,
 				48A759861FA4E5DE00160897 /* SingleRxSignal */,
-				48A7599B1FA4E5DF00160897 /* SingleRxSignalTests */,
 				48A759851FA4E5DE00160897 /* Products */,
 				C137615CAF8FD47F91DB1E39 /* Pods */,
 				3C3CC09188F756B5605DF273 /* Frameworks */,
-				48A2EDC71FBC666100647963 /* SingleRxSignalUITests copy-Info.plist */,
-				48A2EDD31FBC666900647963 /* SingleRxSignalUITests copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,24 +195,99 @@
 			path = SingleRxSignal;
 			sourceTree = "<group>";
 		};
-		48A7599B1FA4E5DF00160897 /* SingleRxSignalTests */ = {
+		48F33FA41FC7338C001AF2BB /* CachingServiceTests */ = {
 			isa = PBXGroup;
 			children = (
-				48A7599C1FA4E5DF00160897 /* SingleRxSignalTests.swift */,
-				48A7599E1FA4E5DF00160897 /* Info.plist */,
-				48679CDB1FBC8036004A9E20 /* Int+StaticKeyConvertible.swift */,
-				48679CDD1FBC8047004A9E20 /* BaseMockedHTTPClient.swift */,
-				48679CDF1FBC8054004A9E20 /* MockedIntegerHTTPClient.swift */,
-				48679CE11FBC806A004A9E20 /* IntegerServiceProtocol.swift */,
-				48679CE31FBC8076004A9E20 /* MockedPersistingIntegerService.swift */,
-				48679CE51FBC8084004A9E20 /* BaseMockedCache.swift */,
-				48679CE71FBC8090004A9E20 /* MockedCacheForInteger.swift */,
-				48679CE91FBC809C004A9E20 /* BaseExpectedResult.swift */,
-				48679CEB1FBC80AB004A9E20 /* ExpectedIntegerResult.swift */,
-				48679CED1FBC837D004A9E20 /* Int+Times.swift */,
-				48679CEF1FBCC6E0004A9E20 /* MockedEvent.swift */,
+				48F33FA51FC7338C001AF2BB /* Source */,
+				48F33FBB1FC7338C001AF2BB /* Tests */,
 			);
-			path = SingleRxSignalTests;
+			path = CachingServiceTests;
+			sourceTree = "<group>";
+		};
+		48F33FA51FC7338C001AF2BB /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FA61FC7338C001AF2BB /* Cache */,
+				48F33FA91FC7338C001AF2BB /* Models */,
+				48F33FAD1FC7338C001AF2BB /* Extensions */,
+				48F33FB01FC7338C001AF2BB /* HTTP */,
+				48F33FB31FC7338C001AF2BB /* SupportingFiles */,
+				48F33FB51FC7338C001AF2BB /* Services */,
+				48F33FB91FC7338C001AF2BB /* Router */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		48F33FA61FC7338C001AF2BB /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FA71FC7338C001AF2BB /* MockedCacheForInteger.swift */,
+				48F33FA81FC7338C001AF2BB /* BaseMockedCache.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		48F33FA91FC7338C001AF2BB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FAA1FC7338C001AF2BB /* BaseExpectedResult.swift */,
+				48F33FAB1FC7338C001AF2BB /* MockedEvent.swift */,
+				48F33FAC1FC7338C001AF2BB /* ExpectedIntegerResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		48F33FAD1FC7338C001AF2BB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FAE1FC7338C001AF2BB /* Int+StaticKeyConvertible.swift */,
+				48F33FAF1FC7338C001AF2BB /* Int+Times.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		48F33FB01FC7338C001AF2BB /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FB11FC7338C001AF2BB /* BaseMockedHTTPClient.swift */,
+				48F33FB21FC7338C001AF2BB /* MockedIntegerHTTPClient.swift */,
+			);
+			path = HTTP;
+			sourceTree = "<group>";
+		};
+		48F33FB31FC7338C001AF2BB /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FB41FC7338C001AF2BB /* CachingServiceTests-Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		48F33FB51FC7338C001AF2BB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FB61FC7338C001AF2BB /* MockedPersistingIntegerService.swift */,
+				48F33FB71FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift */,
+				48F33FB81FC7338C001AF2BB /* IntegerServiceProtocol.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		48F33FB91FC7338C001AF2BB /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FBA1FC7338C001AF2BB /* TestRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		48F33FBB1FC7338C001AF2BB /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				48F33FBC1FC7338C001AF2BB /* NonCachingServiceTests.swift */,
+				48F33FBD1FC7338C001AF2BB /* CachingServiceTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C137615CAF8FD47F91DB1E39 /* Pods */ = {
@@ -226,6 +310,9 @@
 				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
 				48F33F6A1FC71371001AF2BB /* UserService.swift */,
 				48F33F6C1FC7139D001AF2BB /* GroupService.swift */,
+				48F33F721FC724C8001AF2BB /* Router.swift */,
+				48F33F741FC73056001AF2BB /* GroupRouter.swift */,
+				48F33F761FC730B9001AF2BB /* UserRouter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -375,6 +462,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48F33FC71FC7338C001AF2BB /* CachingServiceTests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +537,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SingleRxSignal/Pods-SingleRxSignal-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -460,6 +549,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -517,18 +607,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48679CE41FBC8076004A9E20 /* MockedPersistingIntegerService.swift in Sources */,
-				48679CDC1FBC8036004A9E20 /* Int+StaticKeyConvertible.swift in Sources */,
-				48679CE61FBC8084004A9E20 /* BaseMockedCache.swift in Sources */,
-				48679CDE1FBC8047004A9E20 /* BaseMockedHTTPClient.swift in Sources */,
-				480267E11FBC617400EFEEF5 /* SingleRxSignalTests.swift in Sources */,
-				48679CEE1FBC837D004A9E20 /* Int+Times.swift in Sources */,
-				48679CF01FBCC6E0004A9E20 /* MockedEvent.swift in Sources */,
-				48679CEC1FBC80AB004A9E20 /* ExpectedIntegerResult.swift in Sources */,
-				48679CE21FBC806A004A9E20 /* IntegerServiceProtocol.swift in Sources */,
-				48679CEA1FBC809C004A9E20 /* BaseExpectedResult.swift in Sources */,
-				48679CE81FBC8090004A9E20 /* MockedCacheForInteger.swift in Sources */,
-				48679CE01FBC8054004A9E20 /* MockedIntegerHTTPClient.swift in Sources */,
+				48F33FBF1FC7338C001AF2BB /* BaseMockedCache.swift in Sources */,
+				48F33FC81FC7338C001AF2BB /* MockedPersistingIntegerService.swift in Sources */,
+				48F33FC11FC7338C001AF2BB /* MockedEvent.swift in Sources */,
+				48F33FC91FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift in Sources */,
+				48F33FCA1FC7338C001AF2BB /* IntegerServiceProtocol.swift in Sources */,
+				48F33FC51FC7338C001AF2BB /* BaseMockedHTTPClient.swift in Sources */,
+				48F33FC61FC7338C001AF2BB /* MockedIntegerHTTPClient.swift in Sources */,
+				48F33FCC1FC7338C001AF2BB /* NonCachingServiceTests.swift in Sources */,
+				48F33FC01FC7338C001AF2BB /* BaseExpectedResult.swift in Sources */,
+				48F33FC31FC7338C001AF2BB /* Int+StaticKeyConvertible.swift in Sources */,
+				48F33FCD1FC7338C001AF2BB /* CachingServiceTests.swift in Sources */,
+				48F33FCB1FC7338C001AF2BB /* TestRouter.swift in Sources */,
+				48F33FC41FC7338C001AF2BB /* Int+Times.swift in Sources */,
+				48F33FC21FC7338C001AF2BB /* ExpectedIntegerResult.swift in Sources */,
+				48F33FBE1FC7338C001AF2BB /* MockedCacheForInteger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +631,7 @@
 			files = (
 				48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */,
 				48699B641FB5D89700D15F25 /* TimeString.swift in Sources */,
+				48F33F731FC724C8001AF2BB /* Router.swift in Sources */,
 				48679CF21FBDA710004A9E20 /* SimulatedDelay.swift in Sources */,
 				48679CF41FBDA724004A9E20 /* Codable_Extension.swift in Sources */,
 				4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */,
@@ -557,6 +651,8 @@
 				48679D001FBDB14B004A9E20 /* MenuViewController.swift in Sources */,
 				48F33F6D1FC7139D001AF2BB /* GroupService.swift in Sources */,
 				48679CFC1FBDA7A8004A9E20 /* Presenter.swift in Sources */,
+				48F33F771FC730B9001AF2BB /* UserRouter.swift in Sources */,
+				48F33F751FC73056001AF2BB /* GroupRouter.swift in Sources */,
 				4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */,
 				48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */,
 				48679CFE1FBDA7B9004A9E20 /* Presentable.swift in Sources */,
@@ -592,7 +688,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = SingleRxSignalTests/Info.plist;
+				INFOPLIST_FILE = "CachingServiceTests/Source/SupportingFiles/CachingServiceTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eberry.SingleRxSignalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -610,7 +706,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = SingleRxSignalTests/Info.plist;
+				INFOPLIST_FILE = "CachingServiceTests/Source/SupportingFiles/CachingServiceTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eberry.SingleRxSignalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

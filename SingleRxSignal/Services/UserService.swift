@@ -8,13 +8,13 @@
 
 import Foundation
 import RxSwift
-import SwiftyBeaver
 
 protocol UserServiceProtocol: Service, Persisting {
     func getUser(fetchFrom: FetchFrom) -> Observable<User>
 }
 
 final class UserService: UserServiceProtocol {
+    typealias Router = UserRouter
     
     let httpClient: HTTPClientProtocol
     let cache: AsyncCache
@@ -26,6 +26,6 @@ final class UserService: UserServiceProtocol {
     
     func getUser(fetchFrom: FetchFrom = .default) -> Observable<User> {
         log.info("GETTING USER")
-        return get(fetchFrom: fetchFrom)
+        return get(router: Router.user, fetchFrom: fetchFrom)
     }
 }
