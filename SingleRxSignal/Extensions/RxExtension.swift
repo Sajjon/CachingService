@@ -10,16 +10,11 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-extension Observable {
-    func flatMap(emitNextEventBeforeMap emitNextEvent: Bool, mapping: @escaping (E) -> Observable<E>) -> Observable<E> {
-        return flatMap { (intermediate: E) -> Observable<E> in
-            let mapped = mapping(intermediate)
-            guard emitNextEvent else { return mapped }
-            return .merge([.of(intermediate), mapped])
-        }
+public extension ObservableType {
+    func filter(include condition: Bool) -> RxSwift.Observable<Self.E> {
+        return self.filter { _ in return condition }
     }
 }
-
 
 private struct ActivityToken<E> : ObservableConvertibleType, Disposable {
     private let _source: Observable<E>

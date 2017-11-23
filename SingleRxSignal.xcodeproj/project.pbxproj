@@ -43,6 +43,8 @@
 		48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759891FA4E5DF00160897 /* UserViewController.swift */; };
 		48A7598F1FA4E5DF00160897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598E1FA4E5DF00160897 /* Assets.xcassets */; };
 		48A759921FA4E5DF00160897 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48A759901FA4E5DF00160897 /* LaunchScreen.storyboard */; };
+		48F33F6B1FC71371001AF2BB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F6A1FC71371001AF2BB /* UserService.swift */; };
+		48F33F6D1FC7139D001AF2BB /* GroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F33F6C1FC7139D001AF2BB /* GroupService.swift */; };
 		99CAAF42EAAB24F3776B82E9 /* Pods_SingleRxSignalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88FE2DC10A7B2A0396F29481 /* Pods_SingleRxSignalTests.framework */; };
 		9BBC1651892FF2DD09FA0CBE /* Pods_SingleRxSignal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEDF2A194575619E303788F /* Pods_SingleRxSignal.framework */; };
 /* End PBXBuildFile section */
@@ -104,6 +106,8 @@
 		48A759931FA4E5DF00160897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48A7599C1FA4E5DF00160897 /* SingleRxSignalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRxSignalTests.swift; sourceTree = "<group>"; };
 		48A7599E1FA4E5DF00160897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48F33F6A1FC71371001AF2BB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		48F33F6C1FC7139D001AF2BB /* GroupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupService.swift; sourceTree = "<group>"; };
 		88FE2DC10A7B2A0396F29481 /* Pods_SingleRxSignalTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SingleRxSignalTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CB73A063232C712A6AE4C5 /* Pods-SingleRxSignalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SingleRxSignalTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SingleRxSignalTests/Pods-SingleRxSignalTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACEDF2A194575619E303788F /* Pods_SingleRxSignal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SingleRxSignal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +224,8 @@
 				48699B611FB5B08F00D15F25 /* HTTPClient.swift */,
 				4845F3E11FB45C91004A0261 /* Cache.swift */,
 				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
+				48F33F6A1FC71371001AF2BB /* UserService.swift */,
+				48F33F6C1FC7139D001AF2BB /* GroupService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -537,6 +543,7 @@
 				4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */,
 				4845F3E41FB45CA6004A0261 /* Service.swift in Sources */,
 				48679CF61FBDA759004A9E20 /* ViewModel.swift in Sources */,
+				48F33F6B1FC71371001AF2BB /* UserService.swift in Sources */,
 				48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */,
 				48679CF81FBDA769004A9E20 /* UserView.swift in Sources */,
 				4845F3EC1FB45CEE004A0261 /* Models.swift in Sources */,
@@ -548,6 +555,7 @@
 				4845F3E21FB45C91004A0261 /* Cache.swift in Sources */,
 				486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */,
 				48679D001FBDB14B004A9E20 /* MenuViewController.swift in Sources */,
+				48F33F6D1FC7139D001AF2BB /* GroupService.swift in Sources */,
 				48679CFC1FBDA7A8004A9E20 /* Presenter.swift in Sources */,
 				4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */,
 				48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */,
