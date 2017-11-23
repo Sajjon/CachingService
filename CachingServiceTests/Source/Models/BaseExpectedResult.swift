@@ -40,3 +40,13 @@ extension BaseExpectedResult {
         self.init(cacheEvent: MockedEvent(cached), httpEvent: MockedEvent(httpError))
     }
 }
+
+extension BaseExpectedResult {
+    func assertHTTPEquals(_ value: Value?) {
+        httpEvent.assertEquals(value)
+    }
+    
+    func assertCacheEquals(_ value: Value?) {
+        cacheEvent.assertEquals(value)
+    }
+}

@@ -12,39 +12,8 @@ import RxSwift
 import RxTest
 import RxBlocking
 
-extension MockedEvent {
-    func assertEquals(_ event: Value?) {
-        XCTAssertEqual(value, event)
-    }
-}
 
-extension BaseExpectedResult {
-    func assertHTTPEquals(_ value: Value?) {
-        httpEvent.assertEquals(value)
-    }
-    
-    func assertCacheEquals(_ value: Value?) {
-        cacheEvent.assertEquals(value)
-    }
-}
-
-extension MockedPersistingIntegerService {
-    func assertElements(_ fetchFrom: FetchFrom = .default) -> [Int] {
-        return materialized(fetchFrom).elements
-    }
-    
-    func materialized(_ fetchFrom: FetchFrom = .default) -> (elements: [Int], error: MyError?) {
-        switch getInteger(fetchFrom: fetchFrom).toBlocking().materialize() {
-        case .failed(let elements, let generalError):
-            guard let error = generalError as? MyError else { XCTFail("failed to cast error"); return ([Int](), nil) }
-            return (elements, error)
-        case .completed(let elements):
-            return (elements, nil)
-        }
-    }
-}
-
-final class CachingServiceTests: XCTestCase {
+final class CachingServiceTests: BaseTestCase {
     
     override func setUp() {
         super.setUp()
@@ -84,11 +53,6 @@ final class CachingServiceTests: XCTestCase {
         expected.assertCacheEquals(cacheValue)
         expected.assertHTTPEquals(httpValue)
     }
-    
-    let dontCare: Int? = nil
-    let empty: Int? = nil
-    let initialCache: Int = 42
-    let initialHttp: Int = 237
     
     func testDefaultRequestPermissionsCacheEmpty() {
         let expected = ExpectedIntegerResult(cached: empty, http: initialHttp)

@@ -8,6 +8,7 @@
 
 import Foundation
 @testable import SingleRxSignal
+import XCTest
 
 enum MockedEvent<Value: Codable & Equatable>: Equatable {
     case valueOrEmpty(ValueOrEmpty<Value>)
@@ -53,6 +54,13 @@ extension MockedEvent {
 extension MockedEvent {
     var value: Value? {
         return valueOrEmpty?.value
+    }
+}
+
+
+extension MockedEvent {
+    func assertEquals(_ event: Value?) {
+        XCTAssertEqual(value, event)
     }
 }
 
