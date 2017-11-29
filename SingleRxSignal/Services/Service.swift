@@ -13,8 +13,8 @@ import RxOptional
 extension Observable where Element: Collection, Element.Element: Filterable  {
 
     func filterValues(by filter: QueryConvertible) -> RxSwift.Observable<Element> {
-        let filtered: Observable<Element> = map { ($0 as! [Element.Element]).filtered(by: filter) as! Element }
-        return filtered.filter { !$0.isEmpty }
+        return map { ($0 as! [Element.Element]).filtered(by: filter) as! Element }
+            .filter { !$0.isEmpty }
     }
 }
 
