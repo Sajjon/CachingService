@@ -10,11 +10,13 @@ import Foundation
 import RxSwift
 import RxOptional
 
-extension Observable where Element: Collection, Element.Element: Filterable  {
-
-    func filterValues(by filter: QueryConvertible) -> RxSwift.Observable<Element> {
-        return map { ($0 as! [Element.Element]).filtered(by: filter) as! Element }
-            .filter { !$0.isEmpty }
+extension Observable where E: Collection, E.Element: Filterable  {
+    typealias F = E.Element
+    func filterValues(by filter: QueryConvertible, removeEmptyArrays: Bool = true) -> RxSwift.Observable<Element> {
+        let filterMatch: (E) -> (E) = { ($0 as! [F]).filtered(by: filter) as! E }
+        let filterEmpty: (E) -> Bool = { !removeEmptyArrays || !$0.isEmpty }
+        
+        return map { filterMatch($0) }.filter { filterEmpty($0) }
     }
 }
 
@@ -31,14 +33,14 @@ extension User {
 
 protocol Persisting {
     var cache: AsyncCache { get }
-    func get<F>(filter: QueryConvertible) -> Observable<[F]> where F: Codable & Filterable
+    func get<F>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[F]> where F: Codable & Filterable
 }
 
 extension Persisting {
-    func get<F>(filter: QueryConvertible) -> Observable<[F]> where F: Codable & Filterable {
+    func get<F>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[F]> where F: Codable & Filterable {
         return asyncLoad()
             .filterNil()
-            .filterValues(by: filter)
+            .filterValues(by: filter, removeEmptyArrays: removeEmptyArrays)
     }
 }
 

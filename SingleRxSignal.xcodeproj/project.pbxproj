@@ -35,6 +35,10 @@
 		48699B641FB5D89700D15F25 /* TimeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48699B631FB5D89700D15F25 /* TimeString.swift */; };
 		486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486E665E1FBC49B600D46E04 /* RxExtension.swift */; };
 		488429D51FC32DE700E4F8A1 /* AbstractViewController+Retaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */; };
+		48915C271FCF138B006259EE /* MockedUserHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C261FCF138B006259EE /* MockedUserHTTPClient.swift */; };
+		48915C281FCF13A4006259EE /* EquatableList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C241FCF136C006259EE /* EquatableList.swift */; };
+		48915C291FCF13A9006259EE /* User+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C221FCF134E006259EE /* User+Equatable.swift */; };
+		48915C2B1FCF13CB006259EE /* MockedCacheForUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */; };
 		48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759871FA4E5DF00160897 /* AppDelegate.swift */; };
 		48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759891FA4E5DF00160897 /* UserViewController.swift */; };
 		48A7598F1FA4E5DF00160897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598E1FA4E5DF00160897 /* Assets.xcassets */; };
@@ -109,6 +113,10 @@
 		48699B631FB5D89700D15F25 /* TimeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeString.swift; sourceTree = "<group>"; };
 		486E665E1FBC49B600D46E04 /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
 		488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AbstractViewController+Retaining.swift"; sourceTree = "<group>"; };
+		48915C221FCF134E006259EE /* User+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Equatable.swift"; sourceTree = "<group>"; };
+		48915C241FCF136C006259EE /* EquatableList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquatableList.swift; sourceTree = "<group>"; };
+		48915C261FCF138B006259EE /* MockedUserHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedUserHTTPClient.swift; sourceTree = "<group>"; };
+		48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedCacheForUser.swift; sourceTree = "<group>"; };
 		48A6EE921FBC607600DA4672 /* SingleRxSignalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleRxSignalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759841FA4E5DE00160897 /* SingleRxSignal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleRxSignal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759871FA4E5DF00160897 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -243,6 +251,7 @@
 			children = (
 				48F33FA71FC7338C001AF2BB /* MockedCacheForInteger.swift */,
 				48F33FA81FC7338C001AF2BB /* BaseMockedCache.swift */,
+				48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -253,6 +262,7 @@
 				48F33FAA1FC7338C001AF2BB /* BaseExpectedResult.swift */,
 				48F33FAB1FC7338C001AF2BB /* MockedEvent.swift */,
 				48F33FAC1FC7338C001AF2BB /* ExpectedIntegerResult.swift */,
+				48915C241FCF136C006259EE /* EquatableList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -262,6 +272,7 @@
 			children = (
 				48F33FAE1FC7338C001AF2BB /* Int+StaticKeyConvertible.swift */,
 				48F33FAF1FC7338C001AF2BB /* Int+Times.swift */,
+				48915C221FCF134E006259EE /* User+Equatable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -271,6 +282,7 @@
 			children = (
 				48F33FB11FC7338C001AF2BB /* BaseMockedHTTPClient.swift */,
 				48F33FB21FC7338C001AF2BB /* MockedIntegerHTTPClient.swift */,
+				48915C261FCF138B006259EE /* MockedUserHTTPClient.swift */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -638,15 +650,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				48F33FBF1FC7338C001AF2BB /* BaseMockedCache.swift in Sources */,
+				48915C291FCF13A9006259EE /* User+Equatable.swift in Sources */,
 				480FBDD51FCDA9C4003DD215 /* CachingServiceFilterTests.swift in Sources */,
+				48915C281FCF13A4006259EE /* EquatableList.swift in Sources */,
 				48F33FC81FC7338C001AF2BB /* MockedPersistingIntegerService.swift in Sources */,
 				48F33FC11FC7338C001AF2BB /* MockedEvent.swift in Sources */,
+				48915C2B1FCF13CB006259EE /* MockedCacheForUser.swift in Sources */,
 				48F33FC91FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift in Sources */,
 				48F33FCA1FC7338C001AF2BB /* IntegerServiceProtocol.swift in Sources */,
 				480FBDE11FCDBB60003DD215 /* Service+Blocking.swift in Sources */,
 				48F33FC51FC7338C001AF2BB /* BaseMockedHTTPClient.swift in Sources */,
 				480FBDDE1FCDB643003DD215 /* MockedPersistingUserService.swift in Sources */,
 				48F33FC61FC7338C001AF2BB /* MockedIntegerHTTPClient.swift in Sources */,
+				48915C271FCF138B006259EE /* MockedUserHTTPClient.swift in Sources */,
 				48F33FCC1FC7338C001AF2BB /* NonCachingServiceTests.swift in Sources */,
 				48F33FC01FC7338C001AF2BB /* BaseExpectedResult.swift in Sources */,
 				48F33FC31FC7338C001AF2BB /* Int+StaticKeyConvertible.swift in Sources */,
