@@ -136,12 +136,6 @@ extension AsyncCache {
     }
 }
 
-protocol Persisting {
-    var cache: AsyncCache { get }
-}
-
-
-
 enum Result<C> {
     case success(C)
     case error(MyError)

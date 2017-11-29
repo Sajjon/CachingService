@@ -17,7 +17,6 @@ protocol HTTPClientProtocol {
 
 extension HTTPClientProtocol {
     func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable {
-        log.warning("Should do request towards: `\(router.path)`, but mocked response instead")
         return Observable.create { observer in
             self.makeRequestOnBackground { (model: C?, error: MyError?) in
                 defer { observer.onCompleted() }
@@ -45,7 +44,7 @@ private extension HTTPClientProtocol {
         let model: C
         switch FourLevelTypeUnwrapper<C>.fourLevelUnwrappedType {
         case is User.Type:
-            model = User(name: randomName()) as! C
+            model = User(userId: 237, firstName: randomName(), lastName: randomName()) as! C
         case is Group.Type:
             model = Group(name: randomName()) as! C
         default: fatalError("non of the above")

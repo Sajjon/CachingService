@@ -10,11 +10,32 @@ import Foundation
 @testable import SingleRxSignal
 import SwiftyBeaver
 
-class BaseMockedCache<Value: Codable & Equatable> {
+class BaseMockedCache<Value: Codable & Equatable>: AsyncCache {
     var cachedEvent: MockedEvent<Value>
     
     init(event: MockedEvent<Value>) {
         self.cachedEvent = event
+    }
+    
+    func save<_Value>(value: _Value, for key: Key) throws where _Value: Codable {
+        log.verbose("Start")
+        guard mockedSavingError == nil else { throw mockedSavingError! }
+        let cachedValue: Value = (value as! Value)
+        cachedEvent = MockedEvent(cachedValue)
+    }
+    
+    func loadValue<_Value>(for key: Key) -> _Value? where _Value: Codable {
+        log.verbose("Start")
+        guard let cachedValue = mockedValue else { return nil }
+        let casted: _Value = cachedValue as! _Value
+        return casted
+    }
+    
+    func hasValue(for key: Key) -> Bool { return mockedValue != nil }
+    
+    func deleteValue(for key: Key) {
+        log.verbose("Start")
+        cachedEvent = .empty
     }
 }
 
@@ -26,29 +47,5 @@ extension BaseMockedCache {
     
     var mockedValue: Value? {
         return cachedEvent.value
-    }
-}
-
-//MARK: - AsyncCache Methods
-extension BaseMockedCache: AsyncCache {
-    func save<_Value>(value: _Value, for key: Key) throws where _Value: Codable {
-        log.error("Start")
-        guard mockedSavingError == nil else { throw mockedSavingError! }
-        let cachedValue: Value = (value as! Value)
-        cachedEvent = MockedEvent(cachedValue)
-    }
-    
-    func loadValue<_Value>(for key: Key) -> _Value? where _Value: Codable {
-        log.error("Start")
-        guard let cachedValue = mockedValue else { return nil }
-        let casted: _Value = cachedValue as! _Value
-        return casted
-    }
-    
-    func hasValue(for key: Key) -> Bool { return mockedValue != nil }
-
-    func deleteValue(for key: Key) {
-        log.error("Start")
-        cachedEvent = .empty
     }
 }
