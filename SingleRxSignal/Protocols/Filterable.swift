@@ -27,23 +27,19 @@ extension Filterable {
     
     func matches(_ query: QueryConvertible) -> QueryResultConvertible? {
         let matchFromQuery = matchesQuery(query)
-        let matchFromIdentifiers = matchesAny(query.identifiers)
+        let matchFromIdentifiers: AnyKeyPath! = matchesAny(query.identifiers)
         
-        switch query.type {
-        case .or:
-            guard let matchFromIdentifiers = matchFromIdentifiers else {
-                guard !matchFromQuery.isEmpty else { return nil }
-                return QueryResult(query, content: self, keyPaths: matchFromQuery)
-            }
-            let combined: [AnyKeyPath] = matchFromQuery + [matchFromIdentifiers]
-            guard !combined.isEmpty else { return nil }
-            return QueryResult(query, content: self, keyPaths: combined)
-        case .and:
-            guard !matchFromQuery.isEmpty, let matchFromIdentifiers = matchFromIdentifiers else { return nil }
-            let combined: [AnyKeyPath] = matchFromQuery + [matchFromIdentifiers]
-            guard !combined.isEmpty else { return nil }
-            return QueryResult(query, content: self, keyPaths: combined)
+        var keyPaths: [AnyKeyPath]? = nil
+        
+        switch (matchFromIdentifiers != nil, query.type, !matchFromQuery.isEmpty) {
+        case (true, .or, false): keyPaths = [matchFromIdentifiers]
+        case (false, .or, true): keyPaths = matchFromQuery
+        case (true, _, true): keyPaths = matchFromQuery + [matchFromIdentifiers]
+        default: break
         }
+        
+        guard let paths = keyPaths else { return nil }
+        return QueryResult(query, content: self, keyPaths: paths)
     }
 }
 
