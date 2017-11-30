@@ -1,5 +1,5 @@
 //
-//  QueryConvertible.swift
+//  FilterConvertible.swift
 //  SingleRxSignal
 //
 //  Created by Alexander Cyon on 2017-11-27.
@@ -8,18 +8,18 @@
 
 import Foundation
 
-enum QueryType {
+enum FilterCompositionType {
     case or, and
 }
 
-protocol QueryConvertible: CustomStringConvertible {
-    var type: QueryType { get }
+protocol FilterConvertible: CustomStringConvertible {
+    var composition: FilterCompositionType { get }
     var query: CustomStringConvertible? { get }
     var identifiers: [CustomStringConvertible] { get }
     var caseSensitive: Bool { get }
 }
 
-extension QueryConvertible {
+extension FilterConvertible {
     var description: String {
         let identifiersString = identifiers.map { $0.description }.joined(separator: ", ")
         let queryString = query?.description ?? ""
@@ -27,31 +27,22 @@ extension QueryConvertible {
     }
 }
 
-extension QueryConvertible {
+extension FilterConvertible {
     var casedQuery: String? {
         guard let query = query else { return nil }
         return caseSensitive ? query.description : query.description.lowercased()
     }
 }
 
-extension QueryConvertible {
-    
-    
-    func queryContained(in other: CustomStringConvertible?) -> Bool {
-        guard let query = query, let other = other else { return false }
-        return query.contains(other, caseSensitive: caseSensitive)
-    }
-}
-
-struct Match: QueryConvertible {
-    let type: QueryType
+struct Filter: FilterConvertible {
+    let composition: FilterCompositionType
     let query: CustomStringConvertible?
     let identifiers: [CustomStringConvertible]
     let caseSensitive: Bool
-    init(identifiers: [CustomStringConvertible] = [], _ type: QueryType = .or, query: CustomStringConvertible? = nil, caseSensitive: Bool = false) {
+    init(identifiers: [CustomStringConvertible] = [], _ composition: FilterCompositionType = .or, query: CustomStringConvertible? = nil, caseSensitive: Bool = false) {
         guard query != nil || !identifiers.isEmpty else { fatalError("empty query") }
         self.identifiers = identifiers
-        self.type = type
+        self.composition = composition
         self.query = query
         self.caseSensitive = caseSensitive
     }

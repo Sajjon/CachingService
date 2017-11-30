@@ -16,6 +16,7 @@ protocol Service {
     func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable
 }
 
+//MARK: - Default Implementation
 extension Service {
     func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
         return getFromCacheIfAbleTo(from: source).concat(

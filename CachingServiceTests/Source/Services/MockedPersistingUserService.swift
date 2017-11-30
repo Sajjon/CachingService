@@ -20,6 +20,10 @@ final class MockedPersistingUserService {
         self.mockedUserHTTPClient = httpClient
         self.mockedUserCache = cache
     }
+    
+    func getCachedUsers(using filter: FilterConvertible) -> Observable<[User]> {
+        return getModels(using: filter)
+    }
 }
 
 extension MockedPersistingUserService: Service {
@@ -40,12 +44,12 @@ extension MockedPersistingUserService {
 }
 
 extension MockedPersistingUserService {
-    func assertElements(_ filter: QueryConvertible, removeEmptyArrays: Bool = true) -> [List<User>] {
+    func assertElements(_ filter: FilterConvertible, removeEmptyArrays: Bool = true) -> [List<User>] {
         return materialized(filter: filter, removeEmptyArrays: removeEmptyArrays).elements
     }
     
-    func materialized(_ filter: QueryConvertible, removeEmptyArrays: Bool = true) -> (elements: [List<User>], error: MyError?) {
-        return materialized(filter: filter, removeEmptyArrays: removeEmptyArrays)
+    func materialized(_ filter: FilterConvertible, removeEmptyArrays: Bool = true) -> (elements: [List<User>], error: MyError?) {
+        return materialized(filter: filter)
     }
 }
 

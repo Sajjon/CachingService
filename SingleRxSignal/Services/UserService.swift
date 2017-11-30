@@ -11,6 +11,7 @@ import RxSwift
 
 protocol UserServiceProtocol: Service, Persisting {
     func getUser(fromSource source: ServiceSource) -> Observable<User>
+    func getCachedUsers(using filter: FilterConvertible) -> Observable<[User]>
 }
 
 final class UserService: UserServiceProtocol {
@@ -27,5 +28,9 @@ final class UserService: UserServiceProtocol {
     func getUser(fromSource source: ServiceSource = .default) -> Observable<User> {
         log.info("GETTING USER")
         return get(request: Router.user, from: source)
+    }
+    
+    func getCachedUsers(using filter: FilterConvertible) -> Observable<[User]> {
+        return getModels(using: filter)
     }
 }

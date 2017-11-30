@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		480FBDCE1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDCD1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift */; };
-		480FBDD01FCD9FF3003DD215 /* QueryResultConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDCF1FCD9FF3003DD215 /* QueryResultConvertible.swift */; };
-		480FBDD21FCDA00A003DD215 /* Array+Filterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDD11FCDA00A003DD215 /* Array+Filterable.swift */; };
+		480FBDD21FCDA00A003DD215 /* Collection+Filterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDD11FCDA00A003DD215 /* Collection+Filterable.swift */; };
 		480FBDD51FCDA9C4003DD215 /* CachingServiceFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDD31FCDA96D003DD215 /* CachingServiceFilterTests.swift */; };
 		480FBDD71FCDAC38003DD215 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDD61FCDAC38003DD215 /* User.swift */; };
 		480FBDD91FCDAC46003DD215 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480FBDD81FCDAC46003DD215 /* Group.swift */; };
@@ -40,6 +39,12 @@
 		48915C2B1FCF13CB006259EE /* MockedCacheForUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */; };
 		48915C2D1FD00301006259EE /* Persisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2C1FD00301006259EE /* Persisting.swift */; };
 		48915C2F1FD013E4006259EE /* SourceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2E1FD013E4006259EE /* SourceOptions.swift */; };
+		48915C311FD04DE3006259EE /* FilterResultConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C301FD04DE3006259EE /* FilterResultConvertible.swift */; };
+		48915C331FD04E5C006259EE /* Observable+Collection+Filterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C321FD04E5C006259EE /* Observable+Collection+Filterable.swift */; };
+		48915C351FD05C1E006259EE /* AsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C341FD05C1E006259EE /* AsyncCache.swift */; };
+		48915C371FD05C88006259EE /* UserDefaults+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C361FD05C88006259EE /* UserDefaults+UserDefaults.swift */; };
+		48915C391FD05CDE006259EE /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C381FD05CDE006259EE /* Key.swift */; };
+		48915C3B1FD05CF3006259EE /* KeyCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C3A1FD05CF3006259EE /* KeyCreator.swift */; };
 		48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759871FA4E5DF00160897 /* AppDelegate.swift */; };
 		48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759891FA4E5DF00160897 /* UserViewController.swift */; };
 		48A7598F1FA4E5DF00160897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598E1FA4E5DF00160897 /* Assets.xcassets */; };
@@ -87,8 +92,7 @@
 		35ABE35273B33C879179C276 /* Pods-SingleRxSignalTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SingleRxSignalTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SingleRxSignalTests/Pods-SingleRxSignalTests.debug.xcconfig"; sourceTree = "<group>"; };
 		37B6C265F46CBADC75DDBFA4 /* Pods_SingleRxSignalUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SingleRxSignalUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		480FBDCD1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomStringConvertible+Filterable.swift"; sourceTree = "<group>"; };
-		480FBDCF1FCD9FF3003DD215 /* QueryResultConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryResultConvertible.swift; sourceTree = "<group>"; };
-		480FBDD11FCDA00A003DD215 /* Array+Filterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Filterable.swift"; sourceTree = "<group>"; };
+		480FBDD11FCDA00A003DD215 /* Collection+Filterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Filterable.swift"; sourceTree = "<group>"; };
 		480FBDD31FCDA96D003DD215 /* CachingServiceFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingServiceFilterTests.swift; sourceTree = "<group>"; };
 		480FBDD61FCDAC38003DD215 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		480FBDD81FCDAC46003DD215 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -119,6 +123,12 @@
 		48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedCacheForUser.swift; sourceTree = "<group>"; };
 		48915C2C1FD00301006259EE /* Persisting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persisting.swift; sourceTree = "<group>"; };
 		48915C2E1FD013E4006259EE /* SourceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceOptions.swift; sourceTree = "<group>"; };
+		48915C301FD04DE3006259EE /* FilterResultConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResultConvertible.swift; sourceTree = "<group>"; };
+		48915C321FD04E5C006259EE /* Observable+Collection+Filterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Collection+Filterable.swift"; sourceTree = "<group>"; };
+		48915C341FD05C1E006259EE /* AsyncCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCache.swift; sourceTree = "<group>"; };
+		48915C361FD05C88006259EE /* UserDefaults+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+UserDefaults.swift"; sourceTree = "<group>"; };
+		48915C381FD05CDE006259EE /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		48915C3A1FD05CF3006259EE /* KeyCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCreator.swift; sourceTree = "<group>"; };
 		48A6EE921FBC607600DA4672 /* SingleRxSignalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleRxSignalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759841FA4E5DE00160897 /* SingleRxSignal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleRxSignal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759871FA4E5DF00160897 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -349,6 +359,10 @@
 				48F33F721FC724C8001AF2BB /* Router.swift */,
 				48F33F741FC73056001AF2BB /* GroupRouter.swift */,
 				48F33F761FC730B9001AF2BB /* UserRouter.swift */,
+				48915C341FD05C1E006259EE /* AsyncCache.swift */,
+				48915C361FD05C88006259EE /* UserDefaults+UserDefaults.swift */,
+				48915C381FD05CDE006259EE /* Key.swift */,
+				48915C3A1FD05CF3006259EE /* KeyCreator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -370,6 +384,7 @@
 				4845F3E51FB45CC2004A0261 /* Random.swift */,
 				488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */,
 				48679CF31FBDA724004A9E20 /* Codable_Extension.swift */,
+				48915C321FD04E5C006259EE /* Observable+Collection+Filterable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -394,9 +409,9 @@
 				48D945141FCC69D900846322 /* QueryConvertible.swift */,
 				48D945161FCC69F300846322 /* Filterable.swift */,
 				480FBDCD1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift */,
-				480FBDCF1FCD9FF3003DD215 /* QueryResultConvertible.swift */,
-				480FBDD11FCDA00A003DD215 /* Array+Filterable.swift */,
+				480FBDD11FCDA00A003DD215 /* Collection+Filterable.swift */,
 				48915C2C1FD00301006259EE /* Persisting.swift */,
+				48915C301FD04DE3006259EE /* FilterResultConvertible.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -682,7 +697,6 @@
 			files = (
 				48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */,
 				480FBDD91FCDAC46003DD215 /* Group.swift in Sources */,
-				480FBDD01FCD9FF3003DD215 /* QueryResultConvertible.swift in Sources */,
 				48699B641FB5D89700D15F25 /* TimeString.swift in Sources */,
 				48F33F731FC724C8001AF2BB /* Router.swift in Sources */,
 				48D945171FCC69F300846322 /* Filterable.swift in Sources */,
@@ -692,6 +706,7 @@
 				4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */,
 				4845F3E41FB45CA6004A0261 /* Service.swift in Sources */,
 				48915C2F1FD013E4006259EE /* SourceOptions.swift in Sources */,
+				48915C3B1FD05CF3006259EE /* KeyCreator.swift in Sources */,
 				48679CF61FBDA759004A9E20 /* ViewModel.swift in Sources */,
 				48F33F6B1FC71371001AF2BB /* UserService.swift in Sources */,
 				48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */,
@@ -701,17 +716,22 @@
 				488429D51FC32DE700E4F8A1 /* AbstractViewController+Retaining.swift in Sources */,
 				48699B621FB5B08F00D15F25 /* HTTPClient.swift in Sources */,
 				48679D041FBDE150004A9E20 /* DenendencyInjectionConfigurator.swift in Sources */,
+				48915C371FD05C88006259EE /* UserDefaults+UserDefaults.swift in Sources */,
+				48915C391FD05CDE006259EE /* Key.swift in Sources */,
 				4845F3E21FB45C91004A0261 /* Cache.swift in Sources */,
-				480FBDD21FCDA00A003DD215 /* Array+Filterable.swift in Sources */,
+				480FBDD21FCDA00A003DD215 /* Collection+Filterable.swift in Sources */,
 				486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */,
 				48679D001FBDB14B004A9E20 /* MenuViewController.swift in Sources */,
 				480FBDDB1FCDB481003DD215 /* StaticKeyConvertible.swift in Sources */,
 				48F33F6D1FC7139D001AF2BB /* GroupService.swift in Sources */,
 				48679CFC1FBDA7A8004A9E20 /* Presenter.swift in Sources */,
+				48915C351FD05C1E006259EE /* AsyncCache.swift in Sources */,
 				48915C2D1FD00301006259EE /* Persisting.swift in Sources */,
 				48F33F771FC730B9001AF2BB /* UserRouter.swift in Sources */,
 				48F33F751FC73056001AF2BB /* GroupRouter.swift in Sources */,
 				4845F3E81FB45CD2004A0261 /* ServiceSource.swift in Sources */,
+				48915C331FD04E5C006259EE /* Observable+Collection+Filterable.swift in Sources */,
+				48915C311FD04DE3006259EE /* FilterResultConvertible.swift in Sources */,
 				480FBDCE1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift in Sources */,
 				48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */,
 				48679CFE1FBDA7B9004A9E20 /* Presentable.swift in Sources */,

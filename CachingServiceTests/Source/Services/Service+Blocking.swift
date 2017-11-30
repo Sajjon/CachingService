@@ -29,8 +29,10 @@ extension Service {
 }
 
 extension Persisting {
-    func materialized<F: Codable & Filterable>(filter: QueryConvertible, removeEmptyArrays: Bool = true) -> (elements: [List<F>], error: MyError?) {
-        let signal: Observable<[F]> = get(filter: filter, removeEmptyArrays: removeEmptyArrays)
+    func materialized<F: Codable & Filterable>(filter: FilterConvertible, removeEmptyArrays: Bool = true) -> (elements: [List<F>], error: MyError?) {
+        let filterEmpty: ([F]) -> Bool = { !removeEmptyArrays || !$0.isEmpty }
+
+        let signal: Observable<[F]> = getModels(using: filter).filter { filterEmpty($0) }
         switch signal.toBlocking().materialize() {
         case .failed(let elements, let generalError):
             guard let error = generalError as? MyError else { XCTFail("failed to cast error"); return ([List<F>](), nil) }

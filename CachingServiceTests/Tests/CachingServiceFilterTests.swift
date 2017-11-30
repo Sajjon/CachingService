@@ -47,12 +47,12 @@ final class CachingServiceFilterTests: XCTestCase {
     func testPersistingServiceFilterReturnsEmptyArrayForJibberishQueryButNonEmptyForProperQuery() {
         let expected = ExpectedUserResult(cached: initialCache, http: initialHttp)
         let userService = MockedPersistingUserService(mocked: expected)
-        var filterResult = userService.assertElements(Match(query: "qwerty"))
+        var filterResult = userService.assertElements(Filter(query: "qwerty"))
         XCTAssertEqual(filterResult.count, 0)
-        filterResult = userService.assertElements(Match(query: "bar"))
+        filterResult = userService.assertElements(Filter(query: "bar"))
         XCTAssertEqual(filterResult.count, 1)
         XCTAssertEqual(filterResult[0].count, 2)
-        filterResult = userService.assertElements(Match(query: "b"))
+        filterResult = userService.assertElements(Filter(query: "b"))
         XCTAssertEqual(filterResult.count, 1)
         XCTAssertEqual(filterResult[0].count, 2)
     }
@@ -60,9 +60,9 @@ final class CachingServiceFilterTests: XCTestCase {
     func testPersistingServiceFilterReturnsSingleEmptyArrayWhenToldTo() {
         let expected = ExpectedUserResult(cached: initialCache, http: initialHttp)
         let userService = MockedPersistingUserService(mocked: expected)
-        var filterResult = userService.assertElements(Match(query: "qwerty")) // default: removeEmptyArrays: true
+        var filterResult = userService.assertElements(Filter(query: "qwerty")) // default: removeEmptyArrays: true
         XCTAssertEqual(filterResult.count, 0)
-        filterResult = userService.assertElements(Match(query: "qwerty"), removeEmptyArrays: false)
+        filterResult = userService.assertElements(Filter(query: "qwerty"), removeEmptyArrays: false)
         XCTAssertEqual(filterResult.count, 1)
         XCTAssertTrue(filterResult[0].isEmpty)
     }
@@ -71,23 +71,23 @@ final class CachingServiceFilterTests: XCTestCase {
         let expected = ExpectedUserResult(cached: initialCache, http: initialHttp)
         let userService = MockedPersistingUserService(mocked: expected)
         let queryString = "bar"
-        var filterResult = userService.assertElements(Match(query: queryString))
+        var filterResult = userService.assertElements(Filter(query: queryString))
         XCTAssertEqual(filterResult.count, 1)
         XCTAssertEqual(filterResult[0].count, 2)
-        filterResult = userService.assertElements(Match(query: queryString, caseSensitive: true))
+        filterResult = userService.assertElements(Filter(query: queryString, caseSensitive: true))
         XCTAssertEqual(filterResult.count, 0)
     }
     
     func testPersistingServiceFilterAndCaching() {
         let expected = ExpectedUserResult(cached: initialCache, http: initialHttp)
         let userService = MockedPersistingUserService(mocked: expected)
-        var filterResult = userService.assertElements(Match(query: "foo"))
+        var filterResult = userService.assertElements(Filter(query: "foo"))
         XCTAssertEqual(filterResult.count, 1)
         XCTAssertEqual(filterResult[0].count, 1)
         let elements = userService.assertElements(.cacheAndBackend)
         expected.assertCacheEquals(elements[0])
         expected.assertHTTPEquals(elements[1])
-        filterResult = userService.assertElements(Match(query: "foo"))
+        filterResult = userService.assertElements(Filter(query: "foo"))
         XCTAssertEqual(filterResult.count, 1)
         XCTAssertEqual(filterResult[0].count, 3)
     }
@@ -96,18 +96,20 @@ final class CachingServiceFilterTests: XCTestCase {
         let allUsers = List(initialCache.elements + initialHttp.elements)
         let expected = ExpectedUserResult(cached: allUsers, http: dontCare)
         let userService = MockedPersistingUserService(mocked: expected)
-        var filterResults = userService.assertElements(Match(query: "foo"))
+        var filterResults = userService.assertElements(Filter(query: "foo"))
+        let observableFilter: Observable<[User]> = userService.getModels(using: Filter(query: "foo"))
+        let filtered = userService.getCachedUsers(using: Filter(query: "foo"))
         XCTAssertEqual(filterResults.count, 1)
         XCTAssertEqual(filterResults[0].count, 4)
-        filterResults = userService.assertElements(Match(query: "foo", caseSensitive: true), removeEmptyArrays: true)
+        filterResults = userService.assertElements(Filter(query: "foo", caseSensitive: true), removeEmptyArrays: true)
         XCTAssertEqual(filterResults.count, 0)
-        filterResults = userService.assertElements(Match(identifiers: [0, 3, 4, 5]))
+        filterResults = userService.assertElements(Filter(identifiers: [0, 3, 4, 5]))
         XCTAssertEqual(filterResults.count, 1)
         XCTAssertEqual(filterResults[0].count, 4)
-        filterResults = userService.assertElements(Match(identifiers: [0, 3, 4, 5], .or, query: "buz"))
+        filterResults = userService.assertElements(Filter(identifiers: [0, 3, 4, 5], .or, query: "buz"))
         XCTAssertEqual(filterResults.count, 1)
         XCTAssertEqual(filterResults[0].count, 5)
-        filterResults = userService.assertElements(Match(identifiers: [0, 3, 4, 5], .and, query: "buz"))
+        filterResults = userService.assertElements(Filter(identifiers: [0, 3, 4, 5], .and, query: "buz"))
         XCTAssertEqual(filterResults.count, 1)
         XCTAssertEqual(filterResults[0].count, 2)
     }

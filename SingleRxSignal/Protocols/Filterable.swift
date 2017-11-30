@@ -5,11 +5,9 @@
 //  Created by Alexander Cyon on 2017-11-27.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
 //
-
 import Foundation
-
 protocol Filterable {
-    func matches(_ query: QueryConvertible) -> QueryResultConvertible?
+    func isMatching(_ filter: FilterConvertible) -> FilterResultConvertible?
     static var primaryKeyPath: AnyKeyPath? { get }
     static var keyPaths: [AnyKeyPath] { get }
 }
@@ -25,31 +23,31 @@ extension Filterable {
     // Making primaryKeyPath `optional`
     static var primaryKeyPath: AnyKeyPath? { return nil }
     
-    func matches(_ query: QueryConvertible) -> QueryResultConvertible? {
-        let matchFromQuery = matchesQuery(query)
-        let matchFromIdentifiers: AnyKeyPath! = matchesAny(query.identifiers)
+    func isMatching(_ filter: FilterConvertible) -> FilterResultConvertible? {
+        let keyPathsMatching = keyPathsMatchingQuery(filter)
+        let primaryKeyPath: AnyKeyPath! = primaryKeyPathMatchingIdentifiers(filter)
         
-        var keyPaths: [AnyKeyPath]? = nil
+        var keyPaths: [AnyKeyPath]?
         
-        switch (matchFromIdentifiers != nil, query.type, !matchFromQuery.isEmpty) {
-        case (true, .or, false): keyPaths = [matchFromIdentifiers]
-        case (false, .or, true): keyPaths = matchFromQuery
-        case (true, _, true): keyPaths = matchFromQuery + [matchFromIdentifiers]
+        switch (primaryKeyPath != nil, filter.composition, !keyPathsMatching.isEmpty) {
+        case (true, .or, false): keyPaths = [primaryKeyPath]
+        case (false, .or, true): keyPaths = keyPathsMatching
+        case (true, _, true): keyPaths = keyPathsMatching + [primaryKeyPath]
         default: break
         }
         
         guard let paths = keyPaths else { return nil }
-        return QueryResult(query, content: self, keyPaths: paths)
+        return FilterResult(filter, content: self, keyPaths: paths)
     }
 }
 
 private extension Filterable {
-    
-    func matchesQuery(_ query: QueryConvertible) -> [AnyKeyPath] {
-        return keyPaths.filter { query.queryContained(in: self[filterablePath: $0]) }
+    func keyPathsMatchingQuery(_ filter: FilterConvertible) -> [AnyKeyPath] {
+        return keyPaths.filter { value(at: $0).containsQuery(in: filter) }
     }
     
-    func matchesAny(_ identifiers: [CustomStringConvertible]) -> AnyKeyPath? {
+    func primaryKeyPathMatchingIdentifiers(_ filter: FilterConvertible) -> AnyKeyPath? {
+        let identifiers = filter.identifiers
         guard
             let primaryKeyPath = primaryKeyPath,
             let identifier = self[keyPath: primaryKeyPath] as? CustomStringConvertible,
@@ -59,14 +57,23 @@ private extension Filterable {
     }
 }
 
-extension Filterable {
-    subscript(filterablePath path: AnyKeyPath) -> CustomStringConvertible? {
+private extension Filterable {
+    
+    func value(at path: AnyKeyPath) -> CustomStringConvertible? {
         return self[keyPath: path] as? CustomStringConvertible
     }
 }
 
-extension Filterable {
-    func matches(query: CustomStringConvertible) -> QueryResultConvertible? {
-        return matches(Match(query: query))
+private extension Optional where Wrapped == CustomStringConvertible {
+    func containsQuery(in filter: FilterConvertible) -> Bool {
+        guard let query = filter.query, case let .some(wrapped) = self else { return false }
+        return query.contains(wrapped, caseSensitive: filter.caseSensitive)
     }
 }
+
+extension Filterable {
+    func isMatching(query: CustomStringConvertible) -> FilterResultConvertible? {
+        return isMatching(Filter(query: query))
+    }
+}
+
