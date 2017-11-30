@@ -18,6 +18,12 @@ extension User {
     var name: String { return "\(firstName) \(lastName)" }
 }
 
+extension User: Equatable {
+    public static func ==(rhs: User, lhs: User) -> Bool {
+        return rhs.userId == lhs.userId && rhs.name == lhs.name
+    }
+}
+
 //MARK: - StaticKeyConvertible
 extension User: StaticKeyConvertible {
     static var key: Key { return "user" }

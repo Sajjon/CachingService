@@ -11,8 +11,8 @@ import RxSwift
 import RxCocoa
 
 public extension ObservableType {
-    func filter(include condition: Bool) -> RxSwift.Observable<Self.E> {
-        return self.filter { _ in return condition }
+    func filter(_ include: Bool) -> RxSwift.Observable<Self.E> {
+        return self.filter { _ in return include }
     }
 }
 

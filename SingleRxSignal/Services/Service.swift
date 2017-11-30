@@ -32,33 +32,33 @@ private extension Service {
             .catchError { self.handleErrorIfNeeded($0, from: source) }
             .flatMap { model in self.updateCacheIfAbleTo(with: model, from: source) }
             .filterNil()
-            .filter(include: source.emitEventForValueFromBackend)
+            .filter(source.emitEventForValueFromBackend)
             .do(onNext: { log.verbose("Got: \($0)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.verbose("onCompleted") })
     }
     
     func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable {
-        guard source.shouldServiceSourceBackend else { log.info("Prevented fetch from backend"); return .empty() }
+        guard source.shouldServiceSourceBackend else { log.debug("Prevented fetch from backend"); return .empty() }
         return httpClient.makeRequest(request: request)
             .do(onNext: { var s = "empty"; if let d = $0 { s = "\(d)" }; log.verbose("HTTP response: \(s)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.verbose("onCompleted") })
     }
     
     func updateCacheIfAbleTo<Model>(with model: Model?, from source: ServiceSource) -> Observable<Model?> where Model: Codable {
         guard let persisting = self as? Persisting else { return .just(model) }
-        guard !(model != nil && !source.shouldSaveToCache) else { log.info("Prevented save to cache"); return .of(model!) }
+        guard !(model != nil && !source.shouldSaveToCache) else { log.debug("Prevented save to cache"); return .of(model!) }
         return persisting.asyncSaveOrDelete(model, key: KeyCreator<Model>.key)
         
     }
     
     func getFromCacheIfAbleTo<Model>(from source: ServiceSource) -> Observable<Model> where Model: Codable {
         guard let persisting = self as? Persisting else { return .empty() }
-        guard source.shouldLoadFromCache else { log.info("Prevented load from cache"); return .empty() }
+        guard source.shouldLoadFromCache else { log.debug("Prevented load from cache"); return .empty() }
         return persisting.asyncLoad()
             .filterNil()
     }
     
     func handleErrorIfNeeded<Model>(_ error: Error, from source: ServiceSource) -> Observable<Model> where Model: Codable {
         guard source.catchErrorsFromBackend else { log.error("Emitting error: `\(error)`"); return .error(error) }
-        log.verbose("HTTP failed with error: `\(error)`, suppressed by service")
+        log.verbose("Suppressed http error: `\(error)`")
         return .empty()
     }
 }

@@ -11,11 +11,11 @@ import RxSwift
 
 protocol Persisting {
     var cache: AsyncCache { get }
-    func get<F>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[F]> where F: Codable & Filterable
+    func get<Model>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[Model]> where Model: Codable & Filterable
 }
 
 extension Persisting {
-    func get<F>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[F]> where F: Codable & Filterable {
+    func get<Model>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[Model]> where Model: Codable & Filterable {
         return asyncLoad()
             .filterNil()
             .filterValues(by: filter, removeEmptyArrays: removeEmptyArrays)

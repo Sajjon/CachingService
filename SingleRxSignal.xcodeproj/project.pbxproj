@@ -19,7 +19,7 @@
 		4845F3E21FB45C91004A0261 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E11FB45C91004A0261 /* Cache.swift */; };
 		4845F3E41FB45CA6004A0261 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E31FB45CA6004A0261 /* Service.swift */; };
 		4845F3E61FB45CC2004A0261 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E51FB45CC2004A0261 /* Random.swift */; };
-		4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */; };
+		4845F3E81FB45CD2004A0261 /* ServiceSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E71FB45CD2004A0261 /* ServiceSource.swift */; };
 		4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4845F3E91FB45CE1004A0261 /* MyError.swift */; };
 		48679CF21FBDA710004A9E20 /* SimulatedDelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF11FBDA710004A9E20 /* SimulatedDelay.swift */; };
 		48679CF41FBDA724004A9E20 /* Codable_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679CF31FBDA724004A9E20 /* Codable_Extension.swift */; };
@@ -37,7 +37,6 @@
 		488429D51FC32DE700E4F8A1 /* AbstractViewController+Retaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */; };
 		48915C271FCF138B006259EE /* MockedUserHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C261FCF138B006259EE /* MockedUserHTTPClient.swift */; };
 		48915C281FCF13A4006259EE /* EquatableList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C241FCF136C006259EE /* EquatableList.swift */; };
-		48915C291FCF13A9006259EE /* User+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C221FCF134E006259EE /* User+Equatable.swift */; };
 		48915C2B1FCF13CB006259EE /* MockedCacheForUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */; };
 		48915C2D1FD00301006259EE /* Persisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2C1FD00301006259EE /* Persisting.swift */; };
 		48915C2F1FD013E4006259EE /* SourceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2E1FD013E4006259EE /* SourceOptions.swift */; };
@@ -99,7 +98,7 @@
 		4845F3E11FB45C91004A0261 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		4845F3E31FB45CA6004A0261 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		4845F3E51FB45CC2004A0261 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
-		4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverOptions.swift; sourceTree = "<group>"; };
+		4845F3E71FB45CD2004A0261 /* ServiceSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSource.swift; sourceTree = "<group>"; };
 		4845F3E91FB45CE1004A0261 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		48679CF11FBDA710004A9E20 /* SimulatedDelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatedDelay.swift; sourceTree = "<group>"; };
 		48679CF31FBDA724004A9E20 /* Codable_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codable_Extension.swift; sourceTree = "<group>"; };
@@ -115,7 +114,6 @@
 		48699B631FB5D89700D15F25 /* TimeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeString.swift; sourceTree = "<group>"; };
 		486E665E1FBC49B600D46E04 /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
 		488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AbstractViewController+Retaining.swift"; sourceTree = "<group>"; };
-		48915C221FCF134E006259EE /* User+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Equatable.swift"; sourceTree = "<group>"; };
 		48915C241FCF136C006259EE /* EquatableList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquatableList.swift; sourceTree = "<group>"; };
 		48915C261FCF138B006259EE /* MockedUserHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedUserHTTPClient.swift; sourceTree = "<group>"; };
 		48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedCacheForUser.swift; sourceTree = "<group>"; };
@@ -276,7 +274,6 @@
 			children = (
 				48F33FAE1FC7338C001AF2BB /* Int+StaticKeyConvertible.swift */,
 				48F33FAF1FC7338C001AF2BB /* Int+Times.swift */,
-				48915C221FCF134E006259EE /* User+Equatable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,7 +343,7 @@
 				4845F3E31FB45CA6004A0261 /* Service.swift */,
 				48699B611FB5B08F00D15F25 /* HTTPClient.swift */,
 				4845F3E11FB45C91004A0261 /* Cache.swift */,
-				4845F3E71FB45CD2004A0261 /* ObserverOptions.swift */,
+				4845F3E71FB45CD2004A0261 /* ServiceSource.swift */,
 				48F33F6A1FC71371001AF2BB /* UserService.swift */,
 				48F33F6C1FC7139D001AF2BB /* GroupService.swift */,
 				48F33F721FC724C8001AF2BB /* Router.swift */,
@@ -656,7 +653,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				48F33FBF1FC7338C001AF2BB /* BaseMockedCache.swift in Sources */,
-				48915C291FCF13A9006259EE /* User+Equatable.swift in Sources */,
 				480FBDD51FCDA9C4003DD215 /* CachingServiceFilterTests.swift in Sources */,
 				48915C281FCF13A4006259EE /* EquatableList.swift in Sources */,
 				48F33FC81FC7338C001AF2BB /* MockedPersistingIntegerService.swift in Sources */,
@@ -715,7 +711,7 @@
 				48915C2D1FD00301006259EE /* Persisting.swift in Sources */,
 				48F33F771FC730B9001AF2BB /* UserRouter.swift in Sources */,
 				48F33F751FC73056001AF2BB /* GroupRouter.swift in Sources */,
-				4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */,
+				4845F3E81FB45CD2004A0261 /* ServiceSource.swift in Sources */,
 				480FBDCE1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift in Sources */,
 				48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */,
 				48679CFE1FBDA7B9004A9E20 /* Presentable.swift in Sources */,
