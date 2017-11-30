@@ -8,31 +8,20 @@
 
 import Foundation
 
-struct ObservableOptions {
-    let emitValue: Bool
-    let emitError: Bool
-    let shouldCache: Bool
-    init(emitValue: Bool = true, emitError: Bool = true, shouldCache: Bool = true) {
-        self.emitValue = emitValue
-        self.emitError = emitError
-        self.shouldCache = shouldCache
-    }
-}
-
-enum FetchFrom {
-    case cacheAndBackendOptions(ObservableOptions)
+enum ServiceSource {
+    case cacheAndBackendOptions(SourceOptions)
     case cache
-    case backendOptions(ObservableOptions)
+    case backendOptions(SourceOptions)
 }
 
-extension FetchFrom {
-    static var backend: FetchFrom { return .backendOptions(ObservableOptions()) }
-    static var cacheAndBackend: FetchFrom { return .cacheAndBackendOptions(ObservableOptions()) }
-    static var `default`: FetchFrom = .cacheAndBackend
+extension ServiceSource {
+    static var backend: ServiceSource { return .backendOptions(.default) }
+    static var cacheAndBackend: ServiceSource { return .cacheAndBackendOptions(.default) }
+    static var `default`: ServiceSource = .cacheAndBackend
 }
 
-extension FetchFrom {
-    var shouldFetchFromBackend: Bool {
+extension ServiceSource {
+    var shouldServiceSourceBackend: Bool {
         switch self {
         case .cache: return false
         default: return true

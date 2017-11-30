@@ -16,8 +16,8 @@ final class MockedRouter: Router {
 }
 
 extension Service {    
-    func materialized<C: Codable>(fetchFrom: FetchFrom = .default) -> (elements: [C], error: MyError?) {
-        let signal: Observable<C> = get(router: MockedRouter(), fetchFrom: fetchFrom)
+    func materialized<C: Codable>(fromSource source: ServiceSource = .default) -> (elements: [C], error: MyError?) {
+        let signal: Observable<C> = get(request: MockedRouter(), from: source)
         switch signal.toBlocking().materialize() {
         case .failed(let elements, let generalError):
             guard let error = generalError as? MyError else { XCTFail("failed to cast error"); return ([C](), nil) }

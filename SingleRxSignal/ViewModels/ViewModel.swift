@@ -23,7 +23,7 @@ final class UserViewModel: ViewModel {
     private let getButtonTapped: Observable<Void>
     private let clearButtonTapped: Observable<Void>
     lazy var userResponse: Observable<User> = self.getButtonTapped.flatMapLatest({ _ in
-        return self.userService.getUser(fetchFrom: .default).trackActivity(self.activityIndicator)
+        return self.userService.getUser(fromSource: .default).trackActivity(self.activityIndicator)
     })
     
     init(

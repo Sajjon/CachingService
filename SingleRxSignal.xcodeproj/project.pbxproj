@@ -39,6 +39,8 @@
 		48915C281FCF13A4006259EE /* EquatableList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C241FCF136C006259EE /* EquatableList.swift */; };
 		48915C291FCF13A9006259EE /* User+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C221FCF134E006259EE /* User+Equatable.swift */; };
 		48915C2B1FCF13CB006259EE /* MockedCacheForUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */; };
+		48915C2D1FD00301006259EE /* Persisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2C1FD00301006259EE /* Persisting.swift */; };
+		48915C2F1FD013E4006259EE /* SourceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48915C2E1FD013E4006259EE /* SourceOptions.swift */; };
 		48A759881FA4E5DF00160897 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759871FA4E5DF00160897 /* AppDelegate.swift */; };
 		48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759891FA4E5DF00160897 /* UserViewController.swift */; };
 		48A7598F1FA4E5DF00160897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598E1FA4E5DF00160897 /* Assets.xcassets */; };
@@ -117,6 +119,8 @@
 		48915C241FCF136C006259EE /* EquatableList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquatableList.swift; sourceTree = "<group>"; };
 		48915C261FCF138B006259EE /* MockedUserHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedUserHTTPClient.swift; sourceTree = "<group>"; };
 		48915C2A1FCF13CB006259EE /* MockedCacheForUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedCacheForUser.swift; sourceTree = "<group>"; };
+		48915C2C1FD00301006259EE /* Persisting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persisting.swift; sourceTree = "<group>"; };
+		48915C2E1FD013E4006259EE /* SourceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceOptions.swift; sourceTree = "<group>"; };
 		48A6EE921FBC607600DA4672 /* SingleRxSignalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleRxSignalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759841FA4E5DE00160897 /* SingleRxSignal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleRxSignal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A759871FA4E5DF00160897 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -380,6 +384,7 @@
 				480FBDD61FCDAC38003DD215 /* User.swift */,
 				480FBDD81FCDAC46003DD215 /* Group.swift */,
 				480FBDDA1FCDB481003DD215 /* StaticKeyConvertible.swift */,
+				48915C2E1FD013E4006259EE /* SourceOptions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				480FBDCD1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift */,
 				480FBDCF1FCD9FF3003DD215 /* QueryResultConvertible.swift */,
 				480FBDD11FCDA00A003DD215 /* Array+Filterable.swift */,
+				48915C2C1FD00301006259EE /* Persisting.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -689,6 +695,7 @@
 				48679CF41FBDA724004A9E20 /* Codable_Extension.swift in Sources */,
 				4845F3EA1FB45CE1004A0261 /* MyError.swift in Sources */,
 				4845F3E41FB45CA6004A0261 /* Service.swift in Sources */,
+				48915C2F1FD013E4006259EE /* SourceOptions.swift in Sources */,
 				48679CF61FBDA759004A9E20 /* ViewModel.swift in Sources */,
 				48F33F6B1FC71371001AF2BB /* UserService.swift in Sources */,
 				48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */,
@@ -705,6 +712,7 @@
 				480FBDDB1FCDB481003DD215 /* StaticKeyConvertible.swift in Sources */,
 				48F33F6D1FC7139D001AF2BB /* GroupService.swift in Sources */,
 				48679CFC1FBDA7A8004A9E20 /* Presenter.swift in Sources */,
+				48915C2D1FD00301006259EE /* Persisting.swift in Sources */,
 				48F33F771FC730B9001AF2BB /* UserRouter.swift in Sources */,
 				48F33F751FC73056001AF2BB /* GroupRouter.swift in Sources */,
 				4845F3E81FB45CD2004A0261 /* ObserverOptions.swift in Sources */,

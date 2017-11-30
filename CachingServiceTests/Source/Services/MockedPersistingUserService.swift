@@ -50,11 +50,11 @@ extension MockedPersistingUserService {
 }
 
 extension MockedPersistingUserService {
-    func assertElements(_ fetchFrom: FetchFrom = .default) -> [List<User>] {
-        return materialized(fetchFrom).elements
+    func assertElements(_ source: ServiceSource = .default) -> [List<User>] {
+        return materialized(source).elements
     }
     
-    func materialized(_ fetchFrom: FetchFrom = .default) -> (elements: [List<User>], error: MyError?) {
-        return materialized(fetchFrom: fetchFrom)
+    func materialized(_ source: ServiceSource = .default) -> (elements: [List<User>], error: MyError?) {
+        return materialized(fromSource: source)
     }
 }

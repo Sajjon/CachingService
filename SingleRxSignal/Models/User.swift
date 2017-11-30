@@ -29,6 +29,13 @@ extension User: Filterable {
     static var keyPaths: [AnyKeyPath] { return stringPaths.map { $0 } + intPaths.map { $0 } }
 }
 
+
+extension User {
+    var _primaryKeyPath: PartialKeyPath<User> { return \.name }
+    var primaryKeyPath: KeyPath<User, String> { return \.name }
+    var keyPaths: [KeyPath<User, String>] { return [primaryKeyPath] }
+}
+
 extension User {
     static var stringPaths: [KeyPath<User, String>] {
         return [\.firstName, \.lastName, \.name]

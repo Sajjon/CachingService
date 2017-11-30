@@ -9,83 +9,55 @@
 import Foundation
 import RxSwift
 import RxOptional
-
-extension Observable where E: Collection, E.Element: Filterable  {
-    typealias F = E.Element
-    func filterValues(by filter: QueryConvertible, removeEmptyArrays: Bool = true) -> RxSwift.Observable<Element> {
-        let filterMatch: (E) -> (E) = { ($0 as! [F]).filtered(by: filter) as! E }
-        let filterEmpty: (E) -> Bool = { !removeEmptyArrays || !$0.isEmpty }
-        
-        return map { filterMatch($0) }.filter { filterEmpty($0) }
-    }
-}
+import Alamofire
 
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
-    func get<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C> where C: Codable
-}
-
-extension User {
-    var _primaryKeyPath: PartialKeyPath<User> { return \.name }
-    var primaryKeyPath: KeyPath<User, String> { return \.name }
-    var keyPaths: [KeyPath<User, String>] { return [primaryKeyPath] }
-}
-
-protocol Persisting {
-    var cache: AsyncCache { get }
-    func get<F>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[F]> where F: Codable & Filterable
-}
-
-extension Persisting {
-    func get<F>(filter: QueryConvertible, removeEmptyArrays: Bool) -> Observable<[F]> where F: Codable & Filterable {
-        return asyncLoad()
-            .filterNil()
-            .filterValues(by: filter, removeEmptyArrays: removeEmptyArrays)
-    }
+    func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable
 }
 
 extension Service {
-    func get<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
-        let cacheSignal: Observable<C> = loadFromCacheIfAbleTo(fetchFrom: fetchFrom)
-        let httpSignal: Observable<C> = fetchFromBackendAndCacheIfAbleTo(router: router, fetchFrom: fetchFrom)
-        return cacheSignal.concat(httpSignal)
+    func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
+        return getFromCacheIfAbleTo(from: source).concat(
+            getFromBackendAndCacheIfAbleTo(request: request, from: source)
+        )
     }
 }
 
 //MARK: - Private Methods
 private extension Service {
     
-    func fetchFromBackendAndCacheIfAbleTo<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
-        return fetchFromBackend(router: router, fetchFrom: fetchFrom)
-            .catchError { self.handleError($0, fetchFrom: fetchFrom) }
-            .flatMap { self.saveToOrDeleteInCacheIfAbleTo($0, fetchFrom: fetchFrom) }
+    func getFromBackendAndCacheIfAbleTo<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
+        return getFromBackend(request: request, from: source)
+            .catchError { self.handleErrorIfNeeded($0, from: source) }
+            .flatMap { model in self.updateCacheIfAbleTo(with: model, from: source) }
             .filterNil()
-            .filter(include: fetchFrom.emitEventForValueFromBackend)
+            .filter(include: source.emitEventForValueFromBackend)
             .do(onNext: { log.verbose("Got: \($0)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.verbose("onCompleted") })
     }
     
-    func fetchFromBackend<C>(router: Router, fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
-        guard fetchFrom.shouldFetchFromBackend else { log.info("Prevented fetch from backend"); return .empty() }
-        return httpClient.makeRequest(router: router)
+    func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable {
+        guard source.shouldServiceSourceBackend else { log.info("Prevented fetch from backend"); return .empty() }
+        return httpClient.makeRequest(request: request)
             .do(onNext: { var s = "empty"; if let d = $0 { s = "\(d)" }; log.verbose("HTTP response: \(s)") }, onError: { log.error("error: \($0)") }, onCompleted: { log.verbose("onCompleted") })
     }
     
-    func saveToOrDeleteInCacheIfAbleTo<C>(_ fromBackend: C?, fetchFrom: FetchFrom) -> Observable<C?> where C: Codable {
-        guard let persisting = self as? Persisting else { return .just(fromBackend) }
-        guard !(fromBackend != nil && !fetchFrom.shouldSaveToCache) else { log.info("Prevented save to cache"); return .of(fromBackend!) }
-        return persisting.asyncSaveOrDelete(fromBackend, key: KeyCreator<C>.key)
+    func updateCacheIfAbleTo<Model>(with model: Model?, from source: ServiceSource) -> Observable<Model?> where Model: Codable {
+        guard let persisting = self as? Persisting else { return .just(model) }
+        guard !(model != nil && !source.shouldSaveToCache) else { log.info("Prevented save to cache"); return .of(model!) }
+        return persisting.asyncSaveOrDelete(model, key: KeyCreator<Model>.key)
         
     }
     
-    func loadFromCacheIfAbleTo<C>(fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
+    func getFromCacheIfAbleTo<Model>(from source: ServiceSource) -> Observable<Model> where Model: Codable {
         guard let persisting = self as? Persisting else { return .empty() }
-        guard fetchFrom.shouldLoadFromCache else { log.info("Prevented load from cache"); return .empty() }
+        guard source.shouldLoadFromCache else { log.info("Prevented load from cache"); return .empty() }
         return persisting.asyncLoad()
             .filterNil()
     }
     
-    func handleError<C>(_ error: Error, fetchFrom: FetchFrom) -> Observable<C> where C: Codable {
-        guard fetchFrom.catchErrorsFromBackend else { log.error("Emitting error: `\(error)`"); return .error(error) }
+    func handleErrorIfNeeded<Model>(_ error: Error, from source: ServiceSource) -> Observable<Model> where Model: Codable {
+        guard source.catchErrorsFromBackend else { log.error("Emitting error: `\(error)`"); return .error(error) }
         log.verbose("HTTP failed with error: `\(error)`, suppressed by service")
         return .empty()
     }

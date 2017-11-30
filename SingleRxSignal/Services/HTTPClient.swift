@@ -12,11 +12,11 @@ import RxSwift
 struct HTTPClient: HTTPClientProtocol {}
 
 protocol HTTPClientProtocol {
-    func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable
+    func makeRequest<C>(request: Router) -> Observable<C?> where C: Codable
 }
 
 extension HTTPClientProtocol {
-    func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable {
+    func makeRequest<C>(request: Router) -> Observable<C?> where C: Codable {
         return Observable.create { observer in
             self.makeRequestOnBackground { (model: C?, error: MyError?) in
                 defer { observer.onCompleted() }

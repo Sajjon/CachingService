@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol UserServiceProtocol: Service, Persisting {
-    func getUser(fetchFrom: FetchFrom) -> Observable<User>
+    func getUser(fromSource source: ServiceSource) -> Observable<User>
 }
 
 final class UserService: UserServiceProtocol {
@@ -24,8 +24,8 @@ final class UserService: UserServiceProtocol {
         self.cache = cache
     }
     
-    func getUser(fetchFrom: FetchFrom = .default) -> Observable<User> {
+    func getUser(fromSource source: ServiceSource = .default) -> Observable<User> {
         log.info("GETTING USER")
-        return get(router: Router.user, fetchFrom: fetchFrom)
+        return get(request: Router.user, from: source)
     }
 }

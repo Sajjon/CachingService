@@ -22,8 +22,8 @@ final class MockedNonPersistingIntegerService {
 extension MockedNonPersistingIntegerService: IntegerServiceProtocol {
     var httpClient: HTTPClientProtocol { return mockedIntegerHTTPClient }
     
-    func getInteger(fetchFrom: FetchFrom) -> Observable<Int> {
-        return get(router: TestRouter.integer, fetchFrom: fetchFrom)
+    func getInteger(fromSource source: ServiceSource) -> Observable<Int> {
+        return get(request: TestRouter.integer, from: source)
     }
 }
 

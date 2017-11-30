@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol GroupServiceProtocol: Service {
-    func getGroup(fetchFrom: FetchFrom) -> Observable<Group>
+    func getGroup(fromSource source: ServiceSource) -> Observable<Group>
 }
 
 final class GroupService: GroupServiceProtocol {
@@ -22,9 +22,9 @@ final class GroupService: GroupServiceProtocol {
         self.httpClient = httpClient
     }
     
-    func getGroup(fetchFrom: FetchFrom = .default) -> Observable<Group> {
+    func getGroup(fromSource source: ServiceSource = .default) -> Observable<Group> {
         log.info("GETTING GROUP")
-        return get(router: Router.group, fetchFrom: fetchFrom)
+        return get(request: Router.group, from: source)
     }
 }
 

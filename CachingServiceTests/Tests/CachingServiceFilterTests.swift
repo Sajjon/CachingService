@@ -16,12 +16,12 @@ import RxTest
 import RxBlocking
 
 extension UserServiceProtocol {
-    func assertElements(_ fetchFrom: FetchFrom = .default) -> [User] {
-        return materialized(fetchFrom).elements
+    func assertElements(_ source: ServiceSource = .default) -> [User] {
+        return materialized(source).elements
     }
     
-    func materialized(_ fetchFrom: FetchFrom = .default) -> (elements: [User], error: MyError?) {
-        return materialized(fetchFrom: fetchFrom)
+    func materialized(_ source: ServiceSource = .default) -> (elements: [User], error: MyError?) {
+        return materialized(fromSource: source)
     }
 }
 

@@ -12,16 +12,16 @@ import Foundation
 import RxSwift
 
 protocol IntegerServiceProtocol: Service {
-    func getInteger(fetchFrom: FetchFrom) -> Observable<Int>
+    func getInteger(fromSource source: ServiceSource) -> Observable<Int>
 }
 
 extension IntegerServiceProtocol {
-    func assertElements(_ fetchFrom: FetchFrom = .default) -> [Int] {
-        return materialized(fetchFrom).elements
+    func assertElements(_ source: ServiceSource = .default) -> [Int] {
+        return materialized(source).elements
     }
     
-    func materialized(_ fetchFrom: FetchFrom = .default) -> (elements: [Int], error: MyError?) {
-        return materialized(fetchFrom: fetchFrom)
+    func materialized(_ source: ServiceSource = .default) -> (elements: [Int], error: MyError?) {
+        return materialized(fromSource: source)
     }
 }
 

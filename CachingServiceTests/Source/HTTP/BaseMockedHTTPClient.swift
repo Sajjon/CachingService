@@ -26,8 +26,8 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
     }
 }
 extension BaseMockedHTTPClient: HTTPClientProtocol {
-    func makeRequest<C>(router: Router) -> Observable<C?> where C: Codable {
-        log.verbose("Start, mocked request against path: `\(router.path)`")
+    func makeRequest<C>(request: Router) -> Observable<C?> where C: Codable {
+        log.verbose("Start, mocked request against path: `\(request.path)`")
         return Observable.create { observer in
             switch self.mockedEvent {
             case .error(let error):
