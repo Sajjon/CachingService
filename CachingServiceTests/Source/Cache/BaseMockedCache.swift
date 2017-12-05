@@ -1,13 +1,13 @@
 //
 //  BaseMockedCache.swift
-//  SingleRxSignalTests
+//  CachingServiceTests
 //
 //  Created by Alexander Cyon on 2017-11-15.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
 //
 
 import Foundation
-@testable import SingleRxSignal
+@testable import CachingService
 import SwiftyBeaver
 
 class BaseMockedCache<Value: Codable & Equatable>: AsyncCache {
@@ -40,7 +40,7 @@ class BaseMockedCache<Value: Codable & Equatable>: AsyncCache {
 }
 
 extension BaseMockedCache {
-    var mockedSavingError: MyError? {
+    var mockedSavingError: ServiceError? {
         guard case let .error(error) = cachedEvent else { return nil }
         return error
     }

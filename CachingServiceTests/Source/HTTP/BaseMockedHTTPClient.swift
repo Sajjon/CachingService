@@ -1,6 +1,6 @@
 //
 //  BaseMockedHTTPClient.swift
-//  SingleRxSignalTests
+//  CachingServiceTests
 //
 //  Created by Alexander Cyon on 2017-11-15.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-@testable import SingleRxSignal
+@testable import CachingService
 import RxSwift
 import SwiftyBeaver
 
@@ -26,7 +26,10 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
     }
 }
 extension BaseMockedHTTPClient: HTTPClientProtocol {
-    func makeRequest<C>(request: Router) -> Observable<C?> where C: Codable {
+    
+    func makeRequest(request: Router) -> Observable<()> { fatalError("not impl") }
+    
+    func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         log.verbose("Start, mocked request against path: `\(request.path)`")
         return Observable.create { observer in
             switch self.mockedEvent {
@@ -35,7 +38,7 @@ extension BaseMockedHTTPClient: HTTPClientProtocol {
             case .valueOrEmpty(let valueOrEmpty):
                 switch valueOrEmpty {
                 case .empty: observer.onNext(nil)
-                case .value(let value): observer.onNext(value as! C)
+                case .value(let value): observer.onNext(value as! Model)
                 }
                 observer.onCompleted()
             }

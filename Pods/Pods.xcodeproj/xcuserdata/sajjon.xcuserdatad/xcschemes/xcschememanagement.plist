@@ -9,12 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SingleRxSignal.xcscheme</key>
+		<key>Kingfisher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SingleRxSignalTests.xcscheme</key>
+		<key>Pods-CachingService.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-CachingServiceTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

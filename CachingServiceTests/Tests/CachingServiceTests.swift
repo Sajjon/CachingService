@@ -1,13 +1,13 @@
 //
 //  CachingServiceTests.swift
-//  SingleRxSignalTests
+//  CachingServiceTests
 //
 //  Created by Alexander Cyon on 2017-10-28.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
 //
 
 import XCTest
-@testable import SingleRxSignal
+@testable import CachingService
 import RxSwift
 import RxTest
 import RxBlocking
@@ -171,9 +171,9 @@ final class CachingServiceTests: BaseTestCase {
         expected.assertCacheEquals(elements[0])
         XCTAssertEqual(integerService.mockedIntegerCache.mockedValue, empty)
     }
-    
+    let httpError: ServiceError = .api(.httpGeneric)
     func testThatCachingServiviesDoesNotDeleteCachedValueWhenBackendReturnsError() {
-        let expected = ExpectedIntegerResult(cached: initialCache, httpError: .httpError)
+        let expected = ExpectedIntegerResult(cached: initialCache, httpError: httpError)
         let integerService = MockedPersistingIntegerService(mocked: expected)
         XCTAssertEqual(integerService.mockedIntegerCache.mockedValue, initialCache)
         let (elements, _) = integerService.materialized()
@@ -183,7 +183,7 @@ final class CachingServiceTests: BaseTestCase {
     }
     
     func testThatCachingServiceEmitsBackendErrorByDefault() {
-        let expectedError: MyError = .httpError
+        let expectedError: ServiceError = httpError
         let expected = ExpectedIntegerResult(cached: dontCare, httpError: expectedError)
         let integerService = MockedPersistingIntegerService(mocked: expected)
         XCTAssertEqual(integerService.mockedIntegerHTTPClient.mockedEvent.error, expectedError)
@@ -193,7 +193,7 @@ final class CachingServiceTests: BaseTestCase {
     }
    
     func testThatCachingServiceCatchesBackendErrorIfToldTo() {
-        let mockedHttpError: MyError = .httpError
+        let mockedHttpError: ServiceError = httpError
         let expected = ExpectedIntegerResult(cached: dontCare, httpError: mockedHttpError)
         let integerService = MockedPersistingIntegerService(mocked: expected)
         XCTAssertEqual(integerService.mockedIntegerHTTPClient.mockedEvent.error, mockedHttpError)

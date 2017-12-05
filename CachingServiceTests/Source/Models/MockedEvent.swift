@@ -1,18 +1,18 @@
 //
 //  MockedEvent.swift
-//  SingleRxSignalTests
+//  CachingServiceTests
 //
 //  Created by Alexander Cyon on 2017-11-15.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
 //
 
 import Foundation
-@testable import SingleRxSignal
+@testable import CachingService
 import XCTest
 
 enum MockedEvent<Value: Codable & Equatable>: Equatable {
     case valueOrEmpty(ValueOrEmpty<Value>)
-    case error(MyError)
+    case error(ServiceError)
 }
 
 extension MockedEvent {
@@ -24,7 +24,7 @@ extension MockedEvent {
         }
     }
     
-    init(_ error: MyError) {
+    init(_ error: ServiceError) {
         self = .error(error)
     }
     
@@ -41,7 +41,7 @@ extension MockedEvent {
         }
     }
     
-    var error: MyError? {
+    var error: ServiceError? {
         switch self {
         case .error(let error):
             return error

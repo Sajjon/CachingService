@@ -10,10 +10,11 @@ pod 'Swinject'
 pod 'RxViewController'
 pod 'SwiftyBeaver'
 pod 'Alamofire'
+pod 'Kingfisher'
 
-target 'SingleRxSignal' do
+target 'CachingService' do
 
-  target 'SingleRxSignalTests' do
+  target 'CachingServiceTests' do
     pod 'RxTest'
     pod 'RxBlocking'
     inherit! :search_paths

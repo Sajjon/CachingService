@@ -1,6 +1,6 @@
 //
 //  IntegerServiceProtocol.swift
-//  SingleRxSignalTests
+//  CachingServiceTests
 //
 //  Created by Alexander Cyon on 2017-11-15.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-@testable import SingleRxSignal
+@testable import CachingService
 import RxSwift
 
 protocol IntegerServiceProtocol: Service {
@@ -20,7 +20,7 @@ extension IntegerServiceProtocol {
         return materialized(source).elements
     }
     
-    func materialized(_ source: ServiceSource = .default) -> (elements: [Int], error: MyError?) {
+    func materialized(_ source: ServiceSource = .default) -> (elements: [Int], error: ServiceError?) {
         return materialized(fromSource: source)
     }
 }

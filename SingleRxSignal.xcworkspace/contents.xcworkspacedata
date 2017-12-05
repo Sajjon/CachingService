@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:SingleRxSignal.xcodeproj">
+      location = "group:/Users/sajjon/Developer/Swift/iOS/Experimenting/SingleRxSignal/CachingService.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

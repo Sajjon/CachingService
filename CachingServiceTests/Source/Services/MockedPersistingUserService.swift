@@ -1,13 +1,13 @@
 //
 //  MockedPersistingUserService.swift
-//  SingleRxSignal
+//  CachingService
 //
 //  Created by Alexander Cyon on 2017-11-28.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
 //
 
 import Foundation
-@testable import SingleRxSignal
+@testable import CachingService
 import RxSwift
 
 final class ExpectedUserResult: BaseExpectedResult<List<User>> {}
@@ -48,7 +48,7 @@ extension MockedPersistingUserService {
         return materialized(filter: filter, removeEmptyArrays: removeEmptyArrays).elements
     }
     
-    func materialized(_ filter: FilterConvertible, removeEmptyArrays: Bool = true) -> (elements: [List<User>], error: MyError?) {
+    func materialized(_ filter: FilterConvertible, removeEmptyArrays: Bool = true) -> (elements: [List<User>], error: ServiceError?) {
         return materialized(filter: filter)
     }
 }
@@ -58,7 +58,7 @@ extension MockedPersistingUserService {
         return materialized(source).elements
     }
     
-    func materialized(_ source: ServiceSource = .default) -> (elements: [List<User>], error: MyError?) {
+    func materialized(_ source: ServiceSource = .default) -> (elements: [List<User>], error: ServiceError?) {
         return materialized(fromSource: source)
     }
 }

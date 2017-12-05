@@ -1,6 +1,6 @@
 //
 //  CachingServiceFilterTests.swift
-//  SingleRxSignal
+//  CachingService
 //
 //  Created by Alexander Cyon on 2017-11-28.
 //  Copyright © 2017 Alexander Cyon. All rights reserved.
@@ -10,7 +10,7 @@ import Foundation
 
 
 import XCTest
-@testable import SingleRxSignal
+@testable import CachingService
 import RxSwift
 import RxTest
 import RxBlocking
@@ -20,7 +20,7 @@ extension UserServiceProtocol {
         return materialized(source).elements
     }
     
-    func materialized(_ source: ServiceSource = .default) -> (elements: [User], error: MyError?) {
+    func materialized(_ source: ServiceSource = .default) -> (elements: [User], error: ServiceError?) {
         return materialized(fromSource: source)
     }
 }
