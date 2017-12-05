@@ -22,7 +22,9 @@ final class MockedPersistingIntegerService {
 
 extension MockedPersistingIntegerService: IntegerServiceProtocol {
     var httpClient: HTTPClientProtocol { return mockedIntegerHTTPClient }
-    
+    var reachability: ReachabilityService {
+        return try! DefaultReachabilityService()
+    }
     func getInteger(fromSource source: ServiceSource) -> Observable<Int> {
         return get(request: TestRouter.integer, from: source)
     }

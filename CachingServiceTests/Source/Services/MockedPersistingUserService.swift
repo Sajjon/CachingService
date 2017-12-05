@@ -27,6 +27,10 @@ final class MockedPersistingUserService {
 }
 
 extension MockedPersistingUserService: Service {
+    var reachability: ReachabilityService {
+        return try! DefaultReachabilityService()
+    }
+    
     var httpClient: HTTPClientProtocol { return mockedUserHTTPClient }
 }
 
