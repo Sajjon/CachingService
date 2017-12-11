@@ -13,6 +13,8 @@ import XCTest
 import RxSwift
 import RxTest
 import RxBlocking
+import RxReachability
+import Reachability
 
 
 final class ReachabilityAndRetryTests: BaseTestCase {
@@ -24,15 +26,15 @@ final class ReachabilityAndRetryTests: BaseTestCase {
     }
     
     func testReachabilityNotifies() {
-        let reachability = MockedReachabilityService(reachabilityStatus: .unreachable)
+        let reachability = MockedReachabilityService(reachabilityStatus: .none)
         do {
             var elements = try reachability.reachability.asObservable().toBlocking().toArray()
             XCTAssertEqual(elements.count, 1)
-            XCTAssertTrue(elements[0] == .unreachable)
-            reachability.reachabilityStatus = .reachable(viaWiFi: true)
+            XCTAssertTrue(elements[0] == .none)
+            reachability.reachabilityStatus = .wifi
             elements = try reachability.reachability.asObservable().toBlocking().toArray()
             XCTAssertEqual(elements.count, 1)
-            XCTAssertTrue(elements[0] == .reachable(viaWiFi: true))
+            XCTAssertTrue(elements[0] == .wifi)
         } catch {
             XCTFail("Failed due to error: `\(error)`")
         }
@@ -40,7 +42,7 @@ final class ReachabilityAndRetryTests: BaseTestCase {
     
     func testThatReachabilityReturnsValuesFromHTTPWhenReachable() {
         let expected = ExpectedIntegerResult(cached: dontCare, http: initialHttp)
-        let expectedReachability: ReachabilityStatus = .reachable(viaWiFi: true)
+        let expectedReachability: ReachabilityStatus = .wifi
         let reachability = MockedReachabilityService(reachabilityStatus: expectedReachability)
         
         let httpClient = MockedIntegerHTTPClient(
@@ -60,7 +62,7 @@ final class ReachabilityAndRetryTests: BaseTestCase {
     
     func testThatReachabilityReturnsNoValuesFromHTTPWhenUnreachable() {
         let expected = ExpectedIntegerResult(cached: dontCare, http: initialHttp)
-        let expectedReachability: ReachabilityStatus = .unreachable
+        let expectedReachability: ReachabilityStatus = .none
         let reachability = MockedReachabilityService(reachabilityStatus: expectedReachability)
         
         let httpClient = MockedIntegerHTTPClient(
@@ -82,7 +84,7 @@ final class ReachabilityAndRetryTests: BaseTestCase {
     
     func testThatReachabilityRetriesWhenNoNetworkIfToldTo() {
         let expected = ExpectedIntegerResult(cached: dontCare, httpError: ServiceError.api(.noNetwork))
-        let expectedReachability: ReachabilityStatus = .unreachable
+        let expectedReachability: ReachabilityStatus = .none
         let reachability = MockedReachabilityService(reachabilityStatus: expectedReachability)
         
         let httpClient = MockedIntegerHTTPClient(
@@ -108,7 +110,7 @@ final class ReachabilityAndRetryTests: BaseTestCase {
     
     func testThatReachabilityRetriesWhenNoNetworkIfToldToBadUrl() {
         let expected = ExpectedIntegerResult(cached: dontCare, http: initialHttp)
-        let expectedReachability: ReachabilityStatus = .unreachable
+        let expectedReachability: ReachabilityStatus = .none
         let reachability = MockedReachabilityService(reachabilityStatus: expectedReachability)
         
         let httpClient = MockedIntegerHTTPClient(
@@ -139,7 +141,7 @@ final class ReachabilityAndRetryTests: BaseTestCase {
         
         let expectations = expectation(description: "Reachability should become reachable")
         let bag = DisposeBag()
-        reachability.reachabilityStatus = .reachable(viaWiFi: true)
+        reachability.reachabilityStatus = .wifi
         let observable: Observable<Int> = integerService.getInteger(fromSource: source)
         observable.subscribe(onNext: {
             log.warning("got event `\($0)`")

@@ -44,7 +44,7 @@ final class MockedReachabilityService: ReachabilityService {
     
     var reachabilityStatus: ReachabilityStatus
    
-    init(reachabilityStatus: ReachabilityStatus = .reachable(viaWiFi: true)) {
+    init(reachabilityStatus: ReachabilityStatus = .wifi) {
         self.reachabilityStatus = reachabilityStatus
     }
     

@@ -1,4 +1,6 @@
 # Uncomment the next line to define a global platform for your project
+source 'https://github.com/CocoaPods/Specs.git'
+
 platform :ios, '11.1'
 use_frameworks!
 
@@ -6,6 +8,8 @@ pod 'ViewComposer'
 pod 'TinyConstraints'
 pod 'RxSwift'
 pod 'RxOptional'
+pod 'RxReachability', :git => 'https://github.com/ivanbruel/RxReachability.git'
+pod 'RxNuke'
 pod 'Swinject'
 pod 'RxViewController'
 pod 'SwiftyBeaver'

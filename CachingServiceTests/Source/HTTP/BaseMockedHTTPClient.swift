@@ -38,7 +38,7 @@ extension BaseMockedHTTPClient: HTTPClientProtocol {
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         log.verbose("Start, mocked request against path: `\(request.path)`")
         return reachability.reachability.flatMap { (reachabilityStatus: ReachabilityStatus) -> Observable<Model?> in
-            guard reachabilityStatus != ReachabilityStatus.unreachable else { return .error(ServiceError.api(.noNetwork)) }
+            guard reachabilityStatus != .none else { return .error(ServiceError.api(.noNetwork)) }
             return self._makeRequest(request: request)
         }
     }

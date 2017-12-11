@@ -14,7 +14,7 @@ let ServiceEmptyOptionsInfo = [ServiceOptionsInfoItem]()
 public enum ServiceRetry {
     case count(Int)
     case forever
-//    case timeout(TimeInterval)
+    case timeout(TimeInterval)
 }
 
 extension ServiceRetry {
