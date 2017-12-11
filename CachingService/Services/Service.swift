@@ -14,16 +14,6 @@ import RxCocoa
 import RxSwift
 import RxOptional
 
-//protocol MyImageService: Service {
-//    func getImage(urlString: String, from source: ServiceSource) -> Observable<UIImage>
-//}
-//
-//extension MyImageService {
-//    func getImage(urlString: String, from source: ServiceSource) -> Observable<UIImage> {
-//        return get(request: urlString as Router, from: source)
-//    }
-//}
-
 protocol Service {
     var httpClient: HTTPClientProtocol { get }
     func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable
@@ -40,98 +30,11 @@ extension Service {
             getFromBackendAndCacheIfAbleTo(request: request, from: source)
         )
     }
-}
-
-
-//extension ObservableConvertibleType {
-//    func retryOnBecomesReachable(reachabilityService: ReachabilityService) -> Observable<E> {
-//        return self.asObservable()
-//            .catchError {
-//                guard
-//                    let apiError = $0 as? ServiceError.APIError,
-//                    apiError == .noNetwork
-//                else { return .error($0) }
-//                return Observable.empty()
-//        }
-//    }
-//}
-
-//extension ObservableConvertibleType {
-//    func retryOnBecomesReachable(_ valueOnFailure: E? = nil, reachabilityService: ReachabilityService) -> Observable<E> {
-//        return self.asObservable()
-//            .catchError { (e) -> Observable<E> in
-//                reachabilityService.reachability
-//                    //                    .skip(1)
-//                    .filter { $0.reachable }
-//                    .flatMap { (reachable: ReachabilityStatus) -> Observable<E> in
-//                        log.warning("reachable: `\(reachable)`")
-//                        return Observable<E>.error(e)
-//                }
-////                    .startWith(valueOnFailure).filterNil()
-//            }
-//            .retry()
-////            .do(onNext: { log.debug("onNext `\($0)`") }, onError: { log.debug("onError: \($0)") })
-//    }
-//}
-
-//extension ObservableConvertibleType {
-//    func retryOnBecomesReachable(_ valueOnFailure: E? = nil, options: ServiceRetry?, reachabilityService: ReachabilityService) -> Observable<E> {
-//        guard let options = options else { log.error("NO RETRY OPTIONS!!!!!");return self.asObservable() }
-//        return self.asObservable()
-//            .catchError { error in
-//                guard error == ServiceError.api(.noNetwork) else { return .error(error) }
-//                return reachabilityService.reachability
-//                    .skip(1)
-//                    .filter {
-//                        guard $0.reachable else { log.warning("Filter: NOT REACHABLE"); return false }
-//                        log.warning("Filter: REACHABLE :D"); return true
-//                    } // dont want to know when we lose connection
-//                    .flatMap { (reachable: ReachabilityStatus) -> Observable<E> in
-//                        log.warning("RETURNING EMPTY FROM FLATMAP")
-//                     return Observable<E>.empty()
-//                }
-//            }.retry(options: options)
-//    }
-//
-//    func retry(options: ServiceRetry) -> Observable<E> {
-//        switch options {
-//        case .forever:
-//             log.warning("forever")
-//            return self.asObservable().retry()
-//        case .count(let count):
-//            log.warning("count")
-//            return self.asObservable().retry(count)
-//        }
-//    }
-//}
-
-
-public extension ObservableType {
     
-    public func retryOnConnect(options: ServiceRetry?) -> Observable<E> {
-        guard let options = options else { log.error("NO RETRY OPTIONS!!!!!");return self.asObservable() }
-        switch options {
-        case .forever:
-            return retryWhen { _ in
-                return Reachability.rx.isConnected
-            }
-        case .timeout(let timeout):
-            return retryWhen { _ in
-                return Reachability.rx.isConnected.timeout(timeout, scheduler: MainScheduler.asyncInstance)
-            }
-        case .count(let count):
-            return self.retry(count)
-        }
+    func get<Model>(modelType: Model.Type, request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
+        return get(request: request, from: source) as Observable<Model>
     }
-    
-    //    public func retryOnConnect(timeout: TimeInterval) -> Observable<E> {
-    //        return retryWhen { _ in
-    //            return Reachability.rx.isConnected
-    //                .timeout(timeout, scheduler: MainScheduler.asyncInstance)
-    //        }
-    //    }
 }
-
 
 //MARK: - Private Methods
 private extension Service {
@@ -139,7 +42,6 @@ private extension Service {
     func getFromBackendAndCacheIfAbleTo<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
         return getFromBackend(request: request, from: source)
             .retryOnConnect(options: source.retryWhenReachable)
-            //            .retryOnBecomesReachable(options: source.retryWhenReachable, reachabilityService: reachability)
             .catchError { self.handleErrorIfNeeded($0, from: source) }
             .flatMap { model in self.updateCacheIfAbleTo(with: model, from: source) }
             .filterNil()
@@ -172,21 +74,4 @@ private extension Service {
         log.verbose("Suppressed http error: `\(error)`")
         return .empty()
     }
-    
-    //    func handleUnreachableErrorIfNeeded<Model>(_ error: Error, from source: ServiceSource) -> Observable<Model> where Model: Codable {
-    //        guard let retryOptions = source.retryWhenReachable else { return .error(error) }
-    ////        guard source.catchErrorsFromBackend else { log.error("Emitting error: `\(error)`"); return .error(error) }
-    //        log.verbose("Suppressed http error: `\(error)`")
-    //        return .empty()
-    //    }
 }
-
-//extension ObservableConvertibleType {
-//    func silenceError(_ shouldSilenceError: @escaping (Error) -> Bool) -> Observable<E> {
-//        return asObservable().catchError { error in
-//            guard shouldSilenceError(error) else { return .error(error) }
-//            return .empty()
-//        }
-//    }
-//}
-

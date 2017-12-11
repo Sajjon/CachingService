@@ -62,6 +62,8 @@
 		48A7598F1FA4E5DF00160897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598E1FA4E5DF00160897 /* Assets.xcassets */; };
 		48A759921FA4E5DF00160897 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48A759901FA4E5DF00160897 /* LaunchScreen.storyboard */; };
 		48AFB8611FDE8CF50046804D /* UIApplication+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFB8601FDE8CF40046804D /* UIApplication+Rx.swift */; };
+		48AFB8631FDEC5C50046804D /* CoinsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFB8621FDEC5C50046804D /* CoinsResponse.swift */; };
+		48AFB8651FDEC75C0046804D /* ObservableType+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFB8641FDEC75C0046804D /* ObservableType+Retry.swift */; };
 		48B4920C1FD2D1DF00B19096 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4920B1FD2D1DF00B19096 /* Coin.swift */; };
 		48B4920E1FD2D6C100B19096 /* CoinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4920D1FD2D6C100B19096 /* CoinsView.swift */; };
 		48B492101FD2D82F00B19096 /* CoinsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4920F1FD2D82F00B19096 /* CoinsViewModel.swift */; };
@@ -69,8 +71,6 @@
 		48B492141FD5493300B19096 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B492131FD5493300B19096 /* ImageService.swift */; };
 		48B492161FD5493E00B19096 /* UIImageView+DownloadableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B492151FD5493E00B19096 /* UIImageView+DownloadableImage.swift */; };
 		48B492181FD549E000B19096 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B492171FD549E000B19096 /* ReachabilityService.swift */; };
-		48B4921A1FD54AC000B19096 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B492191FD54ABF00B19096 /* Reachability.swift */; };
-		48B4921C1FD54B6000B19096 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4921B1FD54B6000B19096 /* Dependencies.swift */; };
 		48B4921E1FD54B9900B19096 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4921D1FD54B9900B19096 /* Utilities.swift */; };
 		48B492201FD54BD900B19096 /* Wireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4921F1FD54BD900B19096 /* Wireframe.swift */; };
 		48B492221FD54C3900B19096 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B492211FD54C3900B19096 /* UIImage+Extensions.swift */; };
@@ -170,6 +170,8 @@
 		48A759911FA4E5DF00160897 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48A759931FA4E5DF00160897 /* CachingService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CachingService-Info.plist"; sourceTree = "<group>"; };
 		48AFB8601FDE8CF40046804D /* UIApplication+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Rx.swift"; sourceTree = "<group>"; };
+		48AFB8621FDEC5C50046804D /* CoinsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsResponse.swift; sourceTree = "<group>"; };
+		48AFB8641FDEC75C0046804D /* ObservableType+Retry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+Retry.swift"; sourceTree = "<group>"; };
 		48B4920B1FD2D1DF00B19096 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		48B4920D1FD2D6C100B19096 /* CoinsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsView.swift; sourceTree = "<group>"; };
 		48B4920F1FD2D82F00B19096 /* CoinsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsViewModel.swift; sourceTree = "<group>"; };
@@ -177,8 +179,6 @@
 		48B492131FD5493300B19096 /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		48B492151FD5493E00B19096 /* UIImageView+DownloadableImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadableImage.swift"; sourceTree = "<group>"; };
 		48B492171FD549E000B19096 /* ReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
-		48B492191FD54ABF00B19096 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		48B4921B1FD54B6000B19096 /* Dependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		48B4921D1FD54B9900B19096 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		48B4921F1FD54BD900B19096 /* Wireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wireframe.swift; sourceTree = "<group>"; };
 		48B492211FD54C3900B19096 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
@@ -443,8 +443,6 @@
 			children = (
 				48B4921F1FD54BD900B19096 /* Wireframe.swift */,
 				48B4921D1FD54B9900B19096 /* Utilities.swift */,
-				48B4921B1FD54B6000B19096 /* Dependencies.swift */,
-				48B492191FD54ABF00B19096 /* Reachability.swift */,
 				48B492171FD549E000B19096 /* ReachabilityService.swift */,
 				48B492131FD5493300B19096 /* ImageService.swift */,
 				4845F3E31FB45CA6004A0261 /* Service.swift */,
@@ -477,6 +475,7 @@
 				48679CF31FBDA724004A9E20 /* Codable_Extension.swift */,
 				48915C321FD04E5C006259EE /* Observable+Collection+Filterable.swift */,
 				48AFB8601FDE8CF40046804D /* UIApplication+Rx.swift */,
+				48AFB8641FDEC75C0046804D /* ObservableType+Retry.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -491,6 +490,7 @@
 				48915C2E1FD013E4006259EE /* SourceOptions.swift */,
 				48B4920B1FD2D1DF00B19096 /* Coin.swift */,
 				486FD4161FD81FC8000C920B /* ServiceOption.swift */,
+				48AFB8621FDEC5C50046804D /* CoinsResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -804,7 +804,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */,
-				48B4921C1FD54B6000B19096 /* Dependencies.swift in Sources */,
 				48B4920E1FD2D6C100B19096 /* CoinsView.swift in Sources */,
 				480FBDD91FCDAC46003DD215 /* Group.swift in Sources */,
 				487DAC4E1FD2C23200028A60 /* UserDefaults+AsyncCache.swift in Sources */,
@@ -819,6 +818,7 @@
 				48B492121FD2D96900B19096 /* CoinService.swift in Sources */,
 				4845F3E41FB45CA6004A0261 /* Service.swift in Sources */,
 				48915C2F1FD013E4006259EE /* SourceOptions.swift in Sources */,
+				48AFB8651FDEC75C0046804D /* ObservableType+Retry.swift in Sources */,
 				48915C461FD06294006259EE /* HTTPHeaderStoreProtocol.swift in Sources */,
 				48679CF61FBDA759004A9E20 /* UserViewModel.swift in Sources */,
 				487DAC4D1FD2C23200028A60 /* AsyncCache.swift in Sources */,
@@ -843,7 +843,6 @@
 				48B492101FD2D82F00B19096 /* CoinsViewModel.swift in Sources */,
 				487DAC581FD2C32800028A60 /* PriceRouter.swift in Sources */,
 				48915C451FD06294006259EE /* AuthTokensConvertible.swift in Sources */,
-				48B4921A1FD54AC000B19096 /* Reachability.swift in Sources */,
 				48B492201FD54BD900B19096 /* Wireframe.swift in Sources */,
 				48B492161FD5493E00B19096 /* UIImageView+DownloadableImage.swift in Sources */,
 				487DAC561FD2C26000028A60 /* CoinRouter.swift in Sources */,
@@ -862,6 +861,7 @@
 				48B492181FD549E000B19096 /* ReachabilityService.swift in Sources */,
 				486FD4171FD81FC8000C920B /* ServiceOption.swift in Sources */,
 				48B492221FD54C3900B19096 /* UIImage+Extensions.swift in Sources */,
+				48AFB8631FDEC5C50046804D /* CoinsResponse.swift in Sources */,
 				487DAC4F1FD2C23200028A60 /* Key.swift in Sources */,
 				480FBDCE1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift in Sources */,
 				48915C441FD06294006259EE /* HTTPClient.swift in Sources */,

@@ -8,26 +8,6 @@
 
 import Foundation
 import RxSwift
-//
-//struct Adaptor<Response: Decodable, To: Codable>: Codable {
-//    var response: Response
-//    var to: To
-//    init(from decoder: Decoder) throws {
-//        
-//    }
-//}
-
-struct CoinsResponse: Codable {
-    let coinsMap: [String: Coin]
-    var coins: [Coin] { return coinsMap.map { $1 } }
-    enum CodingKeys: String, CodingKey {
-        case coinsMap = "Data"
-    }
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        coinsMap = try values.decode([String: Coin].self, forKey: .coinsMap)
-    }
-}
 
 protocol CoinServiceProtocol: Service, Persisting {
     func getCoins(fromSource source: ServiceSource) -> Observable<[Coin]>
@@ -48,9 +28,7 @@ final class CoinService: CoinServiceProtocol {
     }
     
     func getCoins(fromSource source: ServiceSource = .default) -> Observable<[Coin]> {
-        log.info("GETTING COINS")
-        let coinsResponse: Observable<CoinsResponse> = get(request: CoinRouter.all, from: source)
-        return coinsResponse.map { $0.coins }
+        return get(modelType: CoinsResponse.self, request: CoinRouter.all, from: source).map { $0.coins }
     }
     
     func getCachedCoins(using filter: FilterConvertible) -> Observable<[Coin]> {

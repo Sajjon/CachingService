@@ -12,40 +12,6 @@ import RxCocoa
 import RxSwift
 import RxOptional
 
-
-//#if swift(>=3.2)
-//    import class Dispatch.DispatchQueue
-//#else
-//    import class Dispatch.queue.DispatchQueue
-//#endif
-//
-//public enum ReachabilityStatus {
-//    case reachable(viaWiFi: Bool)
-//    case unreachable
-//}
-
-//extension Reachability.Connection: Equatable {
-//    public static func ==(lhs: Reachability.Connection, rhs: Reachability.Connection) -> Bool {
-//        switch (lhs, rhs) {
-//        case (.none, .none): return true
-//        case (.wifi, .wifi): return true
-//        case (.cellular, .cellular): return true
-//        default: return false
-//        }
-//    }
-//}
-//
-//extension ReachabilityStatus {
-//    var reachable: Bool {
-//        switch self {
-//        case .reachable:
-//            return true
-//        case .unreachable:
-//            return false
-//        }
-//    }
-//}
-
 public typealias ReachabilityStatus = Reachability.Connection
 
 public protocol ReachabilityService {
@@ -75,7 +41,6 @@ final class DefaultReachabilityService : ReachabilityService {
 
         reachabilityRef.whenReachable = { reachability in
             backgroundQueue.async {
-//                let next: Reachability.Connection = reachabilityRef.connection == .wifi ? .wifi : .cellular
                 reachabilitySubject.on(.next(reachabilityRef.connection == .wifi ? .wifi : .cellular))
             }
         }
