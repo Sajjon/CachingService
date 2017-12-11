@@ -27,7 +27,6 @@ final class NonCachingServiceTests: BaseTestCase {
         
     }
     
-    
     func testThatNonCachingServicesDoesNotErrorWhenTryToLoadingNilValueFromNonExistingCacheAndThatItDoesNotErrorWhenTryingToSavesHTTPValueToNonExistingCache() {
         let next = initialHttp
         let expected = MockedEvent(next)

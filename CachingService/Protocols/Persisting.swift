@@ -38,21 +38,21 @@ extension Persisting {
             }
             return Disposables.create()
             }
-            .do(onNext: { guard let cached = $0 else { log.verbose("Cache empty"); return }; log.verbose("Found in cache: `\(cached)`") })
+            .do(onNext: { guard let cached = $0 else { log.verbose("Cache empty"); return }; log.verbose("Found data in cache :D") })
     }
     
     func asyncSaveOrDelete<C>(_ optional: C?, key: Key) -> Observable<C?> where C: Codable {
         return Observable.create { observer in
             self.cache.asyncSaveOrDelete(optional: optional, for: key) { savingResult in
-                defer { observer.onCompleted() }
                 switch savingResult {
                 case .success:
-                    if let value = optional {
-                        log.verbose("Did cache: `\(value)`")
+                    if let _ = optional {
+                        log.verbose("Successfullt cached data")
                     } else {
                         log.verbose("Wrote nil to cache")
                     }
                     observer.onNext(optional)
+                    observer.onCompleted()
                 case .error(let error):
                     log.error("Failed to cache error - `\(error)`")
                     observer.onError(error)

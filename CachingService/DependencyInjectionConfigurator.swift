@@ -18,6 +18,22 @@ struct DependencyInjectionConfigurator {
                 try! DefaultReachabilityService()
             }.inObjectScope(.container)
             
+            c.register(AsyncCache.self) { _ in UserDefaults.standard }.inObjectScope(.container)
+            
+            c.register(HTTPHeaderStoreProtocol.self) { _ in HTTPHeaderStore() }.inObjectScope(.container)
+            
+            c.register(EnvironmentsProtocol.self) { _ in
+                Environments(infoPlist: Bundle.main.infoDictionary!)
+            }.inObjectScope(.container)
+            
+            c.register(HTTPClientProtocol.self) { r in
+                HTTPClient(
+                    reachability: r.resolve(ReachabilityService.self)!,
+                    environments: r.resolve(EnvironmentsProtocol.self)!,
+                    httpHeaderStore: r.resolve(HTTPHeaderStoreProtocol.self)!
+                )
+            }.inObjectScope(.container)
+            
             c.register(ImageService.self) { r in
                 let operationQueue = OperationQueue()
                 operationQueue.maxConcurrentOperationCount = 2
@@ -30,32 +46,23 @@ struct DependencyInjectionConfigurator {
                     backgroundWorkScheduler: backgroundWorkScheduler,
                     mainScheduler: MainScheduler.instance)
             }.inObjectScope(.container)
-                
-            c.register(AsyncCache.self) { _ in UserDefaults.standard }.inObjectScope(.container)
-            
-            c.register(HTTPHeaderStoreProtocol.self) { _ in HTTPHeaderStore() }.inObjectScope(.container)
-            
-            c.register(EnvironmentsProtocol.self) { _ in
-                Environments(infoPlist: Bundle.main.infoDictionary!)
-            }.inObjectScope(.container)
-            
-            c.register(HTTPClientProtocol.self) { r in
-                HTTPClient(
-                    environments: r.resolve(EnvironmentsProtocol.self)!,
-                    httpHeaderStore: r.resolve(HTTPHeaderStoreProtocol.self)!
-                )
-            }.inObjectScope(.container)
             
             c.register(CoinServiceProtocol.self) { r in
                 CoinService(
-                    reachability: r.resolve(ReachabilityService.self)!,
                     httpClient: r.resolve(HTTPClientProtocol.self)!,
                     cache: r.resolve(AsyncCache.self)!
                 )
                 }.inObjectScope(.weak)
             
-            c.register(MenuViewController.self) { (r, presenter: UINavigationController) in
-                MenuViewController(
+//            c.register(MenuViewController.self) { (r, presenter: UINavigationController) in
+//                MenuViewController(
+//                    coinService: r.resolve(CoinServiceProtocol.self)!,
+//                    imageService: r.resolve(ImageService.self)!,
+//                    presenter: presenter
+//                )
+//                }.inObjectScope(.weak)
+            c.register(CoinsViewController.self) { (r, presenter: UINavigationController) in
+                CoinsViewController(
                     coinService: r.resolve(CoinServiceProtocol.self)!,
                     imageService: r.resolve(ImageService.self)!,
                     presenter: presenter

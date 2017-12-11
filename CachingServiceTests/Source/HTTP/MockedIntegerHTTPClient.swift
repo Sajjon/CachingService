@@ -9,7 +9,7 @@
 import Foundation
 
 final class MockedIntegerHTTPClient: BaseMockedHTTPClient<Int> {
-    init(mockedEvent: MockedEvent<Int>) {
-        super.init(mockedEvent: mockedEvent)
+    init(mockedEvent: MockedEvent<Int>, reachability: MockedReachabilityService = MockedReachabilityService()) {
+        super.init(reachability: reachability, mockedEvent: mockedEvent)
     }
 }

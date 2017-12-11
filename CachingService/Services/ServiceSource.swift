@@ -9,9 +9,9 @@
 import Foundation
 
 enum ServiceSource {
-    case cacheAndBackendOptions(SourceOptions)
+    case cacheAndBackendOptions(ServiceOptionsInfo)
     case cache
-    case backendOptions(SourceOptions)
+    case backendOptions(ServiceOptionsInfo)
 }
 
 extension ServiceSource {
@@ -21,7 +21,7 @@ extension ServiceSource {
 }
 
 extension ServiceSource {
-    var shouldServiceSourceBackend: Bool {
+    var shouldFetchFromBackend: Bool {
         switch self {
         case .cache: return false
         default: return true
@@ -48,6 +48,18 @@ extension ServiceSource {
         switch self {
         case .backendOptions: return false
         default: return true
+        }
+    }
+    
+    var shouldRetryIfUnreachable: Bool {
+        return retryWhenReachable != nil
+    }
+    
+    var retryWhenReachable: ServiceRetry? {
+        switch self {
+        case .backendOptions(let options): return options.retryWhenReachable
+        case .cacheAndBackendOptions(let options): return options.retryWhenReachable
+        default: return nil
         }
     }
     

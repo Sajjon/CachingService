@@ -12,31 +12,50 @@ import RxSwift
 //let cacheKeyName = "name"
 final class CoinsViewModel: ViewModel {
     
-    private let bag = DisposeBag()
     private let coinService: CoinServiceProtocol
     private let activityIndicator = ActivityIndicator()
     
     lazy var isFetching: Observable<Bool> = activityIndicator.asObservable()
     
-    private let getButtonTapped: Observable<Void>
-    private let clearButtonTapped: Observable<Void>
+    private let getFromCacheAndBackendButtonTapped: Observable<Void>
+    private let getFromCacheOnlyButtonTapped: Observable<Void>
+    private let clearCacheButtonTapped: Observable<Void>
+    private let clearModelsButtonTapped: Observable<Void>
     
-    lazy var coinResponse: Observable<[Coin]> = self.getButtonTapped.flatMapLatest({ _ in
-        self.coinService.getCoins(fromSource: .default).trackActivity(self.activityIndicator)
+    lazy var models = Observable<[Coin]>.merge(cacheAndBackend, cacheOnly, clearCache, clearModels)
+    
+    private lazy var cacheAndBackend: Observable<[Coin]> = self.getFromCacheAndBackendButtonTapped.flatMapLatest({ _ in
+        self.coinService
+            .getCoins(fromSource: .cacheAndBackendOptions(ServiceOptionsInfo.foreverRetrying))
+            .trackActivity(self.activityIndicator)
+    })
+    
+    private lazy var cacheOnly: Observable<[Coin]> = self.getFromCacheOnlyButtonTapped.flatMapLatest({ _ in
+        self.coinService
+            .getCoins(fromSource: .cache)
+            .trackActivity(self.activityIndicator)
+    })
+    
+    private lazy var clearCache: Observable<[Coin]> = self.clearCacheButtonTapped.flatMapLatest({ _ in
+        self.coinService.asyncDeleteValue(forType: CoinsResponse.self).flatMap { _ in return Observable<[Coin]>.just([]) }
+            .trackActivity(self.activityIndicator)
+    })
+    
+    private lazy var clearModels: Observable<[Coin]> = self.clearModelsButtonTapped.flatMapLatest({ _ in
+        return Observable<[Coin]>.just([])
     })
     
     init(
         coinService: CoinServiceProtocol,
-        getButton: Observable<Void>,
-        clearButton: Observable<Void>
+        getFromCacheAndBackendButton: Observable<Void>,
+        getFromCacheOnlyButton: Observable<Void>,
+        clearCacheButton: Observable<Void>,
+        clearModelsButton: Observable<Void>
         ) {
         self.coinService = coinService
-        self.getButtonTapped = getButton
-        self.clearButtonTapped = clearButton
-        
-        clearButtonTapped.flatMapLatest { _ in
-            self.coinService.asyncDeleteValue(forType: Coin.self)
-        }
-        .subscribe(onError: { print("Error deleting from cache: \($0)") }, onCompleted: { print("Finished deleting from cache") }).disposed(by: bag)
+        self.getFromCacheAndBackendButtonTapped = getFromCacheAndBackendButton
+        self.getFromCacheOnlyButtonTapped = getFromCacheOnlyButton
+        self.clearCacheButtonTapped = clearCacheButton
+        self.clearModelsButtonTapped = clearModelsButton
     }
 }

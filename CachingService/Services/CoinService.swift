@@ -37,15 +37,12 @@ protocol CoinServiceProtocol: Service, Persisting {
 final class CoinService: CoinServiceProtocol {
     typealias Router = CoinRouter
     
-    let reachability: ReachabilityService
     let httpClient: HTTPClientProtocol
     let cache: AsyncCache
     
     init(
-        reachability: ReachabilityService,
         httpClient: HTTPClientProtocol,
         cache: AsyncCache) {
-        self.reachability = reachability
         self.httpClient = httpClient
         self.cache = cache
     }

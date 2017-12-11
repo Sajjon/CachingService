@@ -54,6 +54,23 @@ final class CachingServiceTests: BaseTestCase {
         expected.assertHTTPEquals(httpValue)
     }
     
+    func testSetAlgebraExtensions() {
+        let value: SourceOptions = [.emitValue]
+        XCTAssertTrue(value.contains(.emitValue))
+        XCTAssertFalse(value.contains(.emitError))
+        let valueAndError = value.inserting(.emitError)
+        XCTAssertTrue(valueAndError.contains(.emitValue))
+        XCTAssertTrue(valueAndError.contains(.emitError))
+        let error = valueAndError.removing(.emitValue)
+        XCTAssertTrue(error.contains(.emitError))
+        XCTAssertFalse(error.contains(.emitValue))
+        let cache: SourceOptions = [.shouldCache]
+        let all = cache.inserting(valueAndError)
+        XCTAssertTrue(all.contains(.shouldCache))
+        XCTAssertTrue(all.contains(.emitValue))
+        XCTAssertTrue(all.contains(.emitError))
+    }
+    
     func testDefaultRequestPermissionsCacheEmpty() {
         let expected = ExpectedIntegerResult(cached: empty, http: initialHttp)
         let integerService = MockedPersistingIntegerService(mocked: expected)
@@ -108,7 +125,7 @@ final class CachingServiceTests: BaseTestCase {
         let expected = ExpectedIntegerResult(cached: initialCache, http: next)
         let integerService = MockedPersistingIntegerService(mocked: expected)
         
-        let source: ServiceSource = .cacheAndBackendOptions(SourceOptions(shouldCache: false))
+        let source: ServiceSource = .cacheAndBackendOptions(ServiceOptionsInfo.default.removing(.shouldCache))
         var elements = integerService.assertElements(source)
         XCTAssertEqual(elements.count, 2)
         expected.assertCacheEquals(elements[0])
@@ -127,7 +144,7 @@ final class CachingServiceTests: BaseTestCase {
         let expected = ExpectedIntegerResult(cached: initialCache, http: initialHttp)
         let integerService = MockedPersistingIntegerService(mocked: expected)
         
-        let source: ServiceSource = .cacheAndBackendOptions(SourceOptions(emitValue: false, shouldCache: false))
+        let source: ServiceSource = .cacheAndBackendOptions([.emitError])
         XCTAssertEqual(integerService.mockedIntegerHTTPClient.mockedValue, initialHttp)
         var elements = integerService.assertElements(source)
         XCTAssertEqual(elements.count, 1)
@@ -197,7 +214,7 @@ final class CachingServiceTests: BaseTestCase {
         let expected = ExpectedIntegerResult(cached: dontCare, httpError: mockedHttpError)
         let integerService = MockedPersistingIntegerService(mocked: expected)
         XCTAssertEqual(integerService.mockedIntegerHTTPClient.mockedEvent.error, mockedHttpError)
-        let (elements, errorFromService) = integerService.materialized(.cacheAndBackendOptions(SourceOptions(emitError: false)))
+        let (elements, errorFromService) = integerService.materialized(.cacheAndBackendOptions(ServiceOptionsInfo.default.removing(.emitError)))
         XCTAssertEqual(errorFromService, nil)
         XCTAssertEqual(elements.count, 0)
     }
@@ -205,21 +222,21 @@ final class CachingServiceTests: BaseTestCase {
     func testThatCachingServiceDoesNotEmitAnyEventWhenOnlyFetchingFromBackendIfToldTo() {
         let expected = ExpectedIntegerResult(cached: dontCare, http: initialHttp)
         let integerService = MockedPersistingIntegerService(mocked: expected)
-        let elements = integerService.assertElements(.backendOptions(SourceOptions(emitValue: false)))
+        let elements = integerService.assertElements(.backendOptions(ServiceOptionsInfo.default.removing(.emitValue)))
         XCTAssertEqual(elements.count, 0)
     }
     
     func testThatCachingServiceDoesNotEmitAnyEventWhenFetchingFromEmptyCacheAndFromBackendIfToldTo() {
         let expected = ExpectedIntegerResult(cached: nil, http: initialHttp)
         let integerService = MockedPersistingIntegerService(mocked: expected)
-        let elements = integerService.assertElements(.cacheAndBackendOptions(SourceOptions(emitValue: false)))
+        let elements = integerService.assertElements(.cacheAndBackendOptions(ServiceOptionsInfo.default.removing(.emitValue)))
         XCTAssertEqual(elements.count, 0)
     }
     
     func testThatCachingServicOnlyEmitsSingleEventWhenFetchingFromCacheWithValueAndFromBackendIfToldTo() {
         let expected = ExpectedIntegerResult(cached: initialCache, http: initialHttp)
         let integerService = MockedPersistingIntegerService(mocked: expected)
-        let elements = integerService.assertElements(.cacheAndBackendOptions(SourceOptions(emitValue: false)))
+        let elements = integerService.assertElements(.cacheAndBackendOptions(ServiceOptionsInfo.default.removing(.emitValue)))
         XCTAssertEqual(elements.count, 1)
         XCTAssertEqual(elements[0], initialCache)
     }
@@ -227,7 +244,7 @@ final class CachingServiceTests: BaseTestCase {
     func testThatCachingServiceDoesNotEmitEventFromBackendIfToldToButThatItEmitsLoadedCacheValuesAndThatItSavesToCacheByDefaultWhenFetchingFromCacheAndBackend() {
         let expected = ExpectedIntegerResult(cached: initialCache, http: initialHttp)
         let integerService = MockedPersistingIntegerService(mocked: expected)
-        let source: ServiceSource = .cacheAndBackendOptions(SourceOptions(emitValue: false))
+        let source: ServiceSource = .cacheAndBackendOptions(ServiceOptionsInfo.default.removing(.emitValue))
         var elements = integerService.assertElements(source)
         XCTAssertEqual(elements.count, 1)
         XCTAssertEqual(elements[0], initialCache)

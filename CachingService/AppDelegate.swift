@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let container: Container = DependencyInjectionConfigurator.registerDependencies()
     func applicationDidFinishLaunching(_ application: UIApplication) {
         window = bootStrap()
-        let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .info
+        let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .verbose
         log.addDestination(consoleDestination)
     }
 }
@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
     func bootStrap() -> UIWindow {
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = UINavigationController(MenuViewController.self, in: container)
+        window.rootViewController = UINavigationController(CoinsViewController.self, in: container)
         window.makeKeyAndVisible()
         return window
     }

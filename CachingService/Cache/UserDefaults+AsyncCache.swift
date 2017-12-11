@@ -12,14 +12,12 @@ extension UserDefaults: AsyncCache {}
 extension UserDefaults {
     func save<Value>(value: Value, for key: Key) throws where Value: Codable {
         threadTimePrint("Cache: saving...")
-        simulateCacheDelay()
         let data = try JSONEncoder().encode([value])
         set(data, forKey: key.identifier)
     }
     
     func loadValue<Value>(for key: Key) -> Value? where Value: Codable {
         threadTimePrint("Cache: loading...")
-        simulateCacheDelay()
         guard
             let loadedData = data(forKey: key.identifier),
             case let decoder = JSONDecoder(dateDecodingStrategy: .iso8601),
@@ -35,7 +33,6 @@ extension UserDefaults {
     
     func hasValue(for key: Key) -> Bool {
         threadTimePrint("Cache: hasValue...")
-        simulateCacheDelay()
         return value(forKey: key.identifier) != nil
     }
 }
@@ -43,11 +40,6 @@ extension UserDefaults {
 private extension AsyncCache {
     func assertBackgroundThread() {
         guard !Thread.isMainThread else { fatalError("Run on main thread") }
-    }
-    
-    func simulateCacheDelay() {
-        assertBackgroundThread()
-        delay(.cache)
     }
 }
 

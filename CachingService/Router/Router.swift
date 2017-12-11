@@ -19,6 +19,17 @@ public protocol Router: URLRequestConvertible {
     var parameters: APIParameters? { get }
 }
 
+extension URL: Router {
+    public var path: String { return absoluteString }
+    public func asURLRequest() throws -> URLRequest {
+        return URLRequest(url: self)
+    }
+}
+
+extension String: Router {
+    public var path: String { return self }
+}
+
 public extension Router {
     var method: HTTPMethod { return .get }
     var encoding: ParameterEncoding { return JSONEncoding.default }

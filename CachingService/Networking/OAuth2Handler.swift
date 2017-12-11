@@ -49,7 +49,9 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
     // MARK: - RequestAdapter
     func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         var urlRequest = urlRequest
-        urlRequest.prependUrl(prefix: baseUrlString)
+        if urlRequest.url?.host == nil {
+            urlRequest.prependUrl(prefix: baseUrlString)
+        }
         httpHeaderStore.injectHeaders(to: &urlRequest)
         return urlRequest
     }

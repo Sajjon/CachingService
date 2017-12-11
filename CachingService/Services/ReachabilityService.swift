@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import RxOptional
 
 #if swift(>=3.2)
     import class Dispatch.DispatchQueue
@@ -17,6 +18,16 @@ import RxSwift
 public enum ReachabilityStatus {
     case reachable(viaWiFi: Bool)
     case unreachable
+}
+
+extension ReachabilityStatus: Equatable {
+    public static func ==(lhs: ReachabilityStatus, rhs: ReachabilityStatus) -> Bool {
+        switch (lhs, rhs) {
+        case (.unreachable, .unreachable): return true
+        case (.reachable(let lhsWifi), .reachable(let rhsWifi)): return lhsWifi == rhsWifi
+        default: return false
+        }
+    }
 }
 
 extension ReachabilityStatus {
@@ -30,7 +41,7 @@ extension ReachabilityStatus {
     }
 }
 
-protocol ReachabilityService {
+public protocol ReachabilityService {
     var reachability: Observable<ReachabilityStatus> { get }
 }
 
@@ -77,18 +88,3 @@ final class DefaultReachabilityService : ReachabilityService {
     }
 }
 
-extension ObservableConvertibleType {
-    func retryOnBecomesReachable(_ valueOnFailure:E, reachabilityService: ReachabilityService) -> Observable<E> {
-        return self.asObservable()
-            .catchError { (e) -> Observable<E> in
-                reachabilityService.reachability
-                    .skip(1)
-                    .filter { $0.reachable }
-                    .flatMap { _ in
-                        Observable.error(e)
-                    }
-                    .startWith(valueOnFailure)
-            }
-            .retry()
-    }
-}

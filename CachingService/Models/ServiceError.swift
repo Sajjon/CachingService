@@ -19,12 +19,7 @@ public enum ServiceError: Error {
     
     indirect case api(APIError)
     public enum APIError: Error {
-        
-        indirect case network(Network)
-        public enum Network: Error {
-            case notConnected
-        }
-        
+        case noNetwork
         case httpGeneric
         case badUrl
     }
@@ -54,7 +49,7 @@ extension ServiceError.CacheError: Equatable {
 extension ServiceError.APIError: Equatable {
     public static func ==(lhs: ServiceError.APIError, rhs: ServiceError.APIError) -> Bool {
         switch (lhs, rhs) {
-        case (.network(let lhsNetwork), .network(let rhsNetwork)): return lhsNetwork == rhsNetwork
+        case (.noNetwork, .noNetwork): return true
         case (.httpGeneric, .httpGeneric): return true
         case (.badUrl, .badUrl): return true
         default: return false
@@ -62,10 +57,21 @@ extension ServiceError.APIError: Equatable {
     }
 }
 
-extension ServiceError.APIError.Network: Equatable {
-    public static func ==(lhs: ServiceError.APIError.Network, rhs: ServiceError.APIError.Network) -> Bool {
-        switch (lhs, rhs) {
-        case (.notConnected, .notConnected): return true
-        }
-    }
+public func ==(lhsGeneral: ServiceError, rhs: ServiceError.APIError) -> Bool {
+    guard case let .api(lhs) = lhsGeneral else { return false }
+    return lhs == rhs
+}
+
+public func ==(lhs: ServiceError.APIError, rhsGeneral: ServiceError) -> Bool {
+    return rhsGeneral == lhs
+}
+
+public func ==(lhsGeneric: Error, rhs: ServiceError) -> Bool {
+    guard let lhs = lhsGeneric as? ServiceError else { return false }
+    return lhs == rhs
+}
+
+public func ==(lhs: ServiceError, rhsGeneric: Error) -> Bool {
+    guard let rhs = rhsGeneric as? ServiceError else { return false }
+    return lhs == rhs
 }

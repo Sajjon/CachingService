@@ -15,22 +15,38 @@ import SwiftyBeaver
 class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
     var mockedEvent: MockedEvent<ValueType>
     
+    let mockedReachability: MockedReachabilityService
     private let delay: RxTimeInterval
     
     init(
+        reachability: MockedReachabilityService = MockedReachabilityService(),
         mockedEvent: MockedEvent<ValueType>,
         delay: RxTimeInterval = 0.02
         ) {
+        self.mockedReachability = reachability
         self.mockedEvent = mockedEvent
         self.delay = delay
     }
 }
 extension BaseMockedHTTPClient: HTTPClientProtocol {
     
+    
+    var reachability: ReachabilityService { return mockedReachability }
+    
     func makeRequest(request: Router) -> Observable<()> { fatalError("not impl") }
     
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         log.verbose("Start, mocked request against path: `\(request.path)`")
+        return reachability.reachability.flatMap { (reachabilityStatus: ReachabilityStatus) -> Observable<Model?> in
+            guard reachabilityStatus != ReachabilityStatus.unreachable else { return .error(ServiceError.api(.noNetwork)) }
+            return self._makeRequest(request: request)
+        }
+    }
+}
+
+private extension BaseMockedHTTPClient {
+    
+    func _makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         return Observable.create { observer in
             switch self.mockedEvent {
             case .error(let error):

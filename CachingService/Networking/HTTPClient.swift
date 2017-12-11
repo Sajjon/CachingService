@@ -14,6 +14,7 @@ import Alamofire
 import SwiftyBeaver
 
 public protocol HTTPClientProtocol {
+    var reachability: ReachabilityService { get }
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable
     func makeRequest(request: Router) -> Observable<()>
 }
@@ -30,11 +31,16 @@ public final class HTTPClient {
     }()
     
     private let oauthHandler: OAuth2Handler
+    public let reachability: ReachabilityService
     
     public init(
+        reachability: ReachabilityService,
         environments: EnvironmentsProtocol,
         httpHeaderStore: HTTPHeaderStoreProtocol = HTTPHeaderStore()
     ) {
+        
+        self.reachability = reachability
+        
         oauthHandler = OAuth2Handler(
             environments: environments,
             httpHeaderStore: httpHeaderStore
@@ -42,13 +48,50 @@ public final class HTTPClient {
     }
     
     public init(
+        reachability: ReachabilityService,
         baseUrlString: String,
         httpHeaderStore: HTTPHeaderStoreProtocol = HTTPHeaderStore()
         ) {
+        
+        self.reachability = reachability
+        
         oauthHandler = OAuth2Handler(
             baseUrlString: baseUrlString,
             httpHeaderStore: httpHeaderStore
         )
+    }
+}
+//
+//protocol FailableResponse {
+//    var error: Error? { get }
+//}
+//
+//extension DataResponse: FailableResponse {}
+//extension DefaultDataResponse: FailableResponse {}
+extension ServiceError.APIError {
+    init?(error: Error?) {
+        guard
+            let genericError = error,
+            case let nsError = genericError as NSError,
+            case let urlErrorCode = URLError.Code(rawValue: nsError.code),
+            urlErrorCode == .notConnectedToInternet
+            else { return nil }
+        self = .noNetwork
+    }
+}
+
+extension Error {
+    var apiError: ServiceError.APIError {
+        return ServiceError.APIError(error: self) ?? .httpGeneric
+    }
+}
+
+private extension Optional where Wrapped == Error {
+    var apiError: ServiceError.APIError {
+        switch self {
+        case .some(let wrapped): return wrapped.apiError
+        case .none: return .httpGeneric
+        }
     }
 }
 
@@ -58,38 +101,42 @@ public extension HTTPClient {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
-            dataRequest.validate().responseDecodableObject(queue: nil, keyPath: request.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Model>) in
+            dataRequest.validate().responseJSONDecodable() { (response: DataResponse<Model>) in
                 switch response.result {
                 case .success(let value):
                     single(.success(value))
                 case .failure(let error):
-                    log.error("Request failed, error: `\(error)`")
-                    single(.error(error))
+                    let apiError: ServiceError.APIError = error.apiError
+                    log.error("Request failed, error: `\(apiError)`")
+                    single(.error(apiError))
                 }
             }
-            return Disposables.create()
+            return Disposables.create {
+                dataRequest.cancel()
+            }
         }
         .asObservable()
     }
     
     func makeRequest(request: Router) -> Observable<()> {
         return Single.create { single in
-            let request = self.sessionManager.request(request)
-            log.debug(request.debugDescription)
-            request.validate().response {
-                (response: DefaultDataResponse) in
+            let dataRequest = self.sessionManager.request(request)
+            log.debug(dataRequest.debugDescription)
+            dataRequest.validate().response { (response: DefaultDataResponse) in
                 guard
                     response.error == nil,
                     response.data != nil
                     else {
-                        let error = response.error ?? ServiceError.api(.httpGeneric)
-                        log.error("Request failed - error: \(error)")
-                        single(.error(error))
+                        let apiError: ServiceError.APIError = response.error.apiError
+                        log.error("Request failed - error: \(apiError)")
+                        single(.error(apiError))
                         return
                 }
-                single(.success(()))
+                single(.success(void))
             }
-            return Disposables.create()
+            return Disposables.create {
+                dataRequest.cancel()
+            }
         }
         .asObservable()
     }

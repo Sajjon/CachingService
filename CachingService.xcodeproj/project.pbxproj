@@ -31,6 +31,8 @@
 		48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48679D051FBDF2B9004A9E20 /* MenuView.swift */; };
 		48699B641FB5D89700D15F25 /* TimeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48699B631FB5D89700D15F25 /* TimeString.swift */; };
 		486E665F1FBC49B600D46E04 /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486E665E1FBC49B600D46E04 /* RxExtension.swift */; };
+		486FD4151FD7FDC8000C920B /* ReachabilityAndRetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486FD4141FD7FDC8000C920B /* ReachabilityAndRetryTests.swift */; };
+		486FD4171FD81FC8000C920B /* ServiceOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486FD4161FD81FC8000C920B /* ServiceOption.swift */; };
 		487DAC4D1FD2C23200028A60 /* AsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487DAC441FD2C23100028A60 /* AsyncCache.swift */; };
 		487DAC4E1FD2C23200028A60 /* UserDefaults+AsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487DAC451FD2C23100028A60 /* UserDefaults+AsyncCache.swift */; };
 		487DAC4F1FD2C23200028A60 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487DAC461FD2C23100028A60 /* Key.swift */; };
@@ -59,6 +61,7 @@
 		48A7598A1FA4E5DF00160897 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A759891FA4E5DF00160897 /* UserViewController.swift */; };
 		48A7598F1FA4E5DF00160897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48A7598E1FA4E5DF00160897 /* Assets.xcassets */; };
 		48A759921FA4E5DF00160897 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48A759901FA4E5DF00160897 /* LaunchScreen.storyboard */; };
+		48AFB8611FDE8CF50046804D /* UIApplication+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFB8601FDE8CF40046804D /* UIApplication+Rx.swift */; };
 		48B4920C1FD2D1DF00B19096 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4920B1FD2D1DF00B19096 /* Coin.swift */; };
 		48B4920E1FD2D6C100B19096 /* CoinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4920D1FD2D6C100B19096 /* CoinsView.swift */; };
 		48B492101FD2D82F00B19096 /* CoinsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B4920F1FD2D82F00B19096 /* CoinsViewModel.swift */; };
@@ -133,6 +136,8 @@
 		48679D051FBDF2B9004A9E20 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		48699B631FB5D89700D15F25 /* TimeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeString.swift; sourceTree = "<group>"; };
 		486E665E1FBC49B600D46E04 /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
+		486FD4141FD7FDC8000C920B /* ReachabilityAndRetryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityAndRetryTests.swift; sourceTree = "<group>"; };
+		486FD4161FD81FC8000C920B /* ServiceOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceOption.swift; sourceTree = "<group>"; };
 		487DAC441FD2C23100028A60 /* AsyncCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncCache.swift; sourceTree = "<group>"; };
 		487DAC451FD2C23100028A60 /* UserDefaults+AsyncCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AsyncCache.swift"; sourceTree = "<group>"; };
 		487DAC461FD2C23100028A60 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
@@ -164,6 +169,7 @@
 		48A7598E1FA4E5DF00160897 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48A759911FA4E5DF00160897 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48A759931FA4E5DF00160897 /* CachingService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CachingService-Info.plist"; sourceTree = "<group>"; };
+		48AFB8601FDE8CF40046804D /* UIApplication+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Rx.swift"; sourceTree = "<group>"; };
 		48B4920B1FD2D1DF00B19096 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		48B4920D1FD2D6C100B19096 /* CoinsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsView.swift; sourceTree = "<group>"; };
 		48B4920F1FD2D82F00B19096 /* CoinsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsViewModel.swift; sourceTree = "<group>"; };
@@ -407,6 +413,7 @@
 				48F33FBC1FC7338C001AF2BB /* NonCachingServiceTests.swift */,
 				48F33FBD1FC7338C001AF2BB /* CachingServiceTests.swift */,
 				480FBDD31FCDA96D003DD215 /* CachingServiceFilterTests.swift */,
+				486FD4141FD7FDC8000C920B /* ReachabilityAndRetryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -469,6 +476,7 @@
 				488429D41FC32DE600E4F8A1 /* AbstractViewController+Retaining.swift */,
 				48679CF31FBDA724004A9E20 /* Codable_Extension.swift */,
 				48915C321FD04E5C006259EE /* Observable+Collection+Filterable.swift */,
+				48AFB8601FDE8CF40046804D /* UIApplication+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -482,6 +490,7 @@
 				480FBDDA1FCDB481003DD215 /* StaticKeyConvertible.swift */,
 				48915C2E1FD013E4006259EE /* SourceOptions.swift */,
 				48B4920B1FD2D1DF00B19096 /* Coin.swift */,
+				486FD4161FD81FC8000C920B /* ServiceOption.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -582,7 +591,7 @@
 					};
 					48A759831FA4E5DE00160897 = {
 						CreatedOnToolsVersion = 9.0.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -764,6 +773,7 @@
 				48F33FC11FC7338C001AF2BB /* MockedEvent.swift in Sources */,
 				48915C2B1FCF13CB006259EE /* MockedCacheForUser.swift in Sources */,
 				48F33FC91FC7338C001AF2BB /* MockedNonPersistingIntegerService.swift in Sources */,
+				486FD4151FD7FDC8000C920B /* ReachabilityAndRetryTests.swift in Sources */,
 				48F33FCA1FC7338C001AF2BB /* IntegerServiceProtocol.swift in Sources */,
 				480FBDE11FCDBB60003DD215 /* Service+Blocking.swift in Sources */,
 				48F33FC51FC7338C001AF2BB /* BaseMockedHTTPClient.swift in Sources */,
@@ -809,6 +819,7 @@
 				48679D061FBDF2B9004A9E20 /* MenuView.swift in Sources */,
 				48679CF81FBDA769004A9E20 /* UserView.swift in Sources */,
 				4845F3E61FB45CC2004A0261 /* Random.swift in Sources */,
+				48AFB8611FDE8CF50046804D /* UIApplication+Rx.swift in Sources */,
 				48915C431FD06294006259EE /* HTTPContentType.swift in Sources */,
 				48679CFA1FBDA798004A9E20 /* AbstractViewController.swift in Sources */,
 				48915C471FD06294006259EE /* EnvironmentsProtocol.swift in Sources */,
@@ -841,6 +852,7 @@
 				487DAC541FD2C23200028A60 /* Router.swift in Sources */,
 				487DAC531FD2C23200028A60 /* GroupRouter.swift in Sources */,
 				48B492181FD549E000B19096 /* ReachabilityService.swift in Sources */,
+				486FD4171FD81FC8000C920B /* ServiceOption.swift in Sources */,
 				48B492221FD54C3900B19096 /* UIImage+Extensions.swift in Sources */,
 				487DAC4F1FD2C23200028A60 /* Key.swift in Sources */,
 				480FBDCE1FCD9FA4003DD215 /* CustomStringConvertible+Filterable.swift in Sources */,
@@ -957,7 +969,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1008,7 +1020,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1021,8 +1033,9 @@
 			baseConfigurationReference = 6AA86F0C7B3B2616AE1B9A28 /* Pods-CachingService.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 69363CF85H;
 				INFOPLIST_FILE = "CachingService/CachingService-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cyonsonsulting.SingleRxSignal;
@@ -1038,8 +1051,9 @@
 			baseConfigurationReference = 738DD9B7551FA29D5B87F270 /* Pods-CachingService.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 69363CF85H;
 				INFOPLIST_FILE = "CachingService/CachingService-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cyonsonsulting.SingleRxSignal;

@@ -9,7 +9,7 @@ pod 'RxOptional'
 pod 'Swinject'
 pod 'RxViewController'
 pod 'SwiftyBeaver'
-pod 'Alamofire'
+pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => 'd8a35768015125b74729fd4f9da91bf5dd84e033'
 pod 'Kingfisher'
 
 target 'CachingService' do

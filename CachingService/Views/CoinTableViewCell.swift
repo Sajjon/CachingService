@@ -51,8 +51,7 @@ private extension CoinTableViewCell {
             case .content(image: let image): self.coinImageView.image = image
             case .offlinePlaceholder: log.warning("offline placeholder")
             }
-        }, onError: { log.error("Failed to download image, error: `\($0)`") },
-           onCompleted: { log.debug("Completed") }
+        }, onError: { log.error("Failed to download image, error: `\($0)`") }
         ).disposed(by: bag)
     }
 }

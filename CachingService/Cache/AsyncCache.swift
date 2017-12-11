@@ -18,6 +18,7 @@ protocol AsyncCache: Cache {
 
 extension AsyncCache {
     func asyncSaveOrDelete<Value>(optional: Value?, for key: Key, done: Done<Void>?) where Value: Codable {
+        log.debug("Type: `\(Value.self)`, key: `\(key)`")
         if let value = optional {
             asyncSave(value: value, for: key, done: done)
         } else {
