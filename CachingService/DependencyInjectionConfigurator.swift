@@ -14,7 +14,7 @@ struct DependencyInjectionConfigurator {
     static func registerDependencies() -> Container {
         return Container() { c in
             
-            c.register(ReachabilityService.self) { _ in
+            c.register(ReachabilityServiceConvertible.self) { _ in
                 try! DefaultReachabilityService()
             }.inObjectScope(.container)
             
@@ -28,7 +28,7 @@ struct DependencyInjectionConfigurator {
             
             c.register(HTTPClientProtocol.self) { r in
                 HTTPClient(
-                    reachability: r.resolve(ReachabilityService.self)!,
+                    reachability: r.resolve(ReachabilityServiceConvertible.self)!,
                     environments: r.resolve(EnvironmentsProtocol.self)!,
                     httpHeaderStore: r.resolve(HTTPHeaderStoreProtocol.self)!
                 )
@@ -41,7 +41,7 @@ struct DependencyInjectionConfigurator {
                 let backgroundWorkScheduler = OperationQueueScheduler(operationQueue: operationQueue)
                 
                 return DefaultImageService(
-                    reachabilityService: r.resolve(ReachabilityService.self)!,
+                    reachabilityService: r.resolve(ReachabilityServiceConvertible.self)!,
                     urlSession: Foundation.URLSession.shared,
                     backgroundWorkScheduler: backgroundWorkScheduler,
                     mainScheduler: MainScheduler.instance)
@@ -53,14 +53,7 @@ struct DependencyInjectionConfigurator {
                     cache: r.resolve(AsyncCache.self)!
                 )
                 }.inObjectScope(.weak)
-            
-//            c.register(MenuViewController.self) { (r, presenter: UINavigationController) in
-//                MenuViewController(
-//                    coinService: r.resolve(CoinServiceProtocol.self)!,
-//                    imageService: r.resolve(ImageService.self)!,
-//                    presenter: presenter
-//                )
-//                }.inObjectScope(.weak)
+
             c.register(CoinsViewController.self) { (r, presenter: UINavigationController) in
                 CoinsViewController(
                     coinService: r.resolve(CoinServiceProtocol.self)!,

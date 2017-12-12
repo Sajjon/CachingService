@@ -40,7 +40,7 @@ final class ReachabilityStatusObjectiveCBridgingClass: NSObject {
     
 }
 
-final class MockedReachabilityService: ReachabilityService {
+final class MockedReachabilityService: ReachabilityServiceConvertible {
     
     var reachabilityStatus: ReachabilityStatus
    
@@ -48,7 +48,7 @@ final class MockedReachabilityService: ReachabilityService {
         self.reachabilityStatus = reachabilityStatus
     }
     
-    var reachability: Observable<ReachabilityStatus> {
+    var status: Observable<ReachabilityStatus> {
         return Observable.just(reachabilityStatus)
     }
 }

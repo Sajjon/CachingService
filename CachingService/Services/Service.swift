@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-import RxReachability
+//import RxReachability
 import Reachability
 import RxCocoa
 import RxSwift
@@ -19,20 +19,12 @@ protocol Service {
     func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable
 }
 
-extension Service {
-    var reachability: ReachabilityService { return httpClient.reachability }
-}
-
 //MARK: - Default Implementation
 extension Service {
     func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
         return getFromCacheIfAbleTo(from: source).concat(
             getFromBackendAndCacheIfAbleTo(request: request, from: source)
         )
-    }
-    
-    func get<Model>(modelType: Model.Type, request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
-        return get(request: request, from: source) as Observable<Model>
     }
 }
 
@@ -41,7 +33,7 @@ private extension Service {
     
     func getFromBackendAndCacheIfAbleTo<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
         return getFromBackend(request: request, from: source)
-            .retryOnConnect(options: source.retryWhenReachable)
+            .retryOnConnect(options: source.retryWhenReachable, reachability: reachability)
             .catchError { self.handleErrorIfNeeded($0, from: source) }
             .flatMap { model in self.updateCacheIfAbleTo(with: model, from: source) }
             .filterNil()
@@ -75,3 +67,14 @@ private extension Service {
         return .empty()
     }
 }
+
+//MARK: - Convenience
+extension Service {
+    
+    var reachability: ReachabilityServiceConvertible { return httpClient.reachability }
+
+    func get<Model>(modelType: Model.Type, request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
+        return get(request: request, from: source) as Observable<Model>
+    }
+}
+

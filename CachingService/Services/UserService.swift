@@ -17,12 +17,12 @@ protocol UserServiceProtocol: Service, Persisting {
 final class UserService: UserServiceProtocol {
     typealias Router = UserRouter
     
-    let reachability: ReachabilityService
+    let reachability: ReachabilityServiceConvertible
     let httpClient: HTTPClientProtocol
     let cache: AsyncCache
     
     init(
-        reachability: ReachabilityService,
+        reachability: ReachabilityServiceConvertible,
         httpClient: HTTPClientProtocol,
         cache: AsyncCache) {
         self.reachability = reachability

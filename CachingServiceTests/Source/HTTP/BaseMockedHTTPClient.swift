@@ -31,13 +31,13 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
 extension BaseMockedHTTPClient: HTTPClientProtocol {
     
     
-    var reachability: ReachabilityService { return mockedReachability }
+    var reachability: ReachabilityServiceConvertible { return mockedReachability }
     
     func makeRequest(request: Router) -> Observable<()> { fatalError("not impl") }
     
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         log.verbose("Start, mocked request against path: `\(request.path)`")
-        return reachability.reachability.flatMap { (reachabilityStatus: ReachabilityStatus) -> Observable<Model?> in
+        return reachability.status.flatMap { (reachabilityStatus: ReachabilityStatus) -> Observable<Model?> in
             guard reachabilityStatus != .none else { return .error(ServiceError.api(.noNetwork)) }
             return self._makeRequest(request: request)
         }

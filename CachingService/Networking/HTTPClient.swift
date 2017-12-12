@@ -14,7 +14,7 @@ import Alamofire
 import SwiftyBeaver
 
 public protocol HTTPClientProtocol {
-    var reachability: ReachabilityService { get }
+    var reachability: ReachabilityServiceConvertible { get }
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable
     func makeRequest(request: Router) -> Observable<()>
 }
@@ -31,10 +31,10 @@ public final class HTTPClient {
     }()
     
     private let oauthHandler: OAuth2Handler
-    public let reachability: ReachabilityService
+    public let reachability: ReachabilityServiceConvertible
     
     public init(
-        reachability: ReachabilityService,
+        reachability: ReachabilityServiceConvertible,
         environments: EnvironmentsProtocol,
         httpHeaderStore: HTTPHeaderStoreProtocol = HTTPHeaderStore()
     ) {
@@ -48,7 +48,7 @@ public final class HTTPClient {
     }
     
     public init(
-        reachability: ReachabilityService,
+        reachability: ReachabilityServiceConvertible,
         baseUrlString: String,
         httpHeaderStore: HTTPHeaderStoreProtocol = HTTPHeaderStore()
         ) {

@@ -8,22 +8,22 @@
 
 import Foundation
 import RxSwift
-import RxReachability
+//import RxReachability
 import Reachability
 import RxCocoa
 
 public extension ObservableType {
     
-    public func retryOnConnect(options: ServiceRetry?) -> Observable<E> {
+    public func retryOnConnect(options: ServiceRetry?, reachability: ReachabilityServiceConvertible) -> Observable<E> {
         guard let options = options else { log.verbose("No retry options"); return self.asObservable() }
         switch options {
         case .forever:
             return retryWhen { _ in
-                return Reachability.rx.isConnected
+                return reachability.isConnected
             }
         case .timeout(let timeout):
             return retryWhen { _ in
-                return Reachability.rx.isConnected.timeout(timeout, scheduler: MainScheduler.asyncInstance)
+                return reachability.isConnected.timeout(timeout, scheduler: MainScheduler.asyncInstance)
             }
         case .count(let count):
             return self.retry(count)

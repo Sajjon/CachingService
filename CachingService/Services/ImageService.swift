@@ -17,7 +17,7 @@ import Kingfisher
 #endif 
 
 protocol ImageService {
-    var reachabilityService: ReachabilityService { get }
+    var reachabilityService: ReachabilityServiceConvertible { get }
     func imageFromURL(_ url: URL) -> Observable<DownloadableImage>
 }
 
@@ -69,13 +69,13 @@ final class DefaultImageService: ImageService {
     
     let activityIndicator = ActivityIndicator()
     
-    let reachabilityService: ReachabilityService
+    let reachabilityService: ReachabilityServiceConvertible
     private let urlSession: URLSession
     private let backgroundWorkScheduler: ImmediateSchedulerType
     private let mainScheduler: SerialDispatchQueueScheduler
     
     init(
-        reachabilityService: ReachabilityService,
+        reachabilityService: ReachabilityServiceConvertible,
         urlSession: URLSession,
         backgroundWorkScheduler: ImmediateSchedulerType,
         mainScheduler: SerialDispatchQueueScheduler

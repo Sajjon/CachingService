@@ -13,10 +13,6 @@ PODS:
   - RxOptional (3.3.0):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxReachability (0.1.4):
-    - ReachabilitySwift (~> 4)
-    - RxCocoa (~> 4)
-    - RxSwift (~> 4)
   - RxSwift (4.0.0)
   - RxTest (4.0.0):
     - RxSwift (~> 4.0)
@@ -33,10 +29,10 @@ PODS:
 DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, commit `d8a35768015125b74729fd4f9da91bf5dd84e033`)
   - Kingfisher
+  - ReachabilitySwift
   - RxBlocking
   - RxNuke
   - RxOptional
-  - RxReachability (from `https://github.com/ivanbruel/RxReachability.git`)
   - RxSwift
   - RxTest
   - RxViewController
@@ -49,16 +45,11 @@ EXTERNAL SOURCES:
   Alamofire:
     :commit: d8a35768015125b74729fd4f9da91bf5dd84e033
     :git: https://github.com/Alamofire/Alamofire.git
-  RxReachability:
-    :git: https://github.com/ivanbruel/RxReachability.git
 
 CHECKOUT OPTIONS:
   Alamofire:
     :commit: d8a35768015125b74729fd4f9da91bf5dd84e033
     :git: https://github.com/Alamofire/Alamofire.git
-  RxReachability:
-    :commit: c44437ec43b62d435931608472430bbe0e5a2c92
-    :git: https://github.com/ivanbruel/RxReachability.git
 
 SPEC CHECKSUMS:
   Alamofire: 8dc618ab9e6a26d9d77559e4c35e59e56451e69e
@@ -69,7 +60,6 @@ SPEC CHECKSUMS:
   RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
   RxNuke: 3ccb569665273ee57f80a2a40ad554e08fa46846
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
-  RxReachability: 6e16525bd709156e3af76f12fd0d60ff887bbfc2
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   RxViewController: 203510707e73dd95f147f0c387710e3ec80d2b0f
@@ -79,6 +69,6 @@ SPEC CHECKSUMS:
   TinyConstraints: 4721a4b303c799328867078ade6560e152df54d1
   ViewComposer: 13f3e3fdbeebc04ea66dccc32c899c90be038c2c
 
-PODFILE CHECKSUM: 952efdfc2b1cd04004dcd2209b3911c5be7ad81b
+PODFILE CHECKSUM: 16f83605fb8640cec44fc69e6a123d5a6a488575
 
 COCOAPODS: 1.3.1

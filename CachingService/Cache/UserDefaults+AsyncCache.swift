@@ -11,13 +11,15 @@ import Foundation
 extension UserDefaults: AsyncCache {}
 extension UserDefaults {
     func save<Value>(value: Value, for key: Key) throws where Value: Codable {
-        threadTimePrint("Cache: saving...")
+        assertBackgroundThread()
+        log.info("Cache: saving...")
         let data = try JSONEncoder().encode([value])
         set(data, forKey: key.identifier)
     }
     
     func loadValue<Value>(for key: Key) -> Value? where Value: Codable {
-        threadTimePrint("Cache: loading...")
+        assertBackgroundThread()
+        log.info("Cache: loading...")
         guard
             let loadedData = data(forKey: key.identifier),
             case let decoder = JSONDecoder(dateDecodingStrategy: .iso8601),
@@ -27,19 +29,20 @@ extension UserDefaults {
     }
     
     func deleteValue(for key: Key) {
-        threadTimePrint("Cache: deleting...")
+        assertBackgroundThread()
+        log.verbose("Cache: deleting...")
         setValue(nil, forKey: key.identifier)
     }
     
     func hasValue(for key: Key) -> Bool {
-        threadTimePrint("Cache: hasValue...")
+        assertBackgroundThread()
+        log.verbose("Cache: hasValue...")
         return value(forKey: key.identifier) != nil
     }
 }
 
-private extension AsyncCache {
-    func assertBackgroundThread() {
-        guard !Thread.isMainThread else { fatalError("Run on main thread") }
-    }
+private func assertBackgroundThread() {
+    if Thread.isMainThread { log.error("RUNNING ON MAIN THREAD") }
 }
+
 

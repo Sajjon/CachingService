@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 
+protocol ViewModel {}
+
 //let cacheKeyName = "name"
 final class CoinsViewModel: ViewModel {
     

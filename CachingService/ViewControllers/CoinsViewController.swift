@@ -1,5 +1,5 @@
 //
-//  UserViewController.swift
+//  CoinsViewController.swift
 //  CachingService
 //
 //  Created by Alexander Cyon on 2017-10-28.
@@ -7,21 +7,6 @@
 //
 
 import UIKit
-
-final class UserViewController {
-    let userView: UserView
-    init(userService: UserServiceProtocol) {
-        userView = UserView(userService: userService)
-    }
-    
-    deinit {
-        print("deinit of UserViewController")
-    }
-}
-
-extension UserViewController: AbstractViewController {    
-    var rootView: UIView { return userView }
-}
 
 final class CoinsViewController {
     let coinsView: CoinsView
