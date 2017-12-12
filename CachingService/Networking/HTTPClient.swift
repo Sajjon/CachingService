@@ -7,10 +7,8 @@
 //
 
 import Foundation
-//import Basics
 import RxSwift
 import Alamofire
-//import Disk
 import SwiftyBeaver
 
 public protocol HTTPClientProtocol {
@@ -61,13 +59,7 @@ public final class HTTPClient {
         )
     }
 }
-//
-//protocol FailableResponse {
-//    var error: Error? { get }
-//}
-//
-//extension DataResponse: FailableResponse {}
-//extension DefaultDataResponse: FailableResponse {}
+
 extension ServiceError.APIError {
     init?(error: Error?) {
         guard

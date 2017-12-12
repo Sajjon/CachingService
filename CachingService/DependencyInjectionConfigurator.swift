@@ -15,7 +15,7 @@ struct DependencyInjectionConfigurator {
         return Container() { c in
             
             c.register(ReachabilityServiceConvertible.self) { _ in
-                try! DefaultReachabilityService()
+                try! ReachabilityService()
             }.inObjectScope(.container)
             
             c.register(AsyncCache.self) { _ in UserDefaults.standard }.inObjectScope(.container)
