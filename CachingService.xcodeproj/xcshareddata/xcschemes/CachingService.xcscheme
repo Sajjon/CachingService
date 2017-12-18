@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "48A759831FA4E5DE00160897"
-               BuildableName = "CachingService.app"
+               BlueprintIdentifier = "48F6E91B1FE7EB7800D45C48"
+               BuildableName = "CachingService.framework"
                BlueprintName = "CachingService"
                ReferencedContainer = "container:CachingService.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "48A6EE911FBC607600DA4672"
+               BlueprintIdentifier = "48F6E97E1FE7EC5300D45C48"
                BuildableName = "CachingServiceTests.xctest"
                BlueprintName = "CachingServiceTests"
                ReferencedContainer = "container:CachingService.xcodeproj">
@@ -43,8 +43,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "48A759831FA4E5DE00160897"
-            BuildableName = "CachingService.app"
+            BlueprintIdentifier = "48F6E91B1FE7EB7800D45C48"
+            BuildableName = "CachingService.framework"
             BlueprintName = "CachingService"
             ReferencedContainer = "container:CachingService.xcodeproj">
          </BuildableReference>
@@ -63,23 +63,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "48A759831FA4E5DE00160897"
-            BuildableName = "CachingService.app"
+            BlueprintIdentifier = "48F6E91B1FE7EB7800D45C48"
+            BuildableName = "CachingService.framework"
             BlueprintName = "CachingService"
             ReferencedContainer = "container:CachingService.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = "disable"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -89,16 +81,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "48A759831FA4E5DE00160897"
-            BuildableName = "CachingService.app"
+            BlueprintIdentifier = "48F6E91B1FE7EB7800D45C48"
+            BuildableName = "CachingService.framework"
             BlueprintName = "CachingService"
             ReferencedContainer = "container:CachingService.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
