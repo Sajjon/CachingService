@@ -17,24 +17,32 @@ final class CoinsView: UIView {
     
     private let statusLabel: UILabel = [.textAlignment(.center), .text("Idle"), .font(.boldSystemFont(ofSize: 24)), .height(itemHeight)]
     
-    private let getFromCacheAndBackendButton: UIButton = [.text("Get: cache+backend"), .textColor(.white), .color(.green), .font(.boldSystemFont(ofSize: 20)), .height(itemHeight)]
+    private let getFromCacheAndBackendButton: UIButton = [.text("⬇️ Cache+Backend"), .textColor(.white), .color(.green), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
     
-    private let clearCacheButton: UIButton = [.text("Clear cache"), .textColor(.white), .color(.red), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
     
-    private let getFromCacheButton: UIButton = [.text("Get: cache"), .textColor(.white), .color(.blue), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
+    private let getFromCacheButton: UIButton = [.text("⬇️ Cache"), .textColor(.white), .color(.blue), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
+
+    private let clearCacheButton: UIButton = [.text("🗑 Models"), .textColor(.white), .color(.red), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
     
-    private let clearTableViewButton: UIButton = [.text("Clear TableView"), .textColor(.black), .color(.yellow), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
+    private let clearTableViewButton: UIButton = [.text("❌ TableView"), .textColor(.black), .color(.yellow), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
     
-    private lazy var views: [UIView] = [statusLabel, getFromCacheAndBackendButton, getFromCacheButton, clearCacheButton, clearTableViewButton]
+    private let clearImageCacheButton: UIButton = [.text("❌ Images"), .textColor(.black), .color(.orange), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
+    
+    private lazy var getButtonsStackView: UIStackView = [.views([self.getFromCacheAndBackendButton, self.getFromCacheButton]), .axis(.horizontal), .distribution(.fillEqually)]
+    private lazy var clearButtonsStackView: UIStackView = [.views([self.clearCacheButton, self.clearTableViewButton]), .axis(.horizontal), .distribution(.fillEqually)]
+   
+    private let filterBar: UISearchBar = [.placeholder("Filter coins")]
+    
+    private lazy var views: [UIView] = [statusLabel, getButtonsStackView, clearButtonsStackView, clearImageCacheButton, filterBar]
     private lazy var stackView: UIStackView = [.views(self.views), .axis(.vertical)]
     
-    private lazy var tableView: UITableView = [.dataSourceDelegate(self), .rowHeight(50)]
+    private lazy var tableView: UITableView = [.dataSourceDelegate(self), .rowHeight(itemHeight), .keyboardDismissMode(.onDrag)]
         <- .registerCells([CellClass(CoinTableViewCell.self, cellId)])
     
     var presenter: Presenter?
     let viewModel: CoinsViewModel
     
-    private let imageService: ImageService
+    private let imageService: ImageServiceProtocol
     
     private let bag = DisposeBag()
     typealias ViewModel = CoinViewModel
@@ -44,14 +52,15 @@ final class CoinsView: UIView {
     
     init(
         coinService: CoinServiceProtocol,
-        imageService: ImageService,
+        imageService: ImageServiceProtocol,
         presenter: Presenter?) {
         self.viewModel = CoinsViewModel(
             coinService: coinService,
             getFromCacheAndBackendButton: getFromCacheAndBackendButton.rx.tap.asObservable(),
             getFromCacheOnlyButton: getFromCacheButton.rx.tap.asObservable(),
             clearCacheButton: clearCacheButton.rx.tap.asObservable(),
-            clearModelsButton: clearTableViewButton.rx.tap.asObservable()
+            clearModelsButton: clearTableViewButton.rx.tap.asObservable(),
+            filterBar: filterBar.rx.text.asObservable().nilIfEmpty
         )
         self.presenter = presenter
         self.imageService = imageService
@@ -62,16 +71,10 @@ final class CoinsView: UIView {
     }
     
     func setupBindings() {
-        
         viewModel.models.subscribe(onNext: {
-            log.debug("Got #\($0.count) coins")
             self.viewModels = $0.map { CoinViewModel(coin: $0, imageService: self.imageService) }
         }, onError: {
-            log.error("Error: `\($0)`")
-        }, onCompleted: {
-            log.verbose("Completed")
-        }, onDisposed: {
-            log.verbose("Disposed")
+            self.statusLabel.text = "Error: `\($0)`"
         }).disposed(by: bag)
 
         viewModel.isFetching.bind(to: UIApplication.shared.rx.isNetworkActivityIndicatorVisible).disposed(by: bag)
@@ -79,6 +82,10 @@ final class CoinsView: UIView {
         viewModel.isFetching.subscribe(onNext: { isFetching in
             self.statusLabel.text = isFetching ? "Fetching..." : (self.viewModels.isEmpty ? "Idle" : "Got #\(self.viewModels.count) coins")
         }).disposed(by: bag)
+        
+        clearImageCacheButton.rx.tap.asObservable().flatMapLatest({ _ in
+            self.imageService.deleteAllImages()
+        }).subscribe().disposed(by: bag)
     }
     
     required init?(coder aDecoder: NSCoder) { requiredInit }
@@ -97,9 +104,7 @@ private extension CoinsView {
 extension CoinsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let rowCount = viewModels.count
-        log.info("#\(rowCount) rows")
-        return rowCount
+        return viewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,9 +116,9 @@ extension CoinsView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        log.warning("Push coin view")
-        //        guard let model = model(at: indexPath) else { return }
-        //        presenter?.present(model, presentation: PushPresentation(animated:true))
+        guard let coinViewModel = viewModel(at: indexPath) else { return }
+        let coinViewController = CoinViewController(viewModel: coinViewModel)
+        presenter?.present(coinViewController, presentation: PushPresentation(animated:true))
     }
     
     func viewModel(at indexPath: IndexPath) -> ViewModel? {

@@ -11,7 +11,6 @@ import RxSwift
 
 protocol ViewModel {}
 
-//let cacheKeyName = "name"
 final class CoinsViewModel: ViewModel {
     
     private let coinService: CoinServiceProtocol
@@ -23,8 +22,12 @@ final class CoinsViewModel: ViewModel {
     private let getFromCacheOnlyButtonTapped: Observable<Void>
     private let clearCacheButtonTapped: Observable<Void>
     private let clearModelsButtonTapped: Observable<Void>
+    private let filterBarChanged: Observable<String?>
     
-    lazy var models = Observable<[Coin]>.merge(cacheAndBackend, cacheOnly, clearCache, clearModels)
+    lazy var models = Observable<[Coin]>.merge(get, clear, filtered)
+    
+    private lazy var get = Observable<[Coin]>.merge(cacheAndBackend, cacheOnly)
+    private lazy var clear = Observable<[Coin]>.merge(clearCache, clearModels)
     
     private lazy var cacheAndBackend: Observable<[Coin]> = self.getFromCacheAndBackendButtonTapped.flatMapLatest({ _ in
         self.coinService
@@ -47,17 +50,28 @@ final class CoinsViewModel: ViewModel {
         return Observable<[Coin]>.just([])
     })
     
+    private lazy var filtered: Observable<[Coin]> = self.filterBarChanged.flatMap({ (maybeQuery: String?) -> Observable<[Coin]> in
+        if let query = maybeQuery {
+           return self.coinService.getCachedCoins(using: Filter(query: query))
+        } else {
+            return self.coinService
+                .getCoins(fromSource: .cache)
+        }
+    })
+    
     init(
         coinService: CoinServiceProtocol,
         getFromCacheAndBackendButton: Observable<Void>,
         getFromCacheOnlyButton: Observable<Void>,
         clearCacheButton: Observable<Void>,
-        clearModelsButton: Observable<Void>
+        clearModelsButton: Observable<Void>,
+        filterBar: Observable<String?>
         ) {
         self.coinService = coinService
         self.getFromCacheAndBackendButtonTapped = getFromCacheAndBackendButton
         self.getFromCacheOnlyButtonTapped = getFromCacheOnlyButton
         self.clearCacheButtonTapped = clearCacheButton
         self.clearModelsButtonTapped = clearModelsButton
+        self.filterBarChanged = filterBar
     }
 }

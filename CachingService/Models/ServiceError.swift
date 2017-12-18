@@ -12,14 +12,26 @@ public enum ServiceError: Error {
     
     indirect case cache(CacheError)
     public enum CacheError: Error {
-        case empty
+        /// Unable to retrieve specific caching error
+        case generic
+        /// Unable to automatically create key for type
         case noKey
-        case saving
+        /// Object can not be found
+        case notFound
+        /// Object is found, but casting to requested type failed
+        case typeNotMatch
+        /// Can't perform Decode
+        case decodingFailed
+        /// Can't perform Encode
+        case encodingFailed
+        /// The storage has been deallocated
+        case deallocated
     }
     
     indirect case api(APIError)
     public enum APIError: Error {
         case noNetwork
+        case cancelled
         case httpGeneric
         case badUrl
     }
@@ -38,9 +50,13 @@ extension ServiceError: Equatable {
 extension ServiceError.CacheError: Equatable {
     public static func ==(lhs: ServiceError.CacheError, rhs: ServiceError.CacheError) -> Bool {
         switch (lhs, rhs) {
-        case (.empty, .empty): return true
+        case (.generic, .generic): return true
         case (.noKey, .noKey): return true
-        case (.saving, .saving): return true
+        case (.notFound, .notFound): return true
+        case (.typeNotMatch, .typeNotMatch): return true
+        case (.decodingFailed, .decodingFailed): return true
+        case (.encodingFailed, .encodingFailed): return true
+        case (.deallocated, .deallocated): return true
         default: return false
         }
     }
@@ -52,6 +68,7 @@ extension ServiceError.APIError: Equatable {
         case (.noNetwork, .noNetwork): return true
         case (.httpGeneric, .httpGeneric): return true
         case (.badUrl, .badUrl): return true
+        case (.cancelled, .cancelled): return true
         default: return false
         }
     }
@@ -74,4 +91,35 @@ public func ==(lhsGeneric: Error, rhs: ServiceError) -> Bool {
 public func ==(lhs: ServiceError, rhsGeneric: Error) -> Bool {
     guard let rhs = rhsGeneric as? ServiceError else { return false }
     return lhs == rhs
+}
+
+
+extension ServiceError.APIError {
+    init?(error: Error?) {
+        guard
+            let genericError = error,
+            case let nsError = genericError as NSError,
+            case let urlErrorCode = URLError.Code(rawValue: nsError.code)
+            else { return nil }
+        switch urlErrorCode {
+        case .notConnectedToInternet: self = .noNetwork
+        case .cancelled: self = .cancelled
+        default: return nil
+        }
+    }
+}
+
+extension Error {
+    var apiError: ServiceError.APIError {
+        return ServiceError.APIError(error: self) ?? .httpGeneric
+    }
+}
+
+extension Optional where Wrapped == Error {
+    var apiError: ServiceError.APIError {
+        switch self {
+        case .some(let wrapped): return wrapped.apiError
+        case .none: return .httpGeneric
+        }
+    }
 }

@@ -36,10 +36,6 @@ extension MockedNonPersistingIntegerService {
     }
 }
 
-final class ReachabilityStatusObjectiveCBridgingClass: NSObject {
-    
-}
-
 final class MockedReachabilityService: ReachabilityServiceConvertible {
     
     var reachabilityStatus: ReachabilityStatus

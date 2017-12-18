@@ -29,11 +29,10 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
     }
 }
 extension BaseMockedHTTPClient: HTTPClientProtocol {
-    
-    
     var reachability: ReachabilityServiceConvertible { return mockedReachability }
     
     func makeRequest(request: Router) -> Observable<()> { fatalError("not impl") }
+    func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable : DataConvertible { fatalError("not impl") }
     
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         log.verbose("Start, mocked request against path: `\(request.path)`")

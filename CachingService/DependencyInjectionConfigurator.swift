@@ -9,6 +9,16 @@
 import Foundation
 import Swinject
 import RxSwift
+import Cache
+import SwiftDate
+
+private let bytesPerKilobyte: UInt = 1000
+extension Int {
+    /// Not Integer overflow safe
+    var kilobytes: UInt { return UInt(self) * bytesPerKilobyte }
+    /// Not Integer overflow safe
+    var megabytes: UInt { return UInt(self) * kilobytes * bytesPerKilobyte }
+}
 
 struct DependencyInjectionConfigurator {
     static func registerDependencies() -> Container {
@@ -18,7 +28,12 @@ struct DependencyInjectionConfigurator {
                 try! ReachabilityService()
             }.inObjectScope(.container)
             
-            c.register(AsyncCache.self) { _ in UserDefaults.standard }.inObjectScope(.container)
+            c.register(AsyncCache.self) { _ in
+                let expiry: Expiry = .date(Date() + 2.day)
+                let diskConfig = DiskConfig(name: "floppy", expiry: expiry, maxSize: 1.megabytes)
+                let memoryConfig = MemoryConfig(expiry: expiry, countLimit: 10000, totalCostLimit: 0)
+                return try! Storage(diskConfig: diskConfig, memoryConfig: memoryConfig)
+            }.inObjectScope(.container)
             
             c.register(HTTPHeaderStoreProtocol.self) { _ in HTTPHeaderStore() }.inObjectScope(.container)
             
@@ -34,17 +49,15 @@ struct DependencyInjectionConfigurator {
                 )
             }.inObjectScope(.container)
             
-            c.register(ImageService.self) { r in
-                let operationQueue = OperationQueue()
-                operationQueue.maxConcurrentOperationCount = 2
-                operationQueue.qualityOfService = QualityOfService.userInitiated
-                let backgroundWorkScheduler = OperationQueueScheduler(operationQueue: operationQueue)
-                
-                return DefaultImageService(
-                    reachabilityService: r.resolve(ReachabilityServiceConvertible.self)!,
-                    urlSession: Foundation.URLSession.shared,
-                    backgroundWorkScheduler: backgroundWorkScheduler,
-                    mainScheduler: MainScheduler.instance)
+            c.register(ImageServiceProtocol.self) { r in
+                let expiry: Expiry = .date(Date() + 1.day)
+                let diskConfig = DiskConfig(name: "imageCache", expiry: expiry, maxSize: 100.megabytes)
+                let memoryConfig = MemoryConfig(expiry: expiry, countLimit: 1000, totalCostLimit: 0)
+                let imageCache: AsyncCache = try! Storage(diskConfig: diskConfig, memoryConfig: memoryConfig)
+                return ImageService(
+                    httpClient: r.resolve(HTTPClientProtocol.self)!,
+                    cache: imageCache
+                )
             }.inObjectScope(.container)
             
             c.register(CoinServiceProtocol.self) { r in
@@ -57,7 +70,7 @@ struct DependencyInjectionConfigurator {
             c.register(CoinsViewController.self) { (r, presenter: UINavigationController) in
                 CoinsViewController(
                     coinService: r.resolve(CoinServiceProtocol.self)!,
-                    imageService: r.resolve(ImageService.self)!,
+                    imageService: r.resolve(ImageServiceProtocol.self)!,
                     presenter: presenter
                 )
                 }.inObjectScope(.weak)

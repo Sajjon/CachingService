@@ -21,6 +21,10 @@ extension Persisting {
             .filterNil()
             .filterValues(using: filter)
     }
+    
+    func getModels<Model>(ofType type: Model.Type, using filter: FilterConvertible) -> Observable<[Model]> where Model: Codable & Filterable {
+        return getModels(using: filter) as Observable<[Model]>
+    }
 }
 
 
@@ -38,10 +42,10 @@ extension Persisting {
             }
             return Disposables.create()
             }
-            .do(onNext: { guard let cached = $0 else { log.verbose("Cache empty"); return }; log.verbose("Found data in cache :D") })
+            .do(onNext: { guard $0 != nil else { log.verbose("Cache empty"); return }; log.verbose("Found data in cache :D") })
     }
     
-    func asyncSaveOrDelete<C>(_ optional: C?, key: Key) -> Observable<C?> where C: Codable {
+    func asyncSaveOrDelete<C>(_ optional: C?, key: Key?) -> Observable<C?> where C: Codable {
         return Observable.create { observer in
             self.cache.asyncSaveOrDelete(optional: optional, for: key) { savingResult in
                 switch savingResult {
@@ -61,6 +65,15 @@ extension Persisting {
             return Disposables.create()
         }
     }
+   
+    func asyncDeleteAll() -> Observable<Void> {
+        return Observable.create { observer in
+            self.cache.asyncDeleteAll() { _ in
+                observer.onCompleted()
+            }
+            return Disposables.create()
+        }
+    }
     
     func asyncDeleteValue<C>(forType type: C.Type) -> Observable<C?> where C: Codable {
         let optional: C? = nil
@@ -69,11 +82,13 @@ extension Persisting {
 }
 
 extension Persisting {
-    func asyncLoad<C>() -> Observable<C?> where C: Codable {
-        return asyncLoad(for: KeyCreator<C>.key)
+    func asyncLoad<C>(key: Key? = nil) -> Observable<C?> where C: Codable {
+        let key = key ?? KeyCreator<C>.key
+        return asyncLoad(for: key)
     }
     
-    func asyncSave<C>(_ optional: C?) -> Observable<C?> where C: Codable {
-        return asyncSaveOrDelete(optional, key: KeyCreator<C>.key)
+    func asyncSave<C>(_ optional: C?, key: Key? = nil) -> Observable<C?> where C: Codable {
+        let key = key ?? KeyCreator<C>.key
+        return asyncSaveOrDelete(optional, key: key)
     }
 }

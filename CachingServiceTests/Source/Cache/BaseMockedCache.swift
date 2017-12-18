@@ -31,7 +31,7 @@ class BaseMockedCache<Value: Codable & Equatable>: AsyncCache {
         return casted
     }
     
-    func hasValue(for key: Key) -> Bool { return mockedValue != nil }
+    func hasValue<Value>(ofType type: Value.Type, for key: Key) -> Bool { return mockedValue != nil }
     
     func deleteValue(for key: Key) {
         log.verbose("Start")

@@ -28,6 +28,14 @@ extension ServiceSource {
         }
     }
     
+    var ifCachedPreventDownload: Bool {
+        switch self {
+        case .backendOptions(let options): return options.ifCachedPreventDownload
+        case .cacheAndBackendOptions(let options): return options.ifCachedPreventDownload
+        default: return false
+        }
+    }
+    
     var shouldSaveToCache: Bool {
         switch self {
         case .cache: return false // undefined

@@ -8,7 +8,6 @@
 
 import UIKit
 
-public typealias Image = UIImage
 
 extension Image {
     func forceLazyImageDecompression() -> Image {

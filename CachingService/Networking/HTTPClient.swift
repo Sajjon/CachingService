@@ -15,6 +15,7 @@ public protocol HTTPClientProtocol {
     var reachability: ReachabilityServiceConvertible { get }
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable
     func makeRequest(request: Router) -> Observable<()>
+    func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible
 }
 
 
@@ -60,46 +61,19 @@ public final class HTTPClient {
     }
 }
 
-extension ServiceError.APIError {
-    init?(error: Error?) {
-        guard
-            let genericError = error,
-            case let nsError = genericError as NSError,
-            case let urlErrorCode = URLError.Code(rawValue: nsError.code),
-            urlErrorCode == .notConnectedToInternet
-            else { return nil }
-        self = .noNetwork
-    }
-}
-
-extension Error {
-    var apiError: ServiceError.APIError {
-        return ServiceError.APIError(error: self) ?? .httpGeneric
-    }
-}
-
-private extension Optional where Wrapped == Error {
-    var apiError: ServiceError.APIError {
-        switch self {
-        case .some(let wrapped): return wrapped.apiError
-        case .none: return .httpGeneric
-        }
-    }
-}
-
 extension HTTPClient: HTTPClientProtocol {}
 public extension HTTPClient {
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
-            dataRequest.validate().responseJSONDecodable() { (response: DataResponse<Model>) in
+            dataRequest.validate().responseJSONDecodable(decoder: JSONDecoder()) { (response: DataResponse<Model>) in
                 switch response.result {
                 case .success(let value):
                     single(.success(value))
                 case .failure(let error):
                     let apiError: ServiceError.APIError = error.apiError
-                    log.error("Request failed, error: `\(apiError)`")
+                    log.error("Request failed, error: `\(error)`")
                     single(.error(apiError))
                 }
             }
@@ -120,7 +94,7 @@ public extension HTTPClient {
                     response.data != nil
                     else {
                         let apiError: ServiceError.APIError = response.error.apiError
-                        log.error("Request failed - error: \(apiError)")
+                        log.error("Request failed - error: \(response.error!)")
                         single(.error(apiError))
                         return
                 }
@@ -132,4 +106,38 @@ public extension HTTPClient {
         }
         .asObservable()
     }
+    
+    
+    func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible {
+        return Single.create { single in
+            let downloadRequest = self.sessionManager.request(request)
+            log.debug(downloadRequest.debugDescription)
+            downloadRequest.validate().responseData { response in
+                guard
+                    let data = response.result.value,
+                    let downloadable = Downloadable(data: data)
+                    else {
+                        let apiError: ServiceError.APIError
+                        if let genericError = response.error {
+                            apiError = genericError.apiError
+                            log.error("Failed to download, error: `\(genericError)`")
+                        } else {
+                            apiError = ServiceError.APIError.httpGeneric
+                        }
+                        single(.error(apiError))
+                        return
+                }
+                single(.success(downloadable))
+            }
+            return Disposables.create {
+                downloadRequest.cancel()
+            }
+        }.asObservable()
+    }
 }
+
+public protocol DataConvertible {
+    init?(data: Data)
+}
+
+

@@ -28,10 +28,23 @@ final class CoinService: CoinServiceProtocol {
     }
     
     func getCoins(fromSource source: ServiceSource = .default) -> Observable<[Coin]> {
-        return get(modelType: CoinsResponse.self, request: CoinRouter.all, from: source).map { $0.coins }
+        return get(modelType: CoinsResponse.self, request: CoinRouter.all, from: source, key: nil).map { $0.coins }
     }
     
     func getCachedCoins(using filter: FilterConvertible) -> Observable<[Coin]> {
-        return getModels(using: filter)
+        return getCoins(fromSource: .cache).filterValues(using: filter)
+    }
+}
+
+final class ImageService: ImageServiceProtocol {
+    
+    let httpClient: HTTPClientProtocol
+    let cache: AsyncCache
+    
+    init(
+        httpClient: HTTPClientProtocol,
+        cache: AsyncCache) {
+        self.httpClient = httpClient
+        self.cache = cache
     }
 }

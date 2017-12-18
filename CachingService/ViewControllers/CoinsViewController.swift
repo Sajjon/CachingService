@@ -12,7 +12,7 @@ final class CoinsViewController {
     let coinsView: CoinsView
     init(
         coinService: CoinServiceProtocol,
-        imageService: ImageService,
+        imageService: ImageServiceProtocol,
         presenter: Presenter?
         ) {
         coinsView = CoinsView(
@@ -22,11 +22,23 @@ final class CoinsViewController {
         )
     }
     
-    deinit {
-        print("deinit of CoinsViewController")
-    }
+    deinit { log.debug("") }
 }
 
 extension CoinsViewController: AbstractViewController {
     var rootView: UIView { return coinsView }
+}
+
+
+final class CoinViewController {
+    let coinView: CoinView
+    init(viewModel: CoinViewModel) {
+        coinView = CoinView(viewModel: viewModel)
+    }
+    
+    deinit { log.debug("") }
+}
+
+extension CoinViewController: AbstractViewController {
+    var rootView: UIView { return coinView }
 }

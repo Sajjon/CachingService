@@ -55,20 +55,15 @@ final class CachingServiceTests: BaseTestCase {
     }
     
     func testSetAlgebraExtensions() {
-        let value: SourceOptions = [.emitValue]
+        let value: ServiceOptionsInfo = [.emitValue]
         XCTAssertTrue(value.contains(.emitValue))
         XCTAssertFalse(value.contains(.emitError))
-        let valueAndError = value.inserting(.emitError)
+        let valueAndError: ServiceOptionsInfo = value.inserting(.emitError)
         XCTAssertTrue(valueAndError.contains(.emitValue))
         XCTAssertTrue(valueAndError.contains(.emitError))
         let error = valueAndError.removing(.emitValue)
         XCTAssertTrue(error.contains(.emitError))
         XCTAssertFalse(error.contains(.emitValue))
-        let cache: SourceOptions = [.shouldCache]
-        let all = cache.inserting(valueAndError)
-        XCTAssertTrue(all.contains(.shouldCache))
-        XCTAssertTrue(all.contains(.emitValue))
-        XCTAssertTrue(all.contains(.emitError))
     }
     
     func testDefaultRequestPermissionsCacheEmpty() {

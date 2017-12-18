@@ -1,14 +1,10 @@
 PODS:
   - Alamofire (5.0.0.beta.1)
-  - Kingfisher (4.5.0)
-  - Nuke (5.2)
+  - Cache (4.1.2)
   - ReachabilitySwift (4.1.0)
   - RxBlocking (4.0.0):
     - RxSwift (~> 4.0)
   - RxCocoa (4.0.0):
-    - RxSwift (~> 4.0)
-  - RxNuke (0.2):
-    - Nuke (~> 5.2)
     - RxSwift (~> 4.0)
   - RxOptional (3.3.0):
     - RxCocoa (~> 4.0)
@@ -20,6 +16,7 @@ PODS:
     - RxCocoa (>= 4.0.0)
     - RxSwift (>= 4.0.0)
   - Sourcery (0.9.0)
+  - SwiftDate (4.5.1)
   - SwiftyBeaver (1.4.4)
   - Swinject (2.1.1)
   - TinyConstraints (3.1.0)
@@ -28,14 +25,14 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, commit `d8a35768015125b74729fd4f9da91bf5dd84e033`)
-  - Kingfisher
+  - Cache
   - ReachabilitySwift
   - RxBlocking
-  - RxNuke
   - RxOptional
   - RxSwift
   - RxTest
   - RxViewController
+  - SwiftDate
   - SwiftyBeaver
   - Swinject
   - TinyConstraints
@@ -53,22 +50,21 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 8dc618ab9e6a26d9d77559e4c35e59e56451e69e
-  Kingfisher: 26ae0473102b77b575da51960c932431e3745407
-  Nuke: 5f420c4637415f979c83afb35e73176dd03232d9
+  Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
   RxBlocking: 923c2c8106d80d7c2d6b276afd66ce3b10824836
   RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
-  RxNuke: 3ccb569665273ee57f80a2a40ad554e08fa46846
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   RxViewController: 203510707e73dd95f147f0c387710e3ec80d2b0f
   Sourcery: e3829460a1fa0bcd3b689e6087a89cc063cd2289
+  SwiftDate: 7b56d42a221f582047287deb256b23fc5ed49a60
   SwiftyBeaver: 25bd76281f49ca989ec2e3cbde9af89c15bc1432
   Swinject: afea49fd95f392b41171669f165842879c48fad6
   TinyConstraints: 4721a4b303c799328867078ade6560e152df54d1
   ViewComposer: 13f3e3fdbeebc04ea66dccc32c899c90be038c2c
 
-PODFILE CHECKSUM: 16f83605fb8640cec44fc69e6a123d5a6a488575
+PODFILE CHECKSUM: ea1f2bf5aff3576f0f23c2211c2d2b9fcca69da4
 
 COCOAPODS: 1.3.1
