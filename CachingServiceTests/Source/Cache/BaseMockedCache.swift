@@ -11,6 +11,10 @@ import Foundation
 import SwiftyBeaver
 
 class BaseMockedCache<Value: Codable & Equatable>: AsyncCache {
+    func deleteAll() {
+        cachedEvent = .empty
+    }
+    
     var cachedEvent: MockedEvent<Value>
     
     init(event: MockedEvent<Value>) {
