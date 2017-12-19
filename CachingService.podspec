@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/Sajjon/CachingService"
-  s.license      = 'MIT-LICENSE'
+  s.license = { :type => 'MIT', :file => 'MIT-LICENSE.md' }
   s.author       = { "Alexander Cyon" => "alex.cyon@gmail.com" }
   s.social_media_url = "https://twitter.com/Redrum_237"
   s.source = { :git => 'https://github.com/Sajjon/CachingService.git', :tag => s.version }
