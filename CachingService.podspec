@@ -14,6 +14,6 @@ Pod::Spec.new do |s|
   s.social_media_url = "https://twitter.com/Redrum_237"
   s.source = { :git => 'https://github.com/Sajjon/CachingService.git', :tag => s.version }
   s.source_files = 'Source/Classes/**/*.swift'
-  s.dependency 'Sourcery', '> 0.8'
+  s.dependency 'RxSwift'
   s.ios.deployment_target = '11.1'
 end
