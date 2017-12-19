@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/eberrydigital/Alamofire.git'
 
 platform :ios, '11.1'
 use_frameworks!
@@ -10,7 +11,7 @@ def pods
 	pod 'ReachabilitySwift'
 	pod 'SwiftyBeaver'
 	pod 'Cache' # https://github.com/hyperoslo/Cache
-	pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => 'd8a35768015125b74729fd4f9da91bf5dd84e033'
+	pod 'Berryfire', '5.0.0'
 end
 
 workspace 'CachingService'

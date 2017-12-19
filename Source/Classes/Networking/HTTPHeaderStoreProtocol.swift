@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Alamofire
+import Berryfire
 
 public protocol HTTPHeaderStoreProtocol: class {
     

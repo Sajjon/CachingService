@@ -9,7 +9,7 @@
 import Foundation
 //import Basics
 //import Extensions
-import Alamofire
+import Berryfire
 
 private typealias RefreshCompletion = (_ succeeded: Bool, _ tokens: AuthTokensConvertible?) -> Void
 
@@ -58,7 +58,7 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
     
     // MARK: - RequestRetrier
     
-    func should(_ manager: SessionManager, retry request: Alamofire.Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         log.debug("RequestRetrier not implemented")
         completion(false, 0)
 //        lock.lock() ; defer { lock.unlock() }

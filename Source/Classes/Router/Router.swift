@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Alamofire
+import Berryfire
 
 public typealias APIParameters = [String: Any]
 

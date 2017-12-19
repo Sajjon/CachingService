@@ -1,0 +1,6 @@
+framework module Berryfire {
+  umbrella header "Berryfire-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -15,7 +15,6 @@
 		48F6E9591FE7EBDE00D45C48 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9311FE7EBDE00D45C48 /* Key.swift */; };
 		48F6E95A1FE7EBDE00D45C48 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9321FE7EBDE00D45C48 /* Cache.swift */; };
 		48F6E95B1FE7EBDE00D45C48 /* KeyCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9331FE7EBDE00D45C48 /* KeyCreator.swift */; };
-		48F6E95C1FE7EBDE00D45C48 /* Alamofire+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9351FE7EBDE00D45C48 /* Alamofire+Codable.swift */; };
 		48F6E95D1FE7EBDE00D45C48 /* HTTPContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9361FE7EBDE00D45C48 /* HTTPContentType.swift */; };
 		48F6E95E1FE7EBDE00D45C48 /* URLRequest_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9371FE7EBDE00D45C48 /* URLRequest_Extension.swift */; };
 		48F6E95F1FE7EBDE00D45C48 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9381FE7EBDE00D45C48 /* HTTPClient.swift */; };
@@ -99,7 +98,6 @@
 		48F6E9311FE7EBDE00D45C48 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		48F6E9321FE7EBDE00D45C48 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		48F6E9331FE7EBDE00D45C48 /* KeyCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCreator.swift; sourceTree = "<group>"; };
-		48F6E9351FE7EBDE00D45C48 /* Alamofire+Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+Codable.swift"; sourceTree = "<group>"; };
 		48F6E9361FE7EBDE00D45C48 /* HTTPContentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPContentType.swift; sourceTree = "<group>"; };
 		48F6E9371FE7EBDE00D45C48 /* URLRequest_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequest_Extension.swift; sourceTree = "<group>"; };
 		48F6E9381FE7EBDE00D45C48 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -241,7 +239,6 @@
 		48F6E9341FE7EBDE00D45C48 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				48F6E9351FE7EBDE00D45C48 /* Alamofire+Codable.swift */,
 				48F6E9361FE7EBDE00D45C48 /* HTTPContentType.swift */,
 				48F6E9371FE7EBDE00D45C48 /* URLRequest_Extension.swift */,
 				48F6E9381FE7EBDE00D45C48 /* HTTPClient.swift */,
@@ -600,7 +597,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CachingServiceTests/Pods-CachingServiceTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Berryfire/Berryfire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -612,7 +609,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Berryfire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -661,7 +658,6 @@
 				48F6E9631FE7EBDE00D45C48 /* OAuth2Handler.swift in Sources */,
 				48F6E9691FE7EBDE00D45C48 /* Observable+String.swift in Sources */,
 				48F6E96E1FE7EBDE00D45C48 /* CustomStringConvertible+Filterable.swift in Sources */,
-				48F6E95C1FE7EBDE00D45C48 /* Alamofire+Codable.swift in Sources */,
 				48F6E9D51FE8051000D45C48 /* ImageService.swift in Sources */,
 				48F6E95E1FE7EBDE00D45C48 /* URLRequest_Extension.swift in Sources */,
 				48F6E9741FE7EBDE00D45C48 /* Service.swift in Sources */,

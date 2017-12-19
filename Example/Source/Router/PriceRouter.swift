@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Alamofire
+import Berryfire
 import CachingService
 
 protocol SymbolConvertible: Encodable {

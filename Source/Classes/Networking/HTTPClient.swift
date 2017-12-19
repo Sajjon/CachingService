@@ -8,7 +8,7 @@
 
 import Foundation
 import RxSwift
-import Alamofire
+import Berryfire
 import SwiftyBeaver
 
 public protocol HTTPClientProtocol {
@@ -22,8 +22,8 @@ public protocol HTTPClientProtocol {
 public final class HTTPClient {
     
     //MARK: Variables
-    private lazy var sessionManager: Alamofire.SessionManager = {
-        let sessionManager = Alamofire.SessionManager()
+    private lazy var sessionManager: SessionManager = {
+        let sessionManager = SessionManager()
         sessionManager.adapter = oauthHandler
         sessionManager.retrier = oauthHandler
         return sessionManager

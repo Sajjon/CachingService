@@ -15,5 +15,10 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/Sajjon/CachingService.git', :tag => s.version }
   s.source_files = 'Source/Classes/**/*.swift'
   s.dependency 'RxSwift'
+  s.dependency 'RxOptional'
+  s.dependency 'ReachabilitySwift'
+  s.dependency 'SwiftyBeaver'
+  s.dependency 'Cache'
+  s.dependency 'Berryfire', '5.0.0'
   s.ios.deployment_target = '11.1'
 end
