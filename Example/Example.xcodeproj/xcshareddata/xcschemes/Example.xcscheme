@@ -29,6 +29,16 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "48F6E97E1FE7EC5300D45C48"
+               BuildableName = "CachingServiceTests.xctest"
+               BlueprintName = "CachingServiceTests"
+               ReferencedContainer = "container:../CachingService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

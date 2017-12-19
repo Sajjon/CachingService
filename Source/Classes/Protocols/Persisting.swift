@@ -42,7 +42,7 @@ public extension Persisting {
             }
             return Disposables.create()
             }
-            .do(onNext: { guard $0 != nil else { log.verbose("Cache empty"); return }; log.verbose("Found data in cache :D") })
+            .do(onNext: { guard $0 != nil else { log.verbose("Cache empty"); return }; log.verbose("Found data in cache") })
     }
     
     func asyncSaveOrDelete<C>(_ optional: C?, key: Key?) -> Observable<C?> where C: Codable {

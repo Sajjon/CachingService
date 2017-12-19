@@ -125,7 +125,7 @@ private func asyncResult<C>(_ done: Done<C?>?) -> (Result<C>) -> Void {
     return { (result: Result<C>) in
         let cacheResult: CacheResult<C?>
         switch result {
-        case .value(let loaded): cacheResult = .success(loaded); log.debug("Found data in cache")
+        case .value(let loaded): cacheResult = .success(loaded)
         case .error(let genericError):
             if let storageError = genericError as? StorageError {
                 switch storageError {
