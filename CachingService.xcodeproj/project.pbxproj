@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2D6F3F926A737969E387176F /* Pods_CachingService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C35828B294D80F5B412D592 /* Pods_CachingService.framework */; };
+		484575D81FE92B1F002BCED9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484575D91FE92B1F002BCED9 /* RxSwift.framework */; };
+		48C1532E1FE929030066C73B /* Cache+AsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1532D1FE929030066C73B /* Cache+AsyncCache.swift */; };
+		48C153301FE929540066C73B /* Storage+AsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1532F1FE929540066C73B /* Storage+AsyncCache.swift */; };
 		48F6E9581FE7EBDE00D45C48 /* AsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9301FE7EBDE00D45C48 /* AsyncCache.swift */; };
 		48F6E9591FE7EBDE00D45C48 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9311FE7EBDE00D45C48 /* Key.swift */; };
 		48F6E95A1FE7EBDE00D45C48 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9321FE7EBDE00D45C48 /* Cache.swift */; };
@@ -88,6 +91,9 @@
 		1C35828B294D80F5B412D592 /* Pods_CachingService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CachingService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EBE43F109E6D43F3FF8681 /* Pods-CachingServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingServiceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingServiceTests/Pods-CachingServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		3DFB9567D34D734E710EDE1D /* Pods-CachingService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingService.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingService/Pods-CachingService.release.xcconfig"; sourceTree = "<group>"; };
+		484575D91FE92B1F002BCED9 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		48C1532D1FE929030066C73B /* Cache+AsyncCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cache+AsyncCache.swift"; sourceTree = "<group>"; };
+		48C1532F1FE929540066C73B /* Storage+AsyncCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+AsyncCache.swift"; sourceTree = "<group>"; };
 		48F6E91C1FE7EB7800D45C48 /* CachingService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CachingService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		48F6E9301FE7EBDE00D45C48 /* AsyncCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncCache.swift; sourceTree = "<group>"; };
 		48F6E9311FE7EBDE00D45C48 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
@@ -160,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				484575D81FE92B1F002BCED9 /* RxSwift.framework in Frameworks */,
 				2D6F3F926A737969E387176F /* Pods_CachingService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,6 +233,7 @@
 				48F6E9311FE7EBDE00D45C48 /* Key.swift */,
 				48F6E9321FE7EBDE00D45C48 /* Cache.swift */,
 				48F6E9331FE7EBDE00D45C48 /* KeyCreator.swift */,
+				48C1532D1FE929030066C73B /* Cache+AsyncCache.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -254,6 +262,7 @@
 				48F6E9421FE7EBDE00D45C48 /* String_Extensions.swift */,
 				48F6E9431FE7EBDE00D45C48 /* Observable+String.swift */,
 				48F6E9441FE7EBDE00D45C48 /* Observable+Collection+Filterable.swift */,
+				48C1532F1FE929540066C73B /* Storage+AsyncCache.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -402,6 +411,7 @@
 		742BA27575B08EE9E7C04CD4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				484575D91FE92B1F002BCED9 /* RxSwift.framework */,
 				1C35828B294D80F5B412D592 /* Pods_CachingService.framework */,
 				A30563DAD7580E88FA498D61 /* Pods_CachingServiceTests.framework */,
 			);
@@ -667,8 +677,10 @@
 				48F6E95A1FE7EBDE00D45C48 /* Cache.swift in Sources */,
 				48F6E9681FE7EBDE00D45C48 /* String_Extensions.swift in Sources */,
 				48F6E9611FE7EBDE00D45C48 /* HTTPHeaderStoreProtocol.swift in Sources */,
+				48C1532E1FE929030066C73B /* Cache+AsyncCache.swift in Sources */,
 				48F6E96C1FE7EBDE00D45C48 /* QueryConvertible.swift in Sources */,
 				48F6E9591FE7EBDE00D45C48 /* Key.swift in Sources */,
+				48C153301FE929540066C73B /* Storage+AsyncCache.swift in Sources */,
 				48F6E9751FE7EBDE00D45C48 /* StaticKeyConvertible.swift in Sources */,
 				48F6E96D1FE7EBDE00D45C48 /* FilterResultConvertible.swift in Sources */,
 				48F6E96B1FE7EBDE00D45C48 /* Collection+Filterable.swift in Sources */,
