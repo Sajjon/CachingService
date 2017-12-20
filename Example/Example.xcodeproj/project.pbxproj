@@ -16,7 +16,6 @@
 		48F6E8FD1FE7EB3700D45C48 /* CoinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8DD1FE7EB3600D45C48 /* CoinsViewController.swift */; };
 		48F6E8FE1FE7EB3700D45C48 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8DE1FE7EB3600D45C48 /* AbstractViewController.swift */; };
 		48F6E8FF1FE7EB3700D45C48 /* TimeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8DF1FE7EB3600D45C48 /* TimeString.swift */; };
-		48F6E9001FE7EB3700D45C48 /* CachingService-Example-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48F6E8E01FE7EB3600D45C48 /* CachingService-Example-Info.plist */; };
 		48F6E9011FE7EB3700D45C48 /* DependencyInjectionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8E11FE7EB3600D45C48 /* DependencyInjectionConfigurator.swift */; };
 		48F6E9021FE7EB3700D45C48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8E21FE7EB3600D45C48 /* AppDelegate.swift */; };
 		48F6E9031FE7EB3700D45C48 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8E41FE7EB3600D45C48 /* View.swift */; };
@@ -325,7 +324,6 @@
 			files = (
 				48F6E8F71FE7EB3700D45C48 /* Assets.xcassets in Resources */,
 				48F6E8FB1FE7EB3700D45C48 /* LaunchScreen.storyboard in Resources */,
-				48F6E9001FE7EB3700D45C48 /* CachingService-Example-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

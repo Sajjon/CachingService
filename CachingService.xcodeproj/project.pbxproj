@@ -55,7 +55,6 @@
 		48F6E9B41FE7EC8B00D45C48 /* BaseMockedHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9991FE7EC8A00D45C48 /* BaseMockedHTTPClient.swift */; };
 		48F6E9B51FE7EC8B00D45C48 /* MockedIntegerHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E99A1FE7EC8A00D45C48 /* MockedIntegerHTTPClient.swift */; };
 		48F6E9B61FE7EC8B00D45C48 /* MockedUserHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E99B1FE7EC8A00D45C48 /* MockedUserHTTPClient.swift */; };
-		48F6E9B71FE7EC8B00D45C48 /* CachingServiceTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48F6E99D1FE7EC8A00D45C48 /* CachingServiceTests-Info.plist */; };
 		48F6E9B81FE7EC8B00D45C48 /* MockedPersistingIntegerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E99F1FE7EC8A00D45C48 /* MockedPersistingIntegerService.swift */; };
 		48F6E9B91FE7EC8B00D45C48 /* MockedNonPersistingIntegerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9A01FE7EC8A00D45C48 /* MockedNonPersistingIntegerService.swift */; };
 		48F6E9BA1FE7EC8B00D45C48 /* IntegerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9A11FE7EC8A00D45C48 /* IntegerServiceProtocol.swift */; };
@@ -66,7 +65,6 @@
 		48F6E9BF1FE7EC8B00D45C48 /* CachingServiceFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9A81FE7EC8A00D45C48 /* CachingServiceFilterTests.swift */; };
 		48F6E9C01FE7EC8B00D45C48 /* CachingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9A91FE7EC8A00D45C48 /* CachingServiceTests.swift */; };
 		48F6E9C11FE7EC8B00D45C48 /* ReachabilityAndRetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9AA1FE7EC8A00D45C48 /* ReachabilityAndRetryTests.swift */; };
-		48F6E9C31FE7F9CB00D45C48 /* CachingService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48F6E9C21FE7F9CB00D45C48 /* CachingService-Info.plist */; };
 		48F6E9C51FE8037800D45C48 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9C41FE8037800D45C48 /* User.swift */; };
 		48F6E9C71FE8038600D45C48 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9C61FE8038600D45C48 /* UserService.swift */; };
 		48F6E9C91FE8038E00D45C48 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E9C81FE8038E00D45C48 /* UserRouter.swift */; };
@@ -524,7 +522,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48F6E9C31FE7F9CB00D45C48 /* CachingService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,7 +529,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48F6E9B71FE7EC8B00D45C48 /* CachingServiceTests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

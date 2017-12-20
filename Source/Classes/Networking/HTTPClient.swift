@@ -17,8 +17,8 @@ public protocol HTTPClientProtocol {
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable
     func makeRequest(request: Router) -> Observable<()>
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible
+    func uploadImage<UploadResponse>(_ image: UIImage, router: Router) -> Observable<UploadResponse> where UploadResponse : Decodable
 }
-
 
 public final class HTTPClient {
     
@@ -108,7 +108,6 @@ public extension HTTPClient {
         .asObservable()
     }
     
-    
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible {
         return Single.create { single in
             let downloadRequest = self.sessionManager.request(request)
@@ -133,11 +132,12 @@ public extension HTTPClient {
             return Disposables.create {
                 downloadRequest.cancel()
             }
-        }.asObservable()
+        }
+        .asObservable()
     }
     
     //swiftlint:disable:next function_body_length
-    func upload<Value: Decodable>(_ image: UIImage, router: Router) -> Observable<Value> {
+    func uploadImage<UploadResponse>(_ image: UIImage, router: Router) -> Observable<UploadResponse> where UploadResponse : Decodable {
         return Single.create { single in
             guard
                 let fileData = UIImagePNGRepresentation(image),
@@ -150,8 +150,6 @@ public extension HTTPClient {
             }
             encodedRequest.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
             encodedRequest.setValue("\(fileData.count)", forHTTPHeaderField: "Content-Length")
-//            encodedRequest.setValueIfNeeded(.multipartFormData, for: .contentType)
-//            encodedRequest.setValueIfNeeded("\(fileData.count)", for: .contentLength)
             
             self.sessionManager.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(fileData, withName: "file", fileName: "avatar.png", mimeType: "image/png")
@@ -159,7 +157,7 @@ public extension HTTPClient {
                encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let request, _, _):
-                    request.responseDecodableObject(queue: nil, keyPath: router.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Value>) in
+                    request.responseDecodableObject(queue: nil, keyPath: router.keyPath, decoder: JSONDecoder()) { (response: DataResponse<UploadResponse>) in
                         switch response.result {
                         case .success(let value):
                             single(.success(value))
@@ -174,6 +172,7 @@ public extension HTTPClient {
                 }
             })
             return Disposables.create()
-        }.asObservable()
+        }
+        .asObservable()
     }
 }
