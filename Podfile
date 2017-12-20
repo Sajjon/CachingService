@@ -2,7 +2,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/eberrydigital/Alamofire.git'
 
-platform :ios, '11.1'
+platform :ios, '10.0'
 use_frameworks!
 
 def pods
