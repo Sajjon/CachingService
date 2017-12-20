@@ -11,7 +11,8 @@ def pods
 	pod 'ReachabilitySwift'
 	pod 'SwiftyBeaver'
 	pod 'Cache' # https://github.com/hyperoslo/Cache
-	pod 'Berryfire', '5.0.0'
+	pod 'CodableAlamofire'
+	pod 'Alamofire'
 end
 
 workspace 'CachingService'

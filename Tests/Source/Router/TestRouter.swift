@@ -8,7 +8,7 @@
 
 import Foundation
 @testable import CachingService
-import Berryfire
+import Alamofire
 
 enum TestRouter {
     case integer

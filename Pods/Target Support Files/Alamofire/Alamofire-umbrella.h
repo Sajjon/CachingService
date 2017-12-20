@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double BerryfireVersionNumber;
-FOUNDATION_EXPORT const unsigned char BerryfireVersionString[];
+FOUNDATION_EXPORT double AlamofireVersionNumber;
+FOUNDATION_EXPORT const unsigned char AlamofireVersionString[];
 

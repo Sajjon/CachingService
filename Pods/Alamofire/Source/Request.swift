@@ -88,8 +88,14 @@ open class Request {
 
     /// The delegate for the underlying task.
     open internal(set) var delegate: TaskDelegate {
-        get { return protectedDelegate.directValue }
-        set { protectedDelegate.directValue = newValue }
+        get {
+            taskDelegateLock.lock() ; defer { taskDelegateLock.unlock() }
+            return taskDelegate
+        }
+        set {
+            taskDelegateLock.lock() ; defer { taskDelegateLock.unlock() }
+            taskDelegate = newValue
+        }
     }
 
     /// The underlying task.
@@ -114,7 +120,8 @@ open class Request {
 
     var validations: [() -> Void] = []
 
-    private var protectedDelegate: Protector<TaskDelegate>
+    private var taskDelegate: TaskDelegate
+    private var taskDelegateLock = NSLock()
 
     // MARK: Lifecycle
 
@@ -123,16 +130,16 @@ open class Request {
 
         switch requestTask {
         case .data(let originalTask, let task):
-            protectedDelegate = Protector(DataTaskDelegate(task: task))
+            taskDelegate = DataTaskDelegate(task: task)
             self.originalTask = originalTask
         case .download(let originalTask, let task):
-            protectedDelegate = Protector(DownloadTaskDelegate(task: task))
+            taskDelegate = DownloadTaskDelegate(task: task)
             self.originalTask = originalTask
         case .upload(let originalTask, let task):
-            protectedDelegate = Protector(UploadTaskDelegate(task: task))
+            taskDelegate = UploadTaskDelegate(task: task)
             self.originalTask = originalTask
         case .stream(let originalTask, let task):
-            protectedDelegate = Protector(TaskDelegate(task: task))
+            taskDelegate = TaskDelegate(task: task)
             self.originalTask = originalTask
         }
 
@@ -622,6 +629,7 @@ open class UploadRequest: DataRequest {
 #if !os(watchOS)
 
 /// Specific type of `Request` that manages an underlying `URLSessionStreamTask`.
+@available(iOS 9.0, macOS 10.11, tvOS 9.0, *)
 open class StreamRequest: Request {
     enum Streamable: TaskConvertible {
         case stream(hostName: String, port: Int)

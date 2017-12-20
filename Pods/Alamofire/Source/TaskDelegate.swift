@@ -41,24 +41,31 @@ open class TaskDelegate: NSObject {
 
     var task: URLSessionTask? {
         set {
-            protectedTask.directValue = newValue
-            reset()
+            taskLock.lock(); defer { taskLock.unlock() }
+            _task = newValue
         }
-        get { return protectedTask.directValue }
+        get {
+            taskLock.lock(); defer { taskLock.unlock() }
+            return _task
+        }
     }
 
     var initialResponseTime: CFAbsoluteTime?
     var credential: URLCredential?
     var metrics: AnyObject? // URLSessionTaskMetrics
 
-    private let protectedTask: Protector<URLSessionTask?>
+    private var _task: URLSessionTask? {
+        didSet { reset() }
+    }
+
+    private let taskLock = NSLock()
 
     // MARK: Lifecycle
 
     init(task: URLSessionTask?) {
-        protectedTask = Protector(task)
+        _task = task
 
-        queue = {
+        self.queue = {
             let operationQueue = OperationQueue()
 
             operationQueue.maxConcurrentOperationCount = 1

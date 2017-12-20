@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Berryfire
+import Alamofire
 @testable import CachingService
 
 public enum UserRouter {

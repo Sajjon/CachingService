@@ -8,7 +8,8 @@
 
 import Foundation
 import RxSwift
-import Berryfire
+import Alamofire
+import CodableAlamofire
 import SwiftyBeaver
 
 public protocol HTTPClientProtocol {
@@ -67,7 +68,7 @@ public extension HTTPClient {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
-            dataRequest.validate().responseJSONDecodable(decoder: JSONDecoder()) { (response: DataResponse<Model>) in
+            dataRequest.validate().responseDecodableObject(queue: nil, keyPath: request.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Model>) in
                 switch response.result {
                 case .success(let value):
                     single(.success(value))
@@ -132,6 +133,47 @@ public extension HTTPClient {
             return Disposables.create {
                 downloadRequest.cancel()
             }
+        }.asObservable()
+    }
+    
+    //swiftlint:disable:next function_body_length
+    func upload<Value: Decodable>(_ image: UIImage, router: Router) -> Observable<Value> {
+        return Single.create { single in
+            guard
+                let fileData = UIImagePNGRepresentation(image),
+                let request = try? router.asURLRequest(),
+                case let parameters = ["size": fileData.count],
+                var encodedRequest = try? URLEncoding.queryString.encode(request, with: parameters)
+                else {
+                    single(.error(ServiceError.api(.encoding)))
+                    return Disposables.create()
+            }
+            encodedRequest.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+            encodedRequest.setValue("\(fileData.count)", forHTTPHeaderField: "Content-Length")
+//            encodedRequest.setValueIfNeeded(.multipartFormData, for: .contentType)
+//            encodedRequest.setValueIfNeeded("\(fileData.count)", for: .contentLength)
+            
+            self.sessionManager.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(fileData, withName: "file", fileName: "avatar.png", mimeType: "image/png")
+            }, with: encodedRequest,
+               encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let request, _, _):
+                    request.responseDecodableObject(queue: nil, keyPath: router.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Value>) in
+                        switch response.result {
+                        case .success(let value):
+                            single(.success(value))
+                        case .failure(let error):
+                            log.error("Request failed, error: `\(error)`")
+                            single(.error(ServiceError.api(.encoding)))
+                        }
+                    }
+                case .failure(let error):
+                    log.error("Encoding failed with error: \(error)")
+                    single(.error(ServiceError.api(.encoding)))
+                }
+            })
+            return Disposables.create()
         }.asObservable()
     }
 }

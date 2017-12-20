@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Berryfire
+import Alamofire
 //import RxReachability
 import Reachability
 import RxCocoa

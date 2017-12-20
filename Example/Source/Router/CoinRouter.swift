@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Berryfire
+import Alamofire
 import CachingService
 
 public enum CoinRouter {

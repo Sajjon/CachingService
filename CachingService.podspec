@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
   s.dependency 'ReachabilitySwift'
   s.dependency 'SwiftyBeaver'
   s.dependency 'Cache'
-  s.dependency 'Berryfire', '5.0.0'
+  s.dependency 'Alamofire'
   s.ios.deployment_target = '10.0'
 end

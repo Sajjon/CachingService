@@ -34,6 +34,7 @@ public enum ServiceError: Error {
         case cancelled
         case httpGeneric
         case badUrl
+        case encoding
     }
 }
 
