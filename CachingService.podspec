@@ -20,5 +20,6 @@ Pod::Spec.new do |s|
   s.dependency 'SwiftyBeaver'
   s.dependency 'Cache'
   s.dependency 'Alamofire'
+  s.dependency 'CodableAlamofire'
   s.ios.deployment_target = '10.0'
 end
