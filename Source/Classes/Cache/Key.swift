@@ -17,3 +17,9 @@ extension String: Key {
         return self
     }
 }
+
+extension Key where Self: RawRepresentable, Self.RawValue == String {
+    public var identifier: String {
+        return rawValue
+    }
+}

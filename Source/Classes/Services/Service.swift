@@ -8,7 +8,6 @@
 
 import Foundation
 import Alamofire
-//import RxReachability
 import Reachability
 import RxCocoa
 import RxSwift
@@ -16,23 +15,11 @@ import RxOptional
 import Cache
 import SwiftyBeaver
 
-internal let log = makeLog()
-func makeLog() -> SwiftyBeaver.Type {
-    let log = SwiftyBeaver.self
-    let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .debug
-    log.addDestination(consoleDestination)
-    return log
-}
-
-
-extension URL: Key {}
-public extension URL {
-    var identifier: String { return absoluteString }
-}
-
 public protocol Service {
     var httpClient: HTTPClientProtocol { get }
     func get<Model>(request: Router, from source: ServiceSource, key: Key?) -> Observable<Model> where Model: Codable
+    
+    // These should preferrably be `private`, however "overridden" by ImageService
     func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable
     func getFromCacheIfAbleTo<Model>(from source: ServiceSource, key: Key?) -> Observable<Model?> where Model: Codable
 }
@@ -109,3 +96,17 @@ public extension Service {
     }
 }
 
+//MARK: URL+Key
+extension URL: Key {}
+public extension URL {
+    var identifier: String { return absoluteString }
+}
+
+//MARK: - Logging
+internal let log = makeLog()
+func makeLog() -> SwiftyBeaver.Type {
+    let log = SwiftyBeaver.self
+    let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .debug
+    log.addDestination(consoleDestination)
+    return log
+}

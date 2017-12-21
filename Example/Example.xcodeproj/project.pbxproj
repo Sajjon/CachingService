@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4874BA6D1FEBC728000C8DFE /* CachingService.framework in Embedd Frameworks */ = {isa = PBXBuildFile; fileRef = 48F6E9D01FE8047F00D45C48 /* CachingService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		48F6E8F61FE7EB3700D45C48 /* CoinsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8D21FE7EB3600D45C48 /* CoinsViewModel.swift */; };
 		48F6E8F71FE7EB3700D45C48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48F6E8D31FE7EB3600D45C48 /* Assets.xcassets */; };
 		48F6E8F91FE7EB3700D45C48 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F6E8D61FE7EB3600D45C48 /* Coin.swift */; };
@@ -49,6 +50,20 @@
 			remoteInfo = CachingServiceTests;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4874BA6C1FEBC69A000C8DFE /* Embedd Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4874BA6D1FEBC728000C8DFE /* CachingService.framework in Embedd Frameworks */,
+			);
+			name = "Embedd Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		48A759841FA4E5DE00160897 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +265,7 @@
 				48A759821FA4E5DE00160897 /* Resources */,
 				C50242F1967D197A50A62F14 /* [CP] Embed Pods Frameworks */,
 				6D87E65490B2CACA8BBE085C /* [CP] Copy Pods Resources */,
+				4874BA6C1FEBC69A000C8DFE /* Embedd Frameworks */,
 			);
 			buildRules = (
 			);

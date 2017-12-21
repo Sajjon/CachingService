@@ -12,7 +12,7 @@ import Foundation
 private let environmentsPlistKey = "LSEnvironment"
 private let configurationPlistKey = "CONFIGURATION"
 
-public enum Configuration: String {
+internal enum Configuration: String {
     case debug = "Debug"
     case release = "Release"
 }
@@ -22,7 +22,7 @@ public enum EnvironmentKey: String {
 }
 
 public protocol EnvironmentsProtocol {
-    var configuration: Configuration { get }
+    var configuration: String { get }
     func value<Value>(for key: EnvironmentKey) -> Value
 }
 
@@ -41,18 +41,18 @@ public final class Environments {
 extension Environments: EnvironmentsProtocol {}
 
 public extension Environments {
-    var configuration: Configuration {
+    var configuration: String {
         guard
             let configurationString = values[configurationPlistKey] as? String,
             let configuration = Configuration(rawValue: configurationString)
             else { incorrectImplementation }
-        return configuration
+        return configuration.rawValue
     }
 
     func value<Value>(for key: EnvironmentKey) -> Value {
         guard
             let plist = values[key.rawValue] as? Plist,
-            let value = plist[configuration.rawValue] as? Value
+            let value = plist[configuration] as? Value
             else { incorrectImplementation }
         return value
     }
