@@ -37,7 +37,7 @@ public final class HTTPClient {
         reachability: ReachabilityServiceConvertible,
         environments: EnvironmentsProtocol,
         httpHeaderStore: HTTPHeaderStoreProtocol = HTTPHeaderStore()
-    ) {
+        ) {
         
         self.reachability = reachability
         
@@ -68,7 +68,12 @@ public extension HTTPClient {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
-            dataRequest.validate().responseDecodableObject(queue: nil, keyPath: request.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Model>) in
+            let validated = dataRequest.validate()
+            
+            validated.responseString { guard case .success(let s) = $0.result else { return }; log.verbose("responseString: `\(s)`") }
+            validated.responseJSON { guard case .success(let s) = $0.result else { return }; log.verbose("responseJSON: `\(s)`") }
+            
+            validated.responseDecodableObject(queue: nil, keyPath: request.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Model>) in
                 switch response.result {
                 case .success(let value):
                     single(.success(value))
@@ -81,8 +86,8 @@ public extension HTTPClient {
             return Disposables.create {
                 dataRequest.cancel()
             }
-        }
-        .asObservable()
+            }
+            .asObservable()
     }
     
     func makeRequest(request: Router) -> Observable<()> {
@@ -104,8 +109,8 @@ public extension HTTPClient {
             return Disposables.create {
                 dataRequest.cancel()
             }
-        }
-        .asObservable()
+            }
+            .asObservable()
     }
     
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible {
@@ -132,8 +137,8 @@ public extension HTTPClient {
             return Disposables.create {
                 downloadRequest.cancel()
             }
-        }
-        .asObservable()
+            }
+            .asObservable()
     }
     
     //swiftlint:disable:next function_body_length
@@ -172,7 +177,7 @@ public extension HTTPClient {
                 }
             })
             return Disposables.create()
-        }
-        .asObservable()
+            }
+            .asObservable()
     }
 }
