@@ -22,24 +22,11 @@ final class CoinsViewController {
             presenter: presenter
         )
     }
-    
-    deinit { log.debug("") }
 }
 
 extension CoinsViewController: AbstractViewController {
     var rootView: UIView { return coinsView }
+    static var title: String { return "Coins and tokens" }
 }
 
 
-final class CoinViewController {
-    let coinView: CoinView
-    init(viewModel: CoinViewModel) {
-        coinView = CoinView(viewModel: viewModel)
-    }
-    
-    deinit { log.debug("") }
-}
-
-extension CoinViewController: AbstractViewController {
-    var rootView: UIView { return coinView }
-}

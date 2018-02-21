@@ -16,14 +16,10 @@ protocol CoinServiceProtocol: Service, Persisting {
 }
 
 final class CoinService: CoinServiceProtocol {
-    typealias Router = CoinRouter
-    
     let httpClient: HTTPClientProtocol
     let cache: AsyncCache
     
-    init(
-        httpClient: HTTPClientProtocol,
-        cache: AsyncCache) {
+    init(httpClient: HTTPClientProtocol, cache: AsyncCache) {
         self.httpClient = httpClient
         self.cache = cache
     }
@@ -37,15 +33,3 @@ final class CoinService: CoinServiceProtocol {
     }
 }
 
-final class ImageService: ImageServiceProtocol {
-    
-    let httpClient: HTTPClientProtocol
-    let cache: AsyncCache
-    
-    init(
-        httpClient: HTTPClientProtocol,
-        cache: AsyncCache) {
-        self.httpClient = httpClient
-        self.cache = cache
-    }
-}

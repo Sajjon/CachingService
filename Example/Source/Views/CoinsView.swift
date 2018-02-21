@@ -14,14 +14,14 @@ import CachingService
 
 private let cellId = "cellId"
 private let itemHeight: CGFloat = 50
+private let style: ViewStyle = [.font(.boldSystemFont(ofSize: 18)), .textColor(.black), .height(itemHeight)]
 final class CoinsView: UIView {
     
-    private let statusLabel: UILabel = [.textAlignment(.center), .text("Idle"), .font(.boldSystemFont(ofSize: 24)), .height(itemHeight)]
+    private let statusLabel: UILabel = style <<- [.textAlignment(.center), .text("Idle"), .font(.boldSystemFont(ofSize: 24))]
     
-    private let getFromCacheAndBackendButton: UIButton = [.text("⬇️ Cache+Backend"), .textColor(.white), .color(.green), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
+    private let getFromCacheAndBackendButton: UIButton = style <<- [.text("⬇️ Cache+Backend"), .textColor(.white), .color(.green)]
     
-    
-    private let getFromCacheButton: UIButton = [.text("⬇️ Cache"), .textColor(.white), .color(.blue), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
+    private let getFromCacheButton: UIButton = style <<- [.text("⬇️ Cache"), .textColor(.white), .color(.blue)]
 
     private let clearCacheButton: UIButton = [.text("🗑 Models"), .textColor(.white), .color(.red), .font(.systemFont(ofSize: 18)), .height(itemHeight)]
     

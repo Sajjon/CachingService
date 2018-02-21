@@ -18,6 +18,8 @@ import SwiftyBeaver
 public protocol Service {
     var httpClient: HTTPClientProtocol { get }
     func get<Model>(request: Router, from source: ServiceSource, key: Key?) -> Observable<Model> where Model: Codable
+    func postExpectedReturn<Model>(request: Router) -> Observable<Model> where Model: Codable
+    func postNoReturn(request: Router) -> Observable<Void>
     
     // These should preferrably be `private`, however "overridden" by ImageService
     func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable
@@ -58,6 +60,19 @@ public extension Service {
         return persisting.asyncLoad(key: key)
             .do(onNext: { _ in log.verbose("Cache loading done") }, onError: { log.error("error: \($0)") }, onCompleted: { log.verbose("onCompleted") })
     }
+}
+
+//MARK: - POST
+public extension Service {
+    func postExpectedReturn<Model>(request: Router) -> Observable<Model> where Model: Codable {
+        let observable: Observable<Model?> = httpClient.makeRequest(request: request)
+        return observable.filterNil()
+    }
+
+    func postNoReturn(request: Router) -> Observable<Void> {
+        return httpClient.makeRequest(request: request)
+    }
+    
 }
 
 //MARK: - Private Methods
