@@ -14,16 +14,16 @@ public class AnyKeyValueStore: KeyValueStoreProtocol {
         self.concrete = concrete
     }
     
-    public func save<Value>(value: Value, forStringKey key: String) throws where Value: Codable {
-        try concrete.save(value: value, forStringKey: key)
+    public func save<Value>(value: Value, for key: String) throws where Value: Codable {
+        try concrete.save(value: value, for: key)
     }
     
-    public func loadValue<Value>(forStringKey key: String) -> Value? where Value: Codable {
-        return concrete.loadValue(forStringKey: key)
+    public func loadValue<Value>(for key: String) -> Value? where Value: Codable {
+        return concrete.loadValue(for: key)
     }
     
-    public func deleteValue(forStringKey key: String) {
-        concrete.deleteValue(forStringKey: key)
+    public func deleteValue(for key: String) {
+        concrete.deleteValue(for: key)
     }
     
     public func deleteAll() { concrete.deleteAll() }
