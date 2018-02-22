@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let container: Container = DependencyInjectionConfigurator.registerDependencies()
     func applicationDidFinishLaunching(_ application: UIApplication) {
         window = bootStrap()
-        let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .debug
+        let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .verbose
         log.addDestination(consoleDestination)
     }
 }

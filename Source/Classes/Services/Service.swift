@@ -121,6 +121,7 @@ public extension URL {
 internal let log = makeLog()
 func makeLog() -> SwiftyBeaver.Type {
     let log = SwiftyBeaver.self
+    guard (log.destinations.filter { $0 is ConsoleDestination }.isEmpty) else { return log }
     let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .debug
     log.addDestination(consoleDestination)
     return log
