@@ -53,3 +53,26 @@ public extension KeyedKeyValueStoreProtocol {
         return double(for: key.identifier)
     }
 }
+
+public extension KeyedKeyValueStoreProtocol {
+    func hasString(for key: Key) -> Bool {
+        return hasString(for: key.identifier)
+    }
+    
+    func hasInt(for key: Key) -> Bool {
+        return hasInt(for: key.identifier)
+    }
+    
+    func hasBool(for key: Key) -> Bool {
+        return hasBool(for: key.identifier)
+    }
+    
+    func hasFloat(for key: Key) -> Bool {
+        return hasFloat(for: key.identifier)
+    }
+    
+    func hasDouble(for key: Key) -> Bool {
+        return hasDouble(for: key.identifier)
+    }
+}
+
