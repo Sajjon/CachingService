@@ -70,7 +70,7 @@ public extension Service {
     }
 
     func postNoReturn(request: Router) -> Observable<Void> {
-        return httpClient.makeRequest(request: request)
+        return httpClient.makeVoidRequest(request: request)
     }
     
 }

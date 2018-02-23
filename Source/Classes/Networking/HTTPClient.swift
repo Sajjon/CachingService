@@ -14,10 +14,14 @@ import SwiftyBeaver
 
 public protocol HTTPClientProtocol {
     var reachability: ReachabilityServiceConvertible { get }
+    
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable
-    func makeRequest(request: Router) -> Observable<()>
+    func makeRequest<Model>(request: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<Model?> where Model: Codable
+    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable
+
+    func makeVoidRequest(request: Router) -> Observable<()>
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible
-    func uploadImage<UploadResponse>(_ image: UIImage, router: Router) -> Observable<UploadResponse> where UploadResponse : Decodable
+    func uploadImage<UploadResponse>(_ image: UIImage, router: Router, jsonDecoder: JSONDecoder) -> Observable<UploadResponse> where UploadResponse : Decodable
 }
 
 public final class HTTPClient {
@@ -64,7 +68,16 @@ public final class HTTPClient {
 
 extension HTTPClient: HTTPClientProtocol {}
 public extension HTTPClient {
+    
     func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
+        return makeRequest(request: request, dateDecodingStrategy: .iso8601)
+    }
+    
+    func makeRequest<Model>(request: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<Model?> where Model: Codable {
+        return makeRequest(request: request, jsonDecoder: JSONDecoder(dateDecodingStrategy: dateDecodingStrategy))
+    }
+    
+    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
@@ -73,7 +86,7 @@ public extension HTTPClient {
             validated.responseString { guard case .success(let s) = $0.result else { return }; log.verbose("responseString: `\(s)`") }
             validated.responseJSON { guard case .success(let s) = $0.result else { return }; log.verbose("responseJSON: `\(s)`") }
             
-            validated.responseDecodableObject(queue: nil, keyPath: request.keyPath, decoder: JSONDecoder()) { (response: DataResponse<Model>) in
+            validated.responseDecodableObject(queue: nil, keyPath: request.keyPath, decoder: jsonDecoder) { (response: DataResponse<Model>) in
                 switch response.result {
                 case .success(let value):
                     single(.success(value))
@@ -90,7 +103,7 @@ public extension HTTPClient {
             .asObservable()
     }
     
-    func makeRequest(request: Router) -> Observable<()> {
+    func makeVoidRequest(request: Router) -> Observable<()> {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
@@ -143,6 +156,14 @@ public extension HTTPClient {
     
     //swiftlint:disable:next function_body_length
     func uploadImage<UploadResponse>(_ image: UIImage, router: Router) -> Observable<UploadResponse> where UploadResponse : Decodable {
+        return uploadImage(image, router: router, jsonDecoder: JSONDecoder(dateDecodingStrategy: .iso8601))
+    }
+    
+    func uploadImage<UploadResponse>(_ image: UIImage, router: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<UploadResponse> where UploadResponse : Decodable {
+        return uploadImage(image, router: router, jsonDecoder: JSONDecoder(dateDecodingStrategy: dateDecodingStrategy))
+    }
+    
+    func uploadImage<UploadResponse>(_ image: UIImage, router: Router, jsonDecoder: JSONDecoder) -> Observable<UploadResponse> where UploadResponse : Decodable {
         return Single.create { single in
             guard
                 let fileData = UIImagePNGRepresentation(image),
@@ -162,7 +183,7 @@ public extension HTTPClient {
                encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let request, _, _):
-                    request.responseDecodableObject(queue: nil, keyPath: router.keyPath, decoder: JSONDecoder()) { (response: DataResponse<UploadResponse>) in
+                    request.responseDecodableObject(queue: nil, keyPath: router.keyPath, decoder: jsonDecoder) { (response: DataResponse<UploadResponse>) in
                         switch response.result {
                         case .success(let value):
                             single(.success(value))
