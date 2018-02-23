@@ -15,11 +15,9 @@ import SwiftyBeaver
 public protocol HTTPClientProtocol {
     var reachability: ReachabilityServiceConvertible { get }
     
-    func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable
-    func makeRequest<Model>(request: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<Model?> where Model: Codable
     func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable
 
-    func makeVoidRequest(request: Router) -> Observable<()>
+    func makeFireForgetRequest(request: Router) -> Observable<()>
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible
     func uploadImage<UploadResponse>(_ image: UIImage, router: Router, jsonDecoder: JSONDecoder) -> Observable<UploadResponse> where UploadResponse : Decodable
 }
@@ -69,15 +67,11 @@ public final class HTTPClient {
 extension HTTPClient: HTTPClientProtocol {}
 public extension HTTPClient {
     
-    func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
-        return makeRequest(request: request, dateDecodingStrategy: .iso8601)
-    }
-    
     func makeRequest<Model>(request: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<Model?> where Model: Codable {
         return makeRequest(request: request, jsonDecoder: JSONDecoder(dateDecodingStrategy: dateDecodingStrategy))
     }
     
-    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable {
+    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601)) -> Observable<Model?> where Model: Codable {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)
@@ -103,7 +97,7 @@ public extension HTTPClient {
             .asObservable()
     }
     
-    func makeVoidRequest(request: Router) -> Observable<()> {
+    func makeFireForgetRequest(request: Router) -> Observable<()> {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)

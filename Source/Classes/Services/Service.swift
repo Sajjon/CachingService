@@ -17,35 +17,42 @@ import SwiftyBeaver
 
 public protocol Service {
     var httpClient: HTTPClientProtocol { get }
-    func get<Model>(request: Router, from source: ServiceSource, key: Key?) -> Observable<Model> where Model: Codable
-    func postExpectedReturn<Model>(request: Router) -> Observable<Model> where Model: Codable
-    func postNoReturn(request: Router) -> Observable<Void>
+    
+    func get<Model>(request: Router, from source: ServiceSource, jsonDecoder: JSONDecoder, key: Key?) -> Observable<Model> where Model: Codable
+    
+    func post<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model> where Model: Codable
+    func postFireForget(request: Router) -> Observable<Void>
     
     // These should preferrably be `private`, however "overridden" by ImageService
-    func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable
+    func getFromBackend<Model>(request: Router, from source: ServiceSource, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable
     func getFromCacheIfAbleTo<Model>(from source: ServiceSource, key: Key?) -> Observable<Model?> where Model: Codable
+}
+
+public extension Service {
+    var reachability: ReachabilityServiceConvertible { return httpClient.reachability }
 }
 
 //MARK: - Default Implementation
 public extension Service {
-    func get<Model>(request: Router, from source: ServiceSource) -> Observable<Model> where Model: Codable {
-        return get(request: request, from: source, key: nil)
-    }
     
-    func get<Model>(request: Router, from source: ServiceSource, key: Key?) -> Observable<Model> where Model: Codable {
+    func get<Model>(request: Router, from source: ServiceSource = .default, jsonDecoder: JSONDecoder = JSONDecoder(), key: Key? = nil) -> Observable<Model> where Model: Codable {
         return getFromCacheIfAbleTo(from: source, key: key)
             .flatMap { (maybeModel: Model?) -> Observable<Model> in
                 if let model = maybeModel, source.ifCachedPreventDownload {
                     return .just(model)
                 } else {
-                    return Observable.from(optional: maybeModel).concat(self.getFromBackendAndCacheIfAbleTo(request: request, from: source, key: key))
+                    return Observable.from(optional: maybeModel).concat(self.getFromBackendAndCacheIfAbleTo(request: request, from: source, jsonDecoder: jsonDecoder, key: key))
                 }
         }
     }
-    
+   
     func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable {
+        return getFromBackend(request: request, from: source, jsonDecoder: JSONDecoder())
+    }
+    
+    func getFromBackend<Model>(request: Router, from source: ServiceSource, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable {
         guard source.shouldFetchFromBackend else { log.debug("Prevented fetch from backend"); return .empty() }
-        return httpClient.makeRequest(request: request)
+        return httpClient.makeRequest(request: request, jsonDecoder: jsonDecoder)
             .do(onNext: { let s: String = ($0 != nil) ? "not":""; log.verbose("HTTP response \(s) empty") }, onError: { log.error("error: \($0)") }, onCompleted: { log.verbose("onCompleted") })
     }
     
@@ -64,22 +71,20 @@ public extension Service {
 
 //MARK: - POST
 public extension Service {
-    func postExpectedReturn<Model>(request: Router) -> Observable<Model> where Model: Codable {
-        let observable: Observable<Model?> = httpClient.makeRequest(request: request)
-        return observable.filterNil()
-    }
-
-    func postNoReturn(request: Router) -> Observable<Void> {
-        return httpClient.makeVoidRequest(request: request)
+    func post<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model> where Model: Codable {
+        return httpClient.makeRequest(request: request, jsonDecoder: jsonDecoder).errorOnNil()
     }
     
+    func postFireForget(request: Router) -> Observable<Void> {
+        return httpClient.makeFireForgetRequest(request: request)
+    }
 }
 
 //MARK: - Private Methods
 private extension Service {
     
-    func getFromBackendAndCacheIfAbleTo<Model>(request: Router, from source: ServiceSource, key: Key?) -> Observable<Model> where Model: Codable {
-        return getFromBackend(request: request, from: source)
+    func getFromBackendAndCacheIfAbleTo<Model>(request: Router, from source: ServiceSource, jsonDecoder: JSONDecoder, key: Key?) -> Observable<Model> where Model: Codable {
+        return getFromBackend(request: request, from: source, jsonDecoder: jsonDecoder)
             .retryOnConnect(options: source.retryWhenReachable, reachability: reachability)
             .catchError { self.handleErrorIfNeeded($0, from: source) }
             .flatMap { model in self.updateCacheIfAbleTo(with: model, from: source, key: key) }
@@ -101,28 +106,26 @@ private extension Service {
     }
 }
 
+
 //MARK: - Convenience
 public extension Service {
-    
-    var reachability: ReachabilityServiceConvertible { return httpClient.reachability }
-    
-    func get<Model>(modelType: Model.Type, request: Router, from source: ServiceSource, key: Key?) -> Observable<Model> where Model: Codable {
-        return get(request: request, from: source, key: key) as Observable<Model>
+    func get<Model>(request: Router, from source: ServiceSource = .default, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy, key: Key? = nil) -> Observable<Model> where Model: Codable {
+        return get(request: request, from: source, jsonDecoder: JSONDecoder(dateDecodingStrategy: dateDecodingStrategy), key: key)
     }
 }
 
-//MARK: URL+Key
-extension URL: Key {}
-public extension URL {
-    var identifier: String { return absoluteString }
-}
-
-//MARK: - Logging
-internal let log = makeLog()
-func makeLog() -> SwiftyBeaver.Type {
-    let log = SwiftyBeaver.self
-    guard (log.destinations.filter { $0 is ConsoleDestination }.isEmpty) else { return log }
-    let consoleDestination = ConsoleDestination(); consoleDestination.minLevel = .debug
-    log.addDestination(consoleDestination)
-    return log
+//MARK: ModelType as Argument
+public extension Service {
+    
+    func get<Model>(modelType: Model.Type, request: Router, from source: ServiceSource = .default, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy, key: Key? = nil) -> Observable<Model> where Model: Codable {
+        return get(request: request, from: source, jsonDecoder: JSONDecoder(dateDecodingStrategy: dateDecodingStrategy), key: key) as Observable<Model>
+    }
+    
+    func get<Model>(modelType: Model.Type, request: Router, from source: ServiceSource = .default, jsonDecoder: JSONDecoder = JSONDecoder(), key: Key? = nil) -> Observable<Model> where Model: Codable {
+        return get(request: request, from: source, jsonDecoder: jsonDecoder, key: key) as Observable<Model>
+    }
+    
+    func post<Model>(modelType: Model.Type, request: Router, jsonDecoder: JSONDecoder = JSONDecoder()) -> Observable<Model> where Model: Codable {
+        return post(request: request, jsonDecoder: jsonDecoder) as Observable<Model>
+    }
 }

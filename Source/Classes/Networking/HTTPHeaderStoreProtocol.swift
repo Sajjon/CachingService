@@ -61,7 +61,7 @@ public extension HTTPHeaderStoreProtocol {
     func injectHeaders(to request: inout URLRequest) {
         let headersToInject = extractHeadersIncludingProxies()
         for (key, value) in headersToInject {
-            log.debug("💉 Injecting header=`\(key)` with value=`\(value)`")
+            log.verbose("💉 Injecting header=`\(key)` with value=`\(value)`")
             request.setValue(value, forHTTPHeaderField: key)
         }
     }

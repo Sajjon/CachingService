@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2D6F3F926A737969E387176F /* Pods_CachingService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C35828B294D80F5B412D592 /* Pods_CachingService.framework */; };
 		484575D81FE92B1F002BCED9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484575D91FE92B1F002BCED9 /* RxSwift.framework */; };
+		4884F50420407B1A0022B543 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4884F50320407B1A0022B543 /* Logging.swift */; };
+		4884F50620407B430022B543 /* URL+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4884F50520407B430022B543 /* URL+Key.swift */; };
 		48B1E504203F5FE600521850 /* KeyValueStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B1E503203F5FE600521850 /* KeyValueStoreProtocol.swift */; };
 		48B1E506203F5FFE00521850 /* KeyedKeyValueStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B1E505203F5FFE00521850 /* KeyedKeyValueStoreProtocol.swift */; };
 		48B1E508203F601400521850 /* AnyKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B1E507203F601400521850 /* AnyKeyValueStore.swift */; };
@@ -98,6 +100,8 @@
 		27EBE43F109E6D43F3FF8681 /* Pods-CachingServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingServiceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingServiceTests/Pods-CachingServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		3DFB9567D34D734E710EDE1D /* Pods-CachingService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingService.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingService/Pods-CachingService.release.xcconfig"; sourceTree = "<group>"; };
 		484575D91FE92B1F002BCED9 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4884F50320407B1A0022B543 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		4884F50520407B430022B543 /* URL+Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Key.swift"; sourceTree = "<group>"; };
 		48B1E503203F5FE600521850 /* KeyValueStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoreProtocol.swift; sourceTree = "<group>"; };
 		48B1E505203F5FFE00521850 /* KeyedKeyValueStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedKeyValueStoreProtocol.swift; sourceTree = "<group>"; };
 		48B1E507203F601400521850 /* AnyKeyValueStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyKeyValueStore.swift; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 				48F6E9451FE7EBDE00D45C48 /* Protocols */,
 				48F6E94C1FE7EBDE00D45C48 /* Services */,
 				48F6E9541FE7EBDE00D45C48 /* Router */,
+				4884F50320407B1A0022B543 /* Logging.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -290,6 +295,7 @@
 				48F6E9441FE7EBDE00D45C48 /* Observable+Collection+Filterable.swift */,
 				48C1532F1FE929540066C73B /* Storage+AsyncCache.swift */,
 				48B1E513203F60D700521850 /* Dictionary_Extension.swift */,
+				4884F50520407B430022B543 /* URL+Key.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -682,6 +688,7 @@
 				48F6E9D71FE8053700D45C48 /* DataConvertible.swift in Sources */,
 				48F6E9761FE7EBDE00D45C48 /* ServiceOption.swift in Sources */,
 				48F6E95B1FE7EBDE00D45C48 /* KeyCreator.swift in Sources */,
+				4884F50420407B1A0022B543 /* Logging.swift in Sources */,
 				48F6E95D1FE7EBDE00D45C48 /* HTTPContentType.swift in Sources */,
 				48F6E9671FE7EBDE00D45C48 /* RxExtension.swift in Sources */,
 				48F6E9711FE7EBDE00D45C48 /* ServiceSource.swift in Sources */,
@@ -705,6 +712,7 @@
 				48F6E96F1FE7EBDE00D45C48 /* Filterable.swift in Sources */,
 				48F6E9601FE7EBDE00D45C48 /* AuthTokensConvertible.swift in Sources */,
 				48F6E9781FE7EBDE00D45C48 /* Router.swift in Sources */,
+				4884F50620407B430022B543 /* URL+Key.swift in Sources */,
 				48F6E96A1FE7EBDE00D45C48 /* Observable+Collection+Filterable.swift in Sources */,
 				48B1E50C203F608200521850 /* KeyExpressible.swift in Sources */,
 				48F6E9621FE7EBDE00D45C48 /* EnvironmentsProtocol.swift in Sources */,
