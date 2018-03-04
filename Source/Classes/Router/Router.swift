@@ -39,7 +39,7 @@ public extension Router {
 
 public extension Router {
     func asURLRequest() throws -> URLRequest {
-        guard let url = URL(string: path) else { throw ServiceError.api(.badUrl) }
+        guard let url = URL(string: path) else { throw ServiceError.api(.network(.badUrl(self))) }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         if let parameters = self.parameters {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2D6F3F926A737969E387176F /* Pods_CachingService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C35828B294D80F5B412D592 /* Pods_CachingService.framework */; };
 		484575D81FE92B1F002BCED9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484575D91FE92B1F002BCED9 /* RxSwift.framework */; };
+		485A8324204A7D76004EBCB4 /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485A8323204A7D76004EBCB4 /* HTTPStatusCode.swift */; };
 		4884F50420407B1A0022B543 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4884F50320407B1A0022B543 /* Logging.swift */; };
 		4884F50620407B430022B543 /* URL+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4884F50520407B430022B543 /* URL+Key.swift */; };
 		48B1E504203F5FE600521850 /* KeyValueStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B1E503203F5FE600521850 /* KeyValueStoreProtocol.swift */; };
@@ -100,6 +101,7 @@
 		27EBE43F109E6D43F3FF8681 /* Pods-CachingServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingServiceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingServiceTests/Pods-CachingServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		3DFB9567D34D734E710EDE1D /* Pods-CachingService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingService.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingService/Pods-CachingService.release.xcconfig"; sourceTree = "<group>"; };
 		484575D91FE92B1F002BCED9 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		485A8323204A7D76004EBCB4 /* HTTPStatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
 		4884F50320407B1A0022B543 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		4884F50520407B430022B543 /* URL+Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Key.swift"; sourceTree = "<group>"; };
 		48B1E503203F5FE600521850 /* KeyValueStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoreProtocol.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		48F6E9341FE7EBDE00D45C48 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				485A8323204A7D76004EBCB4 /* HTTPStatusCode.swift */,
 				48F6E9361FE7EBDE00D45C48 /* HTTPContentType.swift */,
 				48F6E9371FE7EBDE00D45C48 /* URLRequest_Extension.swift */,
 				48F6E9381FE7EBDE00D45C48 /* HTTPClient.swift */,
@@ -703,6 +706,7 @@
 				48B1E506203F5FFE00521850 /* KeyedKeyValueStoreProtocol.swift in Sources */,
 				48F6E9D51FE8051000D45C48 /* ImageService.swift in Sources */,
 				48F6E95E1FE7EBDE00D45C48 /* URLRequest_Extension.swift in Sources */,
+				485A8324204A7D76004EBCB4 /* HTTPStatusCode.swift in Sources */,
 				48F6E9741FE7EBDE00D45C48 /* Service.swift in Sources */,
 				48F6E9661FE7EBDE00D45C48 /* Codable_Extension.swift in Sources */,
 				48F6E9701FE7EBDE00D45C48 /* Persisting.swift in Sources */,

@@ -165,7 +165,7 @@ public extension HTTPClient {
                 case let parameters = ["size": fileData.count],
                 var encodedRequest = try? URLEncoding.queryString.encode(request, with: parameters)
                 else {
-                    single(.error(ServiceError.api(.encoding)))
+                    single(.error(ServiceError.api(.network(.multipartEncodingFailed(underlyingError: nil)))))
                     return Disposables.create()
             }
             encodedRequest.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
@@ -183,12 +183,12 @@ public extension HTTPClient {
                             single(.success(value))
                         case .failure(let error):
                             log.error("Request failed, error: `\(error)`")
-                            single(.error(ServiceError.api(.encoding)))
+                            single(.error(ServiceError.api(.json(.decoding(error as? DecodingError)))))
                         }
                     }
                 case .failure(let error):
                     log.error("Encoding failed with error: \(error)")
-                    single(.error(ServiceError.api(.encoding)))
+                    single(.error(ServiceError.api(.network(.multipartEncodingFailed(underlyingError: error)))))
                 }
             })
             return Disposables.create()

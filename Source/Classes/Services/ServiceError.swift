@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import Alamofire
 
 public enum ServiceError: Error {
+    
+    case unknown
     
     indirect case cache(CacheError)
     public enum CacheError: Error {
@@ -30,82 +33,113 @@ public enum ServiceError: Error {
     
     indirect case api(APIError)
     public enum APIError: Error {
-        case noNetwork
-        case cancelled
+        
         case httpGeneric
-        case badUrl
-        case encoding
-    }
-}
-
-extension ServiceError: Equatable {
-    public static func ==(lhs: ServiceError, rhs: ServiceError) -> Bool {
-        switch (lhs, rhs) {
-        case (.cache(let lhsCache), .cache(let rhsCache)): return lhsCache == rhsCache
-        case (.api(let lhsApi), .api(let rhsApi)): return lhsApi == rhsApi
-        default: return false
+        
+        indirect case noError(NoError)
+        public enum NoError: Error {
+            case cancelled
         }
-    }
-}
-
-extension ServiceError.CacheError: Equatable {
-    public static func ==(lhs: ServiceError.CacheError, rhs: ServiceError.CacheError) -> Bool {
-        switch (lhs, rhs) {
-        case (.generic, .generic): return true
-        case (.noKey, .noKey): return true
-        case (.notFound, .notFound): return true
-        case (.typeNotMatch, .typeNotMatch): return true
-        case (.decodingFailed, .decodingFailed): return true
-        case (.encodingFailed, .encodingFailed): return true
-        case (.deallocated, .deallocated): return true
-        default: return false
+        
+        indirect case network(NetworkError)
+        public enum NetworkError: Error {
+            case noNetwork
+            case badUrl(Router?)
+            case multipartEncodingFailed(underlyingError: Error?)
+            case parameterEncodingFailed(underlyingError: Error?)
+            case responseSerializationFailed(underlyingError: Error?)
+            case responseValidationFailed(ResponseValidationFailureReason)
+            
+            public enum ResponseValidationFailureReason {
+                case dataFileNil
+                case dataFileReadFailed(at: URL)
+                case missingContentType(acceptableContentTypes: [String])
+                case unacceptableContentType(acceptableContentTypes: [String], responseContentType: String)
+                case unacceptableStatusCode(code: Int)
+            }
         }
-    }
-}
-
-extension ServiceError.APIError: Equatable {
-    public static func ==(lhs: ServiceError.APIError, rhs: ServiceError.APIError) -> Bool {
-        switch (lhs, rhs) {
-        case (.noNetwork, .noNetwork): return true
-        case (.httpGeneric, .httpGeneric): return true
-        case (.badUrl, .badUrl): return true
-        case (.cancelled, .cancelled): return true
-        default: return false
+        
+        indirect case json(JSONError)
+        public enum JSONError: Error {
+            case encoding(EncodingError?)
+            case decoding(DecodingError?)
         }
+        
     }
 }
-
-public func ==(lhsGeneral: ServiceError, rhs: ServiceError.APIError) -> Bool {
-    guard case let .api(lhs) = lhsGeneral else { return false }
-    return lhs == rhs
-}
-
-public func ==(lhs: ServiceError.APIError, rhsGeneral: ServiceError) -> Bool {
-    return rhsGeneral == lhs
-}
-
-public func ==(lhsGeneric: Error, rhs: ServiceError) -> Bool {
-    guard let lhs = lhsGeneric as? ServiceError else { return false }
-    return lhs == rhs
-}
-
-public func ==(lhs: ServiceError, rhsGeneric: Error) -> Bool {
-    guard let rhs = rhsGeneric as? ServiceError else { return false }
-    return lhs == rhs
-}
-
 
 extension ServiceError.APIError {
     init?(error: Error?) {
-        guard
-            let genericError = error,
-            case let nsError = genericError as NSError,
-            case let urlErrorCode = URLError.Code(rawValue: nsError.code)
-            else { return nil }
-        switch urlErrorCode {
-        case .notConnectedToInternet: self = .noNetwork
-        case .cancelled: self = .cancelled
-        default: return nil
+        guard let genericError = error else { return nil }
+        if let decodingError = genericError as? DecodingError {
+            self = .json(.decoding(decodingError))
+        } else if let encodingError = genericError as? EncodingError {
+            self = .json(.encoding(encodingError))
+        } else if let alamofireError = error as? AFError {
+            switch alamofireError {
+            case .invalidURL(let url):
+                self = .network(.badUrl(url as? Router))
+            case .multipartEncodingFailed:
+                self = .network(.multipartEncodingFailed(underlyingError: alamofireError.underlyingError))
+            case .parameterEncodingFailed:
+                self = .network(.parameterEncodingFailed(underlyingError: alamofireError.underlyingError))
+            case .responseSerializationFailed:
+                self = .network(.responseSerializationFailed(underlyingError: alamofireError.underlyingError))
+            case .responseValidationFailed(let reason):
+                switch reason {
+                case .dataFileNil: self = .network(.responseValidationFailed(.dataFileNil))
+                case .dataFileReadFailed(let url): self = .network(.responseValidationFailed(.dataFileReadFailed(at: url)))
+                case .missingContentType(let acceptable): self = .network(.responseValidationFailed(.missingContentType(acceptableContentTypes: acceptable)))
+                case .unacceptableContentType(let acceptable, let response): self = .network(.responseValidationFailed(.unacceptableContentType(acceptableContentTypes: acceptable, responseContentType: response)))
+                case .unacceptableStatusCode(let statusCode): self = .network(.responseValidationFailed(.unacceptableStatusCode(code: statusCode)))
+                }
+            }
+        } else {
+            let nsError = genericError as NSError
+            let urlErrorCode = URLError.Code(rawValue: nsError.code)
+            
+            switch urlErrorCode {
+            case .notConnectedToInternet: self = .network(.noNetwork)
+            case .cancelled: self = .noError(.cancelled)
+            default: return nil
+            }
+        }
+    }
+}
+
+public extension ServiceError {
+    var unauthorized: Bool {
+        switch self {
+        case .api(.network(let network)): return network.unauthorized
+        default: return false
+        }
+    }
+    
+    var httpStatusCode: HTTPStatusCode? {
+        switch self {
+       case .api(.network(let network)): return network.httpStatusCode
+        default:
+            return nil
+        }
+    }
+}
+
+
+public extension ServiceError.APIError.NetworkError {
+    var unauthorized: Bool {
+        guard let code = httpStatusCode else { return false }
+        return code == .unauthorized
+    }
+    
+    var httpStatusCode: HTTPStatusCode? {
+        switch self {
+        case .responseValidationFailed(let reason):
+            switch reason {
+            case .unacceptableStatusCode(let statusCode): return HTTPStatusCode(rawValue: statusCode)
+            default: return nil
+            }
+        default:
+            return nil
         }
     }
 }
