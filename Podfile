@@ -10,7 +10,7 @@ def pods
 	pod 'RxOptional'
 	pod 'ReachabilitySwift'
 	pod 'SwiftyBeaver'
-	pod 'Cache' # https://github.com/hyperoslo/Cache
+	pod 'Cache', '4.1.2' # https://github.com/hyperoslo/Cache
 	pod 'CodableAlamofire'
 	pod 'Alamofire'
 end
