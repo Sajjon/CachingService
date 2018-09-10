@@ -9,12 +9,20 @@
 import Foundation
 import Alamofire
 
-public enum ServiceError: Error {
+public enum ServiceError: Error, Equatable {
+    public static func == (lhs: ServiceError, rhs: ServiceError) -> Bool {
+        switch (lhs, rhs) {
+        case (.cache(let lhsCache), .cache(let rhsCache)): return lhsCache == rhsCache
+        case (.api(let lhsApi), .api(let rhsApi)): return lhsApi == rhsApi
+        default: return false
+        }
+    }
+
     
     case unknown
     
-    indirect case cache(CacheError)
-    public enum CacheError: Error {
+    case cache(CacheError)
+    public enum CacheError: Error, Equatable {
         /// Unable to retrieve specific caching error
         case generic
         /// Unable to automatically create key for type
@@ -31,18 +39,40 @@ public enum ServiceError: Error {
         case deallocated
     }
     
-    indirect case api(APIError)
-    public enum APIError: Error {
+    case api(APIError)
+    public enum APIError: Error, Equatable {
+        public static func == (lhs: ServiceError.APIError, rhs: ServiceError.APIError) -> Bool {
+            switch (lhs, rhs) {
+            case (.httpGeneric, .httpGeneric): return true
+            case (.noError(let lhsNoError), .noError(let rhsNoError)): return lhsNoError == rhsNoError
+            case (.network(let lhsNetwork), .network(let rhsNetwork)): return lhsNetwork == rhsNetwork
+            case (.json(let lhsJson), .json(let rhsJson)): return lhsJson == rhsJson
+            default: return false
+            }
+        }
+
         
         case httpGeneric
         
-        indirect case noError(NoError)
-        public enum NoError: Error {
+        case noError(NoError)
+        public enum NoError: Error, Equatable {
             case cancelled
         }
         
-        indirect case network(NetworkError)
-        public enum NetworkError: Error {
+        case network(NetworkError)
+        public enum NetworkError: Error, Equatable {
+            public static func == (lhs: ServiceError.APIError.NetworkError, rhs: ServiceError.APIError.NetworkError) -> Bool {
+                switch (lhs, rhs) {
+                case (.noNetwork, .noNetwork): return true
+                case (.badUrl, .badUrl): return true
+                case (.multipartEncodingFailed, .multipartEncodingFailed): return true
+                case (.parameterEncodingFailed, .parameterEncodingFailed): return true
+                case (.responseSerializationFailed, .responseSerializationFailed): return true
+                case (.responseValidationFailed(let _lhs), .responseValidationFailed(let _rhs)): return _lhs == _rhs
+                default: return false
+                }
+            }
+
             case noNetwork
             case badUrl(Router?)
             case multipartEncodingFailed(underlyingError: Error?)
@@ -50,7 +80,7 @@ public enum ServiceError: Error {
             case responseSerializationFailed(underlyingError: Error?)
             case responseValidationFailed(ResponseValidationFailureReason)
             
-            public enum ResponseValidationFailureReason {
+            public enum ResponseValidationFailureReason: Error, Equatable {
                 case dataFileNil
                 case dataFileReadFailed(at: URL)
                 case missingContentType(acceptableContentTypes: [String])
@@ -59,8 +89,16 @@ public enum ServiceError: Error {
             }
         }
         
-        indirect case json(JSONError)
-        public enum JSONError: Error {
+        case json(JSONError)
+        public enum JSONError: Error, Equatable {
+            public static func == (lhs: ServiceError.APIError.JSONError, rhs: ServiceError.APIError.JSONError) -> Bool {
+                switch (lhs, rhs) {
+                case (.encoding, .encoding): return true
+                case (.decoding, .decoding): return true
+                default: return false
+                }
+            }
+
             case encoding(EncodingError?)
             case decoding(DecodingError?)
         }

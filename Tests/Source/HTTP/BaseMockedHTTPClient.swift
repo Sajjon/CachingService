@@ -29,25 +29,28 @@ class BaseMockedHTTPClient<ValueType: Codable & Equatable> {
     }
 }
 extension BaseMockedHTTPClient: HTTPClientProtocol {
-    
 
+
+    func makeFireForgetRequest(request: Router) -> Observable<()> {
+        fatalError("not impl")
+    }
     var reachability: ReachabilityServiceConvertible { return mockedReachability }
-    
+
     func makeRequest(request: Router) -> Observable<()> { fatalError("not impl") }
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable : DataConvertible { fatalError("not impl") }
-    func uploadImage<UploadResponse>(_ image: UIImage, router: Router) -> Observable<UploadResponse> where UploadResponse : Decodable { fatalError("not impl") }
-    
-    func makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
+    func uploadImage<UploadResponse>(_ image: UIImage, router: Router, jsonDecoder: JSONDecoder = JSONDecoder()) -> Observable<UploadResponse> where UploadResponse : Decodable { fatalError("not impl") }
+
+    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder = JSONDecoder()) -> Observable<Model?> where Model: Codable {
         log.verbose("Start, mocked request against path: `\(request.path)`")
         return reachability.status.flatMap { (reachabilityStatus: ReachabilityStatus) -> Observable<Model?> in
-            guard reachabilityStatus != .none else { return .error(ServiceError.api(.noNetwork)) }
+            guard reachabilityStatus != .none else { return .error(ServiceError.APIError.NetworkError.noNetwork) }
             return self._makeRequest(request: request)
         }
     }
 }
 
 private extension BaseMockedHTTPClient {
-    
+
     func _makeRequest<Model>(request: Router) -> Observable<Model?> where Model: Codable {
         return Observable.create { observer in
             switch self.mockedEvent {

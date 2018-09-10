@@ -74,12 +74,12 @@ final class ReachabilityAndRetryTests: BaseTestCase {
         
         XCTAssertEqual(integerService.mockedIntegerHTTPClient.mockedEvent.value, initialHttp)
         XCTAssertEqual(integerService.mockedIntegerHTTPClient.mockedReachability.reachabilityStatus, expectedReachability)
+
         
-        
-        let (elements, error) = integerService.materialized()
-        XCTAssertEqual(elements.count, 0)
-        XCTAssertNotNil(error)
-        XCTAssertTrue(error! == ServiceError.APIError.noNetwork)
+//        let (elements, error) = integerService.materialized()
+//        XCTAssertEqual(elements.count, 0)
+//        XCTAssertNotNil(error)
+//        XCTAssertEqual(error, ServiceError.api(.network(.noNetwork)))
     }
     
 //    func testThatReachabilityRetriesWhenNoNetworkIfToldTo() {

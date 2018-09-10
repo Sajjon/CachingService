@@ -20,7 +20,7 @@ extension Service {
         let signal: Observable<C> = get(request: MockedRouter(), from: source)
         switch signal.toBlocking().materialize() {
         case .failed(let elements, let generalError):
-            guard let error = generalError as? ServiceError else { XCTFail("failed to cast error"); return ([C](), nil) }
+            guard let error = generalError as? ServiceError else { XCTFail("failed to cast error, generalError: `\(generalError)`"); return ([C](), nil) }
             return (elements, error)
         case .completed(let elements):
             return (elements, nil)
