@@ -21,6 +21,7 @@ public protocol Service {
     func get<Model>(request: Router, from source: ServiceSource, jsonDecoder: JSONDecoder, key: Key?) -> Observable<Model> where Model: Codable
     
     func post<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model> where Model: Codable
+    func put<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model> where Model: Codable
     func postFireForget(request: Router) -> Observable<Void>
     
     // These should preferrably be `private`, however "overridden" by ImageService
@@ -71,12 +72,20 @@ public extension Service {
 
 //MARK: - POST
 public extension Service {
-    func post<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model> where Model: Codable {
+    func post<Model>(request: Router, jsonDecoder: JSONDecoder = JSONDecoder()) -> Observable<Model> where Model: Codable {
         return httpClient.makeRequest(request: request, jsonDecoder: jsonDecoder).errorOnNil()
     }
-    
+
     func postFireForget(request: Router) -> Observable<Void> {
         return httpClient.makeFireForgetRequest(request: request)
+    }
+}
+
+//MARK: - PUT
+public extension Service {
+
+    func put<Model>(request: Router, jsonDecoder: JSONDecoder = JSONDecoder()) -> Observable<Model> where Model: Codable {
+        return httpClient.make
     }
 }
 

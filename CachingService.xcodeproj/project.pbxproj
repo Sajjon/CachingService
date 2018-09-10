@@ -177,6 +177,7 @@
 		48F6E9C81FE8038E00D45C48 /* UserRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
 		48F6E9D41FE8051000D45C48 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		48F6E9D61FE8053700D45C48 /* DataConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConvertible.swift; sourceTree = "<group>"; };
+		48FA68F021416975000D452D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A30563DAD7580E88FA498D61 /* Pods_CachingServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CachingServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9042DA65C6BA81C454478F1 /* Pods-CachingService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingService.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CachingService/Pods-CachingService.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,6 +220,7 @@
 		48F6E9121FE7EB7800D45C48 = {
 			isa = PBXGroup;
 			children = (
+				48FA68F021416975000D452D /* README.md */,
 				742BA27575B08EE9E7C04CD4 /* Frameworks */,
 				DF2E8860FC222428A53CF472 /* Pods */,
 				48F6E91D1FE7EB7800D45C48 /* Products */,
