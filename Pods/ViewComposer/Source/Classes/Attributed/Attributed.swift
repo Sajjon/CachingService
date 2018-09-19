@@ -75,7 +75,6 @@ public protocol DuplicatesHandler {
     func choseDuplicate(from duplicates: [AttributesExpressible.Attribute]) -> AttributesExpressible.Attribute
 }
 
-//swiftlint:disable generic_type_name
 public struct AnyDuplicatesHandler<E: ExpressibleByAttributes>: DuplicatesHandler {
     public typealias AttributesExpressible = E
     public typealias Attribute = AttributesExpressible.Attribute
@@ -119,7 +118,7 @@ extension Attributed {
     /// Transforms `[ A*: [A(1), A(2), A(7)], C*: [C(2), C(1)] ]` to `[A(x), C(y)]` where `x` and `y` are the
     /// selected associated values from the duplicates according to the DuplicatesHandler if any, or the default one.
     static func choseDuplicates(from duplicatesDictionary: [Attribute.Stripped: [Attribute]]) -> [Attribute] {
-        return duplicatesDictionary.values.flatMap { Self.choseDuplicate(from: $0) }
+        return duplicatesDictionary.values.compactMap { Self.choseDuplicate(from: $0) }
     }
     
     static func removeDuplicatesIfNeededAndAble(_ attributes: [Attribute]) -> [Attribute] {

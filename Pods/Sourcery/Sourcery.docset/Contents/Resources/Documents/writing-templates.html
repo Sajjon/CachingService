@@ -144,9 +144,6 @@
                 <a href="Protocols/Annotated.html">Annotated</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/Definition.html">Definition</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Protocols/Typed.html">Typed</a>
               </li>
             </ul>
@@ -164,7 +161,7 @@
 <p>Dicsovered types can be accessed in templates via global context with following properties:</p>
 
 <ul>
-<li><code>types: Types</code> - access collections of types, i.e. <code>types.implementing.AutoCoding</code> (<code>types.implementing[&quot;AutoCoding&quot;]</code> in swift templates). See <a href="https://cdn.rawgit.com/krzysztofzablocki/Sourcery/master/docs/Classes/Types.html">Types</a>.</li>
+<li><code>types: Types</code> - access collections of types, i.e. <code>types.implementing.AutoCoding</code> (<code>types.implementing[&quot;AutoCoding&quot;]</code> in swift templates). See <a href="Classes/Types.html">Types</a>.</li>
 <li><code>type: [String: Type]</code> - access types by their names, i.e. <code>type.MyType</code> (<code>type[&quot;MyType&quot;]</code> in swift templates)</li>
 <li><code>arguments: [String: NSObject]</code> - access additional parameters passed with <code>--args</code> command line flag or set in <code>.sourcery.yml</code> file</li>
 </ul>
@@ -206,14 +203,6 @@ Sourcery also uses its extension <a href="https://github.com/SwiftGen/StencilSwi
 <li><code>public</code>, <code>open</code>, <code>internal</code>, <code>private</code>, <code>fileprivate</code> - can be used on Type[s] and Method[s] to filter by access level, can be negated with <code>!</code> prefix.</li>
 <li><code>publicGet</code>, <code>publicSet</code>, .etc - can be used on Variable[s] to filter by getter or setter access level, can be nagated with <code>!</code> prefix</li>
 </ul>
-
-<p>You can also use partial templates using <code>include</code> tag. Partial template is loaded from the path of a template that inculdes it. <code>include</code> tags also supports loading templates from relative path, i.e. <code>{% include &quot;partials/MyPartial.stencil&quot;%}</code> used in the template located in <code>templates</code> directory will load template from <code>templates/partials</code> directory.</p>
-
-<blockquote>
-<p>Note: You can only load partial templates from child directories of the including template directory, so <code>{% include &quot;../MyPartial.stencil&quot;%}</code> is not supported.</p>
-</blockquote>
-
-<p>Sourcery treat all the templates as independent and so will generate files based on partial templates too. To avoid that use <code>exclude</code> in <a href="usage.html#configuration-file">configuration file</a>.</p>
 <h2 id='swift-templates' class='heading'>Swift templates</h2>
 
 <p>Swift templates syntax is very similar to EJS:</p>
@@ -224,7 +213,6 @@ Sourcery also uses its extension <a href="https://github.com/SwiftGen/StencilSwi
 <li>Trim extra new line after control flow tag with <code>-%&gt;</code></li>
 <li>Trim <em>all</em> whitespaces before/after control flow tag with <code>&lt;%_</code> and <code>_%&gt;</code></li>
 <li>Use <code>&lt;%# %&gt;</code> for comments</li>
-<li>Use <code>&lt;%- include(&quot;relative_path_to_template.swifttemplate&quot;) %&gt;</code> to include another template. The <code>swifttemplate</code> extension can be omitted. The path is relative to the including template.</li>
 </ul>
 
 <p><strong>Example</strong>: <a href="https://github.com/krzysztofzablocki/Sourcery/blob/master/SourceryTests/Stub/SwiftTemplates/Equality.swifttemplate">Equality.swifttemplate</a></p>
