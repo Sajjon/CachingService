@@ -24,10 +24,10 @@ extension User: Equatable {
     }
 }
 
-//MARK: - StaticKeyConvertible
-extension User: StaticKeyConvertible {
-    static var key: Key { return "user" }
-}
+////MARK: - StaticKeyConvertible
+//extension User: StaticKeyConvertible {
+//    static var key: Key { return "user" }
+//}
 
 //MARK: - Filterable
 extension User: Filterable {

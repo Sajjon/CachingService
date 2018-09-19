@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol StaticKeyConvertible {
-    static var key: Key { get }
-}
+//public protocol StaticKeyConvertible {
+//    static var key: Key { get }
+//}

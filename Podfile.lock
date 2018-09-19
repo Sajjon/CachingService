@@ -17,13 +17,13 @@ PODS:
   - RxViewController (0.3.0):
     - RxCocoa (>= 4.0.0)
     - RxSwift (>= 4.0.0)
-  - Sourcery (0.10.0)
+  - Sourcery (0.14.0)
   - SwiftDate (4.5.1)
   - SwiftyBeaver (1.5.0)
   - Swinject (2.1.1)
   - TinyConstraints (3.1.0)
-  - ViewComposer (0.2.31):
-    - Sourcery (> 0.8)
+  - ViewComposer (0.2.32):
+    - Sourcery (>= 0.12)
 
 DEPENDENCIES:
   - Alamofire
@@ -39,7 +39,17 @@ DEPENDENCIES:
   - SwiftyBeaver
   - Swinject
   - TinyConstraints
-  - ViewComposer
+  - ViewComposer (from `https://github.com/Sajjon/ViewComposer.git`, branch `master`)
+
+EXTERNAL SOURCES:
+  ViewComposer:
+    :branch: master
+    :git: https://github.com/Sajjon/ViewComposer.git
+
+CHECKOUT OPTIONS:
+  ViewComposer:
+    :commit: 02c7eb77148ff7a36c2d4c06379879e6994e064d
+    :git: https://github.com/Sajjon/ViewComposer.git
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
@@ -52,13 +62,13 @@ SPEC CHECKSUMS:
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   RxViewController: 203510707e73dd95f147f0c387710e3ec80d2b0f
-  Sourcery: 83b41fcd87ab41a4cc06b3e0e91782bc2d8699d3
+  Sourcery: 51332d15c2fc40e4ac5956e149a5d95607c63154
   SwiftDate: 7b56d42a221f582047287deb256b23fc5ed49a60
   SwiftyBeaver: 384235c59d9c67b4a5e1810cffa713babba34efd
   Swinject: afea49fd95f392b41171669f165842879c48fad6
   TinyConstraints: 4721a4b303c799328867078ade6560e152df54d1
-  ViewComposer: 13f3e3fdbeebc04ea66dccc32c899c90be038c2c
+  ViewComposer: 1f80f02b551a90f1e79e692e3d86b42b37bc1538
 
-PODFILE CHECKSUM: 07aa3d103c69bc17be49420c8311365a9c97d9f6
+PODFILE CHECKSUM: 613fb8687e624fccb02da986855bf89379fd0086
 
 COCOAPODS: 1.3.1

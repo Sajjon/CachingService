@@ -19,3 +19,9 @@ struct CoinsResponse: Codable {
         coinsMap = try values.decode([String: Coin].self, forKey: .coinsMap)
     }
 }
+
+extension CoinsResponse {
+    func toList() -> CoinList {
+        return CoinList(coins)
+    }
+}

@@ -10,16 +10,18 @@ import Foundation
 import Alamofire
 import CachingService
 
-public enum CoinRouter {
+enum CoinRouter {
     case all
+    case price(for: Coin)
 }
 
 extension CoinRouter: Router {}
 
-public extension CoinRouter {
+extension CoinRouter {
     var path: String {
         switch self {
         case .all: return "all/coinlist"
+        case .price(let coin): return "price?fsym=\(coin.coinId)&tsyms=BTC,USD"
         }
     }
     

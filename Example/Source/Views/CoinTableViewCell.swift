@@ -64,13 +64,10 @@ private extension CoinTableViewCell {
 }
 
 final class CoinViewModel {
-    private let coin: Coin
+    let coin: Coin
     
-    var coinId: String { return coin.coinId }
-    var symbol: String { return coin.symbol }
     var name: String { return coin.name }
-    var totalSupply: String { return coin.totalSupplyString }
-    
+
     let imageService: ImageServiceProtocol
     lazy var image: Observable<Image> = self.imageService.imageFromURL(self.coin.imageUrl)
     init(coin: Coin, imageService: ImageServiceProtocol) {

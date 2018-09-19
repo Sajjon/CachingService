@@ -10,6 +10,6 @@ import Foundation
 
 @testable import CachingService
 
-extension Int: StaticKeyConvertible {
-    public static var key: Key { return "integer" }
-}
+//extension Int: StaticKeyConvertible {
+//    public static var key: Key { return "integer" }
+//}

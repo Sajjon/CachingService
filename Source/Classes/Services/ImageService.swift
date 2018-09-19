@@ -12,6 +12,23 @@ import Cache
 
 public typealias Image = UIImage
 
+extension ImageWrapper: Hashable & Identifiable {
+    public var hashValue: Int {
+        return self.image.hashValue
+    }
+
+    public static func == (lhs: ImageWrapper, rhs: ImageWrapper) -> Bool {
+        return lhs.image == rhs.image
+    }
+}
+
+public final class ImageList: OrderedListOfUniquePersistables {
+    public var elements: [ImageWrapper]
+    public init(_ images: [ImageWrapper]) {
+        self.elements = images
+    }
+}
+
 public protocol ImageServiceProtocol: Service, Persisting {
     func imageFromURL(_ url: URL) -> Observable<Image>
     func deleteAllImages() -> Observable<Void>
@@ -20,7 +37,12 @@ public protocol ImageServiceProtocol: Service, Persisting {
 public extension ImageServiceProtocol {
     func imageFromURL(_ url: URL) -> Observable<Image> {
         let source: ServiceSource = .cacheAndBackendOptions(ServiceOptionsInfo.default.inserting(.ifCachedPreventDownload))
-        return self.get(modelType: ImageWrapper.self, request: url, from: source, key: url).map { $0.image }
+//        return self.get(modelType: ImageWrapper.self, request: url, from: source, key: url).map { $0.image }
+        return getList(request: url, from: source, type: ImageList.self) { (modelFromBackend: ImageWrapper) -> ImageList in
+            return ImageList([modelFromBackend])
+            }.map {
+                $0.first!.image
+        }
     }
     
     func getFromBackend<Model>(request: Router, from source: ServiceSource) -> Observable<Model?> where Model: Codable {

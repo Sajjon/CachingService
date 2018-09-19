@@ -24,7 +24,7 @@ target 'Example' do
 	project 'Example/Example'
 
 	pods
-	pod 'ViewComposer'
+	pod 'ViewComposer', :git => 'https://github.com/Sajjon/ViewComposer.git', :branch => 'master'
 	pod 'TinyConstraints'
 	pod 'RxViewController'
 	pod 'Swinject'

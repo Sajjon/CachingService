@@ -17,7 +17,7 @@ extension Makeable where Self.Styled == Self, Self.Style.Attribute == ViewAttrib
 
 public final class LabelsView: View {
     private let titleLabel: UILabel
-    private let valueLabel: UILabel
+    fileprivate let valueLabel: UILabel
     private let stackView: StackView
     
     public init(
@@ -47,6 +47,14 @@ public final class LabelsView: View {
     
     public func updateValueLabel(text: String) {
         valueLabel.text = text
+    }
+}
+
+import RxCocoa
+import RxSwift
+extension Reactive where Base == LabelsView {
+    var value: Binder<String?> {
+        return base.valueLabel.rx.text
     }
 }
 

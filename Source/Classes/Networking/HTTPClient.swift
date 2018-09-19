@@ -15,7 +15,7 @@ import SwiftyBeaver
 public protocol HTTPClientProtocol {
     var reachability: ReachabilityServiceConvertible { get }
     
-    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model?> where Model: Codable
+    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder) -> Observable<Model> where Model: Codable
 
     func makeFireForgetRequest(request: Router) -> Observable<()>
     func download<Downloadable>(request: Router) -> Observable<Downloadable> where Downloadable: DataConvertible
@@ -67,11 +67,11 @@ public final class HTTPClient {
 extension HTTPClient: HTTPClientProtocol {}
 public extension HTTPClient {
     
-    func makeRequest<Model>(request: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<Model?> where Model: Codable {
+    func makeRequest<Model>(request: Router, dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) -> Observable<Model> where Model: Codable {
         return makeRequest(request: request, jsonDecoder: JSONDecoder(dateDecodingStrategy: dateDecodingStrategy))
     }
     
-    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601)) -> Observable<Model?> where Model: Codable {
+    func makeRequest<Model>(request: Router, jsonDecoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601)) -> Observable<Model> where Model: Codable {
         return Single.create { single in
             let dataRequest = self.sessionManager.request(request)
             log.debug(dataRequest.debugDescription)

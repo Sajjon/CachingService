@@ -44,7 +44,8 @@ final class CoinsView: UIView {
     let viewModel: CoinsViewModel
     
     private let imageService: ImageServiceProtocol
-    
+    private let coinService: CoinServiceProtocol
+
     private let bag = DisposeBag()
     typealias ViewModel = CoinViewModel
     private var viewModels = [ViewModel]() {
@@ -65,6 +66,7 @@ final class CoinsView: UIView {
         )
         self.presenter = presenter
         self.imageService = imageService
+        self.coinService = coinService
         super.init(frame: .zero)
         setupViews()
         
@@ -77,6 +79,7 @@ final class CoinsView: UIView {
         }, onError: {
             self.statusLabel.text = "Error: `\($0)`"
         }).disposed(by: bag)
+
 
         viewModel.isFetching.bind(to: UIApplication.shared.rx.isNetworkActivityIndicatorVisible).disposed(by: bag)
         
@@ -118,7 +121,7 @@ extension CoinsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let coinViewModel = viewModel(at: indexPath) else { return }
-        let coinViewController = CoinViewController(viewModel: coinViewModel)
+        let coinViewController = CoinViewController(coin: coinViewModel.coin, coinService: coinService)
         presenter?.present(coinViewController, presentation: PushPresentation(animated:true))
     }
     

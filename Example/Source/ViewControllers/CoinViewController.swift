@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import CachingService
 
 final class CoinViewController {
     let coinView: CoinView
-    init(viewModel: CoinViewModel) {
-        coinView = CoinView(viewModel: viewModel)
+    init(coin: Coin, coinService: CoinServiceProtocol) {
+        coinView = CoinView(coin: coin, coinService: coinService)
     }
 }
 
