@@ -20,7 +20,6 @@ public protocol Router: URLRequestConvertible {
 }
 
 extension URL: Router {
-    public var path: String { return absoluteString }
     public func asURLRequest() throws -> URLRequest {
         return URLRequest(url: self)
     }
